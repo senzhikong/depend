@@ -3,8 +3,6 @@ package com.senzhikong.db.sql.wrapper;
 import com.senzhikong.db.sql.CacheColumn;
 import com.senzhikong.db.sql.CacheTable;
 import com.senzhikong.util.string.StringUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -15,7 +13,6 @@ public class WrapperBuilder {
     public static final String SELECT_PREFIX = "select_";
     public static final String AND = " AND ";
     public static final String OR = " OR ";
-    protected static Log logger = LogFactory.getLog(WrapperBuilder.class);
 
     public static String wrapperValueToText(WrapperValue wrapperValue, List<Object> params) {
         String valueText;
@@ -67,7 +64,7 @@ public class WrapperBuilder {
     }
 
 
-    public static String getWrappers(List<Wrapper<? extends Serializable>> list, String concatStr,
+    public static String getWrappers(List<Wrapper> list, String concatStr,
             List<Object> params) {
         StringBuilder sql = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
@@ -76,13 +73,13 @@ public class WrapperBuilder {
                 sql.append(concatStr);
                 sql.append(" ");
             }
-            Wrapper<? extends Serializable> wrapper = list.get(i);
+            Wrapper wrapper = list.get(i);
             sql.append(getWrapper(wrapper, params));
         }
         return sql.toString();
     }
 
-    public static String getWrapper(Wrapper<? extends Serializable> wrapper, List<Object> params) {
+    public static String getWrapper(Wrapper wrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         WrapperType wrapperType = wrapper.getType();
         switch (wrapperType) {
@@ -143,13 +140,13 @@ public class WrapperBuilder {
                 break;
             case OR:
                 if (wrapper instanceof ListWrapper) {
-                    String or = getWrappers(((ListWrapper<? extends Serializable>) wrapper).getWrapperList(), OR,
+                    String or = getWrappers(((ListWrapper) wrapper).getWrapperList(), OR,
                             params);
                     sql.append("(").append(or).append(")");
                 }
                 break;
             case AND:
-                String and = getWrappers(((ListWrapper<? extends Serializable>) wrapper).getWrapperList(), AND, params);
+                String and = getWrappers(((ListWrapper) wrapper).getWrapperList(), AND, params);
                 sql.append("(").append(and).append(")");
                 break;
             default:
@@ -158,7 +155,7 @@ public class WrapperBuilder {
         return sql.toString();
     }
 
-    public static String getFunctionWrapper(Wrapper<? extends Serializable> wrapper, List<Object> params) {
+    public static String getFunctionWrapper(Wrapper wrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         Function function = wrapper.getFunction();
         String functionParams = StringUtil.join(
@@ -178,14 +175,14 @@ public class WrapperBuilder {
     }
 
     public static void buildSelect(StringBuilder sql, CacheTable cacheTable,
-            List<SelectWrapper<? extends Serializable>> selects, List<Object> params) {
+            List<SelectWrapper> selects, List<Object> params) {
         sql.append("SELECT ");
         if (selects == null || selects.isEmpty()) {
             sql.append(cacheTable.getAsName()).append(".* ");
             return;
         }
         for (int i = 0; i < selects.size(); i++) {
-            SelectWrapper<? extends Serializable> wrapper = selects.get(i);
+            SelectWrapper wrapper = selects.get(i);
             SelectType wrapperType = wrapper.getSelectType();
             if (i > 0) {
                 sql.append(",");
@@ -219,12 +216,12 @@ public class WrapperBuilder {
 
     }
 
-    public static void buildJoin(StringBuilder sql, List<JoinWrapper<? extends Serializable>> list,
+    public static void buildJoin(StringBuilder sql, List<JoinWrapper> list,
             List<Object> params) {
         if (list == null || list.isEmpty()) {
             return;
         }
-        for (JoinWrapper<?> join : list) {
+        for (JoinWrapper join : list) {
             JoinType type = join.getJoinType();
             String joinType = "INNER JOIN";
             switch (type) {
@@ -246,13 +243,13 @@ public class WrapperBuilder {
             sql.append(" ");
             sql.append(cacheTable.getFullNameAs());
             sql.append(" ON ");
-            sql.append(getWrappers(join.getOn(), AND, params));
+            sql.append(getWrappers(join.getWrapperList(), AND, params));
             sql.append(" ");
         }
     }
 
 
-    public static void buildWhere(StringBuilder sql, List<Wrapper<? extends Serializable>> wheres,
+    public static void buildWhere(StringBuilder sql, List<Wrapper> wheres,
             List<Object> params) {
         if (wheres == null || wheres.isEmpty()) {
             return;
@@ -262,14 +259,14 @@ public class WrapperBuilder {
     }
 
 
-    public static void buildGroupBuy(StringBuilder sql, List<Wrapper<? extends Serializable>> wrapperList,
+    public static void buildGroupBuy(StringBuilder sql, List<Wrapper> wrapperList,
             List<Object> params) {
         if (wrapperList == null || wrapperList.isEmpty()) {
             return;
         }
         sql.append("\nGROUP BY ");
         for (int i = 0; i < wrapperList.size(); i++) {
-            Wrapper<? extends Serializable> wrapper = wrapperList.get(i);
+            Wrapper wrapper = wrapperList.get(i);
             if (i > 0) {
                 sql.append(" , ");
             }
@@ -277,14 +274,14 @@ public class WrapperBuilder {
         }
     }
 
-    public static void buildOrder(StringBuilder sql, List<OrderByWrapper<? extends Serializable>> wrapperList,
+    public static void buildOrder(StringBuilder sql, List<OrderByWrapper> wrapperList,
             List<Object> params) {
         if (wrapperList == null || wrapperList.isEmpty()) {
             return;
         }
         sql.append("\nORDER BY ");
         for (int i = 0; i < wrapperList.size(); i++) {
-            OrderByWrapper<? extends Serializable> wrapper = wrapperList.get(i);
+            OrderByWrapper wrapper = wrapperList.get(i);
             OrderByType wrapperType = wrapper.getOrderByType();
             if (i > 0) {
                 sql.append(" , ");

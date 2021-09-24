@@ -23,7 +23,8 @@ public class PagerQueryWrapper<T extends Serializable> extends QueryWrapper<T> {
     public PagerQueryWrapper(Class<T> clz) {
         super(clz);
     }
-    public static <T extends Serializable> PagerQueryWrapper<T> from(Class<T> clz) {
+
+    public static <T extends Serializable> PagerQueryWrapper<T>  from(Class<T> clz) {
         return new PagerQueryWrapper<>(clz);
     }
 

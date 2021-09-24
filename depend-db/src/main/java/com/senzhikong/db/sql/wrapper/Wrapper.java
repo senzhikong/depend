@@ -11,8 +11,8 @@ import java.util.List;
  * @date 2018年9月24日下午5:00:37
  */
 @Data
-public class Wrapper<T extends Serializable> {
-    protected Class<T> genericsClass;
+public class Wrapper {
+    protected Class<? extends Serializable> genericsClass;
     private WrapperType type;
     private List<WrapperValue> valueList=new ArrayList<>();
     private Function function;

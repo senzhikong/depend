@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class SelectWrapper<T extends Serializable> extends Wrapper<T> {
+public class SelectWrapper extends Wrapper  {
     private String asName;
     private SelectType selectType;
 }

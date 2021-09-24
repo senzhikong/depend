@@ -7,6 +7,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class OrderByWrapper<T extends Serializable> extends Wrapper<T> {
+public class OrderByWrapper  extends Wrapper {
     private OrderByType orderByType;
 }

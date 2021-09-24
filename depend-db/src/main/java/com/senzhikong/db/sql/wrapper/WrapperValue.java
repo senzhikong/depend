@@ -11,7 +11,7 @@ public class WrapperValue {
     private ObjectFunction<? extends Serializable, ? extends Serializable> function;
     private Object value;
     private String column;
-    private Wrapper<? extends Serializable> wrapper;
+    private Wrapper wrapper;
 
     public static WrapperValue fromFunction(ObjectFunction<?, ?> function) {
         WrapperValue wrapperValue = new WrapperValue();
@@ -35,7 +35,7 @@ public class WrapperValue {
         return wrapperValue;
     }
 
-    public static <T extends Serializable> WrapperValue fromWrapper(Wrapper<T> wrapper) {
+    public static <T extends Serializable> WrapperValue fromWrapper(Wrapper  wrapper) {
         WrapperValue wrapperValue = new WrapperValue();
         wrapperValue.setType(ValueType.WRAPPER);
         wrapperValue.setWrapper(wrapper);
