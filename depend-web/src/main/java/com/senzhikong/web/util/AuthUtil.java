@@ -38,7 +38,7 @@ public class AuthUtil {
                                           .toString());
     }
 
-    public static String getMemberToken() {
+    public static String getAuthToken() {
         return getRequest().getHeader(WebConstants.WEB_AUTH_TOKEN);
     }
 }
