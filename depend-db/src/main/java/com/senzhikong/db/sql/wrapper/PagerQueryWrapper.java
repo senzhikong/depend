@@ -19,12 +19,13 @@ public class PagerQueryWrapper<T extends Serializable> extends QueryWrapper<T> {
     private Integer totalPages = 0;
     private Integer pageSize = 10;
     private List<T> content;
+    private boolean page = true;
 
     public PagerQueryWrapper(Class<T> clz) {
         super(clz);
     }
 
-    public static <T extends Serializable> PagerQueryWrapper<T>  from(Class<T> clz) {
+    public static <T extends Serializable> PagerQueryWrapper<T> from(Class<T> clz) {
         return new PagerQueryWrapper<>(clz);
     }
 

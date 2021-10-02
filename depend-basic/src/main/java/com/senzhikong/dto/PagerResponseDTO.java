@@ -1,5 +1,6 @@
 package com.senzhikong.dto;
 
+import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -26,5 +27,13 @@ public class PagerResponseDTO<T> {
         this.setPageNumber(page.getNumber());
         this.setPageSize(page.getSize());
         this.setTotalPage(page.getTotalPages());
+    }
+
+
+    public void setWrapper(PagerQueryWrapper<?> wrapper) {
+        this.setTotal(wrapper.getTotal());
+        this.setPageNumber(wrapper.getPageNumber());
+        this.setPageSize(wrapper.getPageSize());
+        this.setTotalPage(wrapper.getTotalPages());
     }
 }

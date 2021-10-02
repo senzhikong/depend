@@ -1,7 +1,7 @@
 package com.senzhikong.db.sql;
 
-import com.senzhikong.util.string.StringUtil;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -18,7 +18,7 @@ public class CacheTable {
 
     public String getFullNameAs() {
         String text = name;
-        if (StringUtil.isNotEmpty(schema)) {
+        if (StringUtils.isNotEmpty(schema)) {
             text = "`" + schema + "`." + text;
         }
         text += " AS " + className;

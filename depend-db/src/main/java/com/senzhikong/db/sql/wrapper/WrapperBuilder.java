@@ -2,19 +2,24 @@ package com.senzhikong.db.sql.wrapper;
 
 import com.senzhikong.db.sql.CacheColumn;
 import com.senzhikong.db.sql.CacheTable;
-import com.senzhikong.util.string.StringUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
 
+@Component
 public class WrapperBuilder {
     public static final String SELECT_PREFIX = "select_";
     public static final String AND = " AND ";
     public static final String OR = " OR ";
+    @Resource
+    private WrapperParser wrapperParser;
 
-    public static String wrapperValueToText(WrapperValue wrapperValue, List<Object> params) {
+    public String wrapperValueToText(WrapperValue wrapperValue, List<Object> params) {
         String valueText;
         ValueType type = wrapperValue.getType();
         switch (type) {
@@ -44,18 +49,18 @@ public class WrapperBuilder {
                 valueText = wrapperValue.getColumn();
                 break;
             case FUNCTION:
-                CacheColumn cacheColumn = WrapperParser.getColumn(wrapperValue.getFunction());
+                CacheColumn cacheColumn = wrapperParser.getColumn(wrapperValue.getFunction());
                 String tableName = cacheColumn.getTable().getAsName();
                 if (wrapperValue.getFunctionClass() != null) {
                     tableName = wrapperValue.getFunctionClass().getSimpleName();
                 }
                 valueText = cacheColumn.getColumnName();
-                if (StringUtil.isNotEmpty(tableName)) {
+                if (StringUtils.isNotEmpty(tableName)) {
                     valueText = tableName + "." + valueText;
                 }
                 break;
             case WRAPPER:
-                valueText = WrapperBuilder.getWrapper(wrapperValue.getWrapper(), params);
+                valueText = this.getWrapper(wrapperValue.getWrapper(), params);
                 break;
             default:
                 throw new RuntimeException("不支持的类型:" + type);
@@ -64,7 +69,7 @@ public class WrapperBuilder {
     }
 
 
-    public static String getWrappers(List<Wrapper> list, String concatStr,
+    public String getWrappers(List<Wrapper> list, String concatStr,
             List<Object> params) {
         StringBuilder sql = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
@@ -79,7 +84,7 @@ public class WrapperBuilder {
         return sql.toString();
     }
 
-    public static String getWrapper(Wrapper wrapper, List<Object> params) {
+    public String getWrapper(Wrapper wrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         WrapperType wrapperType = wrapper.getType();
         switch (wrapperType) {
@@ -155,10 +160,10 @@ public class WrapperBuilder {
         return sql.toString();
     }
 
-    public static String getFunctionWrapper(Wrapper wrapper, List<Object> params) {
+    public String getFunctionWrapper(Wrapper wrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         Function function = wrapper.getFunction();
-        String functionParams = StringUtil.join(
+        String functionParams = StringUtils.join(
                 wrapper.getValueList().stream().map(v -> wrapperValueToText(v, params)).toArray(), ",");
         switch (function) {
             case COUNT_DISTINCT:
@@ -174,7 +179,7 @@ public class WrapperBuilder {
         return sql.toString();
     }
 
-    public static void buildSelect(StringBuilder sql, CacheTable cacheTable,
+    public void buildSelect(StringBuilder sql, CacheTable cacheTable,
             List<SelectWrapper> selects, List<Object> params) {
         sql.append("SELECT ");
         if (selects == null || selects.isEmpty()) {
@@ -198,7 +203,7 @@ public class WrapperBuilder {
                     break;
             }
             sql.append(" AS ");
-            if (StringUtil.isNotEmpty(wrapper.getAsName())) {
+            if (StringUtils.isNotEmpty(wrapper.getAsName())) {
                 sql.append(wrapper.getAsName());
             } else {
                 sql.append(SELECT_PREFIX);
@@ -208,15 +213,15 @@ public class WrapperBuilder {
         }
     }
 
-    public static void buildFrom(StringBuilder sql, QueryWrapper<? extends Serializable> queryWrapper) {
-        CacheTable cacheTable = WrapperParser.getTable(queryWrapper.getGenericsClass());
+    public void buildFrom(StringBuilder sql, QueryWrapper<? extends Serializable> queryWrapper) {
+        CacheTable cacheTable = wrapperParser.getTable(queryWrapper.getGenericsClass());
         sql.append(" FROM ");
         sql.append(cacheTable.getFullNameAs());
         sql.append(" ");
 
     }
 
-    public static void buildJoin(StringBuilder sql, List<JoinWrapper> list,
+    public void buildJoin(StringBuilder sql, List<JoinWrapper> list,
             List<Object> params) {
         if (list == null || list.isEmpty()) {
             return;
@@ -237,7 +242,7 @@ public class WrapperBuilder {
                 default:
                     break;
             }
-            CacheTable cacheTable = WrapperParser.getTable(join.getGenericsClass());
+            CacheTable cacheTable = wrapperParser.getTable(join.getGenericsClass());
             sql.append("\n");
             sql.append(joinType);
             sql.append(" ");
@@ -249,7 +254,7 @@ public class WrapperBuilder {
     }
 
 
-    public static void buildWhere(StringBuilder sql, List<Wrapper> wheres,
+    public void buildWhere(StringBuilder sql, List<Wrapper> wheres,
             List<Object> params) {
         if (wheres == null || wheres.isEmpty()) {
             return;
@@ -259,7 +264,7 @@ public class WrapperBuilder {
     }
 
 
-    public static void buildGroupBuy(StringBuilder sql, List<Wrapper> wrapperList,
+    public void buildGroupBuy(StringBuilder sql, List<Wrapper> wrapperList,
             List<Object> params) {
         if (wrapperList == null || wrapperList.isEmpty()) {
             return;
@@ -274,7 +279,7 @@ public class WrapperBuilder {
         }
     }
 
-    public static void buildOrder(StringBuilder sql, List<OrderByWrapper> wrapperList,
+    public void buildOrder(StringBuilder sql, List<OrderByWrapper> wrapperList,
             List<Object> params) {
         if (wrapperList == null || wrapperList.isEmpty()) {
             return;
@@ -300,7 +305,7 @@ public class WrapperBuilder {
         }
     }
 
-    public static void buildLimit(StringBuilder sql, PagerQueryWrapper<? extends Serializable> pagerQueryWrapper,
+    public void buildLimit(StringBuilder sql, PagerQueryWrapper<? extends Serializable> pagerQueryWrapper,
             List<Object> params) {
         sql.append("\nLIMIT ");
         params.add((pagerQueryWrapper.getPageNumber() - 1) * pagerQueryWrapper.getPageSize());
@@ -309,7 +314,7 @@ public class WrapperBuilder {
         sql.append(",?").append(params.size()).append(" ");
     }
 
-    public static String countByWrapper(QueryWrapper<?> queryWrapper, List<Object> params) {
+    public String countByWrapper(QueryWrapper<?> queryWrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(1) ");
         buildFrom(sql, queryWrapper);
@@ -319,16 +324,16 @@ public class WrapperBuilder {
         return sql.toString();
     }
 
-    public static String selectByWrapper(QueryWrapper<? extends Serializable> queryWrapper, List<Object> params) {
+    public String selectByWrapper(QueryWrapper<? extends Serializable> queryWrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
-        CacheTable cacheTable = WrapperParser.getTable(queryWrapper.getGenericsClass());
+        CacheTable cacheTable = wrapperParser.getTable(queryWrapper.getGenericsClass());
         buildSelect(sql, cacheTable, queryWrapper.getSelects(), params);
         buildFrom(sql, queryWrapper);
         buildJoin(sql, queryWrapper.getJoinWrappers(), params);
         buildWhere(sql, queryWrapper.getWrapperList(), params);
         buildGroupBuy(sql, queryWrapper.getGroupBys(), params);
         buildOrder(sql, queryWrapper.getOrderBys(), params);
-        if (queryWrapper instanceof PagerQueryWrapper) {
+        if (queryWrapper instanceof PagerQueryWrapper && ((PagerQueryWrapper<? extends Serializable>) queryWrapper).isPage()) {
             buildLimit(sql, (PagerQueryWrapper<? extends Serializable>) queryWrapper, params);
         }
         return sql.toString();

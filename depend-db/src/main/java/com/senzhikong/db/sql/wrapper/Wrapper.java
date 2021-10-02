@@ -18,16 +18,4 @@ public class Wrapper {
     private Function function;
     private String functionName;
 
-    protected Wrapper(WrapperType type, WrapperValue wrapperValue1, WrapperValue wrapperValue2) {
-        super();
-        valueList.add(wrapperValue1);
-        valueList.add(wrapperValue2);
-        this.type = type;
-    }
-
-    protected Wrapper() {
-
-    }
-
-
 }
