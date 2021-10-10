@@ -520,7 +520,7 @@
                 </executions>
             </plugin>-->
             <!-- 生成sources源码包的插件 -->
-           <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
@@ -532,7 +532,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
             <!-- jar打包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

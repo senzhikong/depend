@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
+import java.io.ByteArrayOutputStream;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -13,54 +14,31 @@ import java.security.spec.X509EncodedKeySpec;
 public class RSAUtil {
     private static final String src = "abcdefghijklmnopqrstuvwxyz";
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("\n");
-        RSAKeyPair keyPair = generateKeyPair();
-        System.out.println("公钥：" + keyPair.getPublicKey());
-        System.out.println("私钥：" + keyPair.getPrivateKey());
-        System.out.println("\n");
-        test1(keyPair, src);
-        System.out.println("\n");
-        test2(keyPair, src);
-        System.out.println("\n");
-    }
 
-    /**
-     * 公钥加密私钥解密
-     */
-    private static void test1(RSAKeyPair keyPair, String source) throws Exception {
-        System.out.println("***************** 公钥加密私钥解密开始 *****************");
-        String text1 = encryptByPublicKey(keyPair.getPublicKey(), source);
-        String text2 = decryptByPrivateKey(keyPair.getPrivateKey(), text1);
-        System.out.println("加密前：" + source);
-        System.out.println("加密后：" + text1);
-        System.out.println("解密后：" + text2);
-        if (source.equals(text2)) {
-            System.out.println("解密字符串和原始字符串一致，解密成功");
-        } else {
-            System.out.println("解密字符串和原始字符串不一致，解密失败");
-        }
-        System.out.println("***************** 公钥加密私钥解密结束 *****************");
-    }
+    private static final int MAX_ENCRYPT_BLOCK = 117;
 
-    /**
-     * 私钥加密公钥解密
-     *
-     * @throws Exception
-     */
-    private static void test2(RSAKeyPair keyPair, String source) throws Exception {
-        System.out.println("***************** 私钥加密公钥解密开始 *****************");
-        String text1 = encryptByPrivateKey(keyPair.getPrivateKey(), source);
-        String text2 = decryptByPublicKey(keyPair.getPublicKey(), text1);
-        System.out.println("加密前：" + source);
-        System.out.println("加密后：" + text1);
-        System.out.println("解密后：" + text2);
-        if (source.equals(text2)) {
-            System.out.println("解密字符串和原始字符串一致，解密成功");
-        } else {
-            System.out.println("解密字符串和原始字符串不一致，解密失败");
+    private static final int MAX_DECRYPT_BLOCK = 128;
+
+    private static byte[] encryptOrDecrypt(byte[] data, Cipher cipher, int maxBlock) throws Exception {
+        int inputLen = data.length;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int offSet = 0;
+        byte[] cache;
+        int i = 0;
+        // 对数据分段加密
+        while (inputLen - offSet > 0) {
+            if (inputLen - offSet > maxBlock) {
+                cache = cipher.doFinal(data, offSet, maxBlock);
+            } else {
+                cache = cipher.doFinal(data, offSet, inputLen - offSet);
+            }
+            out.write(cache, 0, cache.length);
+            i++;
+            offSet = i * maxBlock;
         }
-        System.out.println("***************** 私钥加密公钥解密结束 *****************");
+        byte[] encryptedData = out.toByteArray();
+        out.close();
+        return encryptedData;
     }
 
     /**
@@ -76,8 +54,7 @@ public class RSAUtil {
         PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, publicKey);
-        byte[] result = cipher.doFinal(Base64.decodeBase64(text));
-        return new String(result);
+        return new String(encryptOrDecrypt(Base64.decodeBase64(text), cipher, MAX_DECRYPT_BLOCK));
     }
 
     /**
@@ -93,8 +70,7 @@ public class RSAUtil {
         PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-        byte[] result = cipher.doFinal(text.getBytes());
-        return Base64.encodeBase64String(result);
+        return Base64.encodeBase64String(encryptOrDecrypt(text.getBytes(), cipher, MAX_ENCRYPT_BLOCK));
     }
 
     /**
@@ -110,8 +86,7 @@ public class RSAUtil {
         PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec5);
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] result = cipher.doFinal(Base64.decodeBase64(text));
-        return new String(result);
+        return new String(encryptOrDecrypt(Base64.decodeBase64(text), cipher, MAX_DECRYPT_BLOCK));
     }
 
     /**
@@ -127,8 +102,7 @@ public class RSAUtil {
         PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec2);
         Cipher cipher = Cipher.getInstance("RSA");
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] result = cipher.doFinal(text.getBytes());
-        return Base64.encodeBase64String(result);
+        return Base64.encodeBase64String(encryptOrDecrypt(text.getBytes(), cipher, MAX_ENCRYPT_BLOCK));
     }
 
     /**

@@ -59,8 +59,7 @@ public class BaseController {
         if (request.getServerPort() == 80 || request.getServerPort() == 443) {
             port = "";
         }
-//        return scheme + "://" + request.getServerName() + port + path;
-        return "https://api.senzhikong.com" + path;
+        return scheme + "://" + request.getServerName() + port + path;
     }
 
     public JSONObject getRequestParams() {
