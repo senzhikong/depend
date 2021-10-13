@@ -3,18 +3,20 @@ package com.senzhikong.web.util;
 public class WebConstants {
     public static final String WEB_AUTH_TOKEN = "Authorization";
     public static final String MEMBER_AUTH_CACHE_NAME = "member-auth";
-    public static final String LOGIN_ACCOUNT = "login_account";
-    public static final String LOGIN_SYSTEM_ACCOUNT = "login_system_account";
-    public static final String LOGIN_PARTNER_ACCOUNT = "login_partner_account";
-    public static final String LOGIN_MEMBER_ACCOUNT = "login_member_account";
-    public static final String LOGIN_ACCOUNT_TOKEN = "login_account_token";
-    public static final String LOGIN_VERIFY_CODE = "login_verify_code";
+    public static final String LOGIN_SYSTEM_ACCOUNT = "login-system-account";
+    public static final String LOGIN_SYSTEM_ACCOUNT_INFO = "login-system-account-info";
+    public static final String LOGIN_PARTNER_ACCOUNT = "login-partner-account";
+    public static final String LOGIN_PARTNER_ACCOUNT_INFO = "login-partner-account-info";
+    public static final String LOGIN_MEMBER_ACCOUNT = "login-member-account";
+    public static final String LOGIN_MEMBER_ACCOUNT_INFO = "login-member-account-info";
+    public static final String LOGIN_ACCOUNT_TOKEN = "login-account-token";
+    public static final String LOGIN_VERIFY_CODE = "login-verify-code";
     public static final String SUPER_ADMINISTRATOR = "super";
-    public final static String QRCODE_LOGIN_GRANT_THIRD_PART_USER = "qrcode_login_grant_third_part_user";
-    public final static String QRCODE_LOGIN_GRANT_THIRD_PART_TOKEN = "qrcode_login_grant_third_part_token";
+    public final static String QRCODE_LOGIN_GRANT_THIRD_PART_USER = "qrcode-login-grant-third-part-user";
+    public final static String QRCODE_LOGIN_GRANT_THIRD_PART_TOKEN = "qrcode-login-grant-third-part-token";
 
-    public final static String QRCODE_LOGIN_BIND_THIRD_PART_USER = "qrcode_login_bind_third_part_user";
-    public final static String QRCODE_LOGIN_BIND_THIRD_PART_TOKEN = "qrcode_login_bind_third_part_token";
+    public final static String QRCODE_LOGIN_BIND_THIRD_PART_USER = "qrcode-login-bind-third-part-user";
+    public final static String QRCODE_LOGIN_BIND_THIRD_PART_TOKEN = "qrcode-login-bind-third-part-token";
 
 
 
