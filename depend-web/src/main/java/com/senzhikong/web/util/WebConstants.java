@@ -18,16 +18,4 @@ public class WebConstants {
     public final static String QRCODE_LOGIN_BIND_THIRD_PART_USER = "qrcode-login-bind-third-part-user";
     public final static String QRCODE_LOGIN_BIND_THIRD_PART_TOKEN = "qrcode-login-bind-third-part-token";
 
-
-
-    public final static String TALLY_PREFIX = "/tally";
-    public final static String ADMIN_PREFIX = "/admin";
-    public final static String COMMON_PREFIX = "/common";
-    public final static String MEMBER_PREFIX = "/member";
-
-    public final static String SERVICE_ADMIN = "admin";
-    public final static String SERVICE_API = "api";
-    public final static String SERVICE_COMMON = "common";
-    public final static String SERVICE_MEMBER = "member";
-    public final static String SERVICE_TALLY = "tally";
 }
