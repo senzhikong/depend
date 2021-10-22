@@ -24,7 +24,6 @@ public class RedisCacheManager extends BaseCacheManager {
         RedisCache cache = new RedisCache();
         cache.setName(cacheName);
         cache.setRedisTemplate(redisTemplate);
-        cache.setLiveTime(liveTime);
         cache.setPrefix(StringUtil.isEmpty(prefix) ? "" : prefix + "-");
         cacheMap.put(cacheName, cache);
         log.info("Create Redis Cache:" + cacheName);

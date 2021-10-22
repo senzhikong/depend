@@ -26,7 +26,6 @@ public abstract class BaseCacheManager extends org.springframework.cache.support
 
     protected Set<String> cacheNames;
     protected String prefix = "";
-    protected long liveTime;
     protected int hitCount;
     @Resource
     SpringContextHolder springContextHolder;

@@ -1,5 +1,7 @@
 package com.senzhikong.cache.cache;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -8,30 +10,14 @@ import java.time.Duration;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+@Getter
+@Setter
 public class RedisCache implements IBaseCache {
 
     private RedisTemplate<String, Object> redisTemplate;
     private String name;
-    private long liveTime;
     private String prefix = "";
 
-
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
-    public void setLiveTime(long liveTime) {
-        this.liveTime = liveTime;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public Object getNativeCache() {
@@ -75,7 +61,12 @@ public class RedisCache implements IBaseCache {
     @Override
     public <T> T get(Object key, Class<T> type) {
         final String keyStr = prefix + name + "-" + key;
-        return (T) redisTemplate.opsForValue().get(keyStr);
+        try {
+            return (T) redisTemplate.opsForValue().get(keyStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
