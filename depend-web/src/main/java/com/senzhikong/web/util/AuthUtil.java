@@ -1,6 +1,5 @@
 package com.senzhikong.web.util;
 
-import com.senzhikong.web.auth.LoginAccountModel;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -41,10 +40,6 @@ public class AuthUtil {
     public static Long getMemberId() {
         return Long.parseLong(getSession().getAttribute(MEMBER_ID)
                                           .toString());
-    }
-
-    public static LoginAccountModel getLoginAccountModel() {
-        return null;
     }
 
     public static String getAuthToken() {
