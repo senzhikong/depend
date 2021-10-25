@@ -1,5 +1,6 @@
 package com.senzhikong.web.util;
 
+import com.senzhikong.web.auth.LoginAccountModel;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -11,6 +12,10 @@ public class AuthUtil {
     public static final String ADMIN_ID = "auth-admin-id";
     public static final String PARTNER_ID = "auth-partner-id";
     public static final String MEMBER_ID = "auth-member-id";
+
+    public static final String ADMIN_MODEL = "auth-admin-model";
+    public static final String PARTNER_MODEL = "auth-partner-model";
+    public static final String MEMBER_MODEL = "auth-member-model";
 
     public static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) Objects.requireNonNull(
@@ -36,6 +41,10 @@ public class AuthUtil {
     public static Long getMemberId() {
         return Long.parseLong(getSession().getAttribute(MEMBER_ID)
                                           .toString());
+    }
+
+    public static LoginAccountModel getLoginAccountModel() {
+        return null;
     }
 
     public static String getAuthToken() {
