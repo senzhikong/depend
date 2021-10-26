@@ -40,7 +40,7 @@ public class BaseService extends WrapperService implements IBaseService {
     public <T extends BaseEntity, R> R entityToDTO(T t, Class<R> clz) {
         try {
             R dto = clz.getDeclaredConstructor().newInstance();
-            BeanUtils.copyProperties(t, clz);
+            BeanUtils.copyProperties(t, dto);
             return dto;
         } catch (Exception e) {
             throw new RuntimeException("转化类型失败");

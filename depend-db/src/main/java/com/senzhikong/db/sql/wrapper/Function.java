@@ -9,5 +9,6 @@ public enum Function {
     COUNT_DISTINCT,
     AVG,
     NOW,
-    CUSTOMIZE
+    CUSTOMIZE,
+    CUSTOMIZE_TEXT
 }

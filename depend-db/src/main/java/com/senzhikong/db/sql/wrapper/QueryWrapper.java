@@ -25,7 +25,7 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
     List<JoinWrapper> joinWrappers = new ArrayList<>();
 
     public <R extends Serializable, S extends Serializable> WrapperValue value(ObjectFunction<S, R> func) {
-        WrapperValue wrapperValue = WrapperValue.fromFunction(func);
+        WrapperValue wrapperValue = WrapperValue.from(func);
         wrapperValue.setFunctionClass(genericsClass);
         return wrapperValue;
     }
@@ -55,7 +55,7 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
     }
 
     public <R extends Serializable, S extends Serializable> QueryWrapper<T> select(ObjectFunction<S, R> func) {
-        return select(WrapperValue.fromFunction(func));
+        return select(WrapperValue.from(func));
     }
 
     public QueryWrapper<T> select(WrapperValue wrapperValue) {
@@ -69,14 +69,14 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
     @SafeVarargs
     public final <R extends Serializable, S extends Serializable> QueryWrapper<T> selectFunc(Function function,
             ObjectFunction<T, S>... func) {
-        List<WrapperValue> values = Arrays.stream(func).map(WrapperValue::fromFunction).collect(Collectors.toList());
+        List<WrapperValue> values = Arrays.stream(func).map(WrapperValue::from).collect(Collectors.toList());
         return selectFunc(function, null, values);
     }
 
     @SafeVarargs
     public final <R extends Serializable, S extends Serializable> QueryWrapper<T> selectFunc(String functionName,
             ObjectFunction<T, S>... func) {
-        List<WrapperValue> values = Arrays.stream(func).map(WrapperValue::fromFunction).collect(Collectors.toList());
+        List<WrapperValue> values = Arrays.stream(func).map(WrapperValue::from).collect(Collectors.toList());
         return selectFunc(Function.CUSTOMIZE, functionName, values);
     }
 
@@ -103,28 +103,28 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
             Class<S> joinClass,
             ObjectFunction<J, R> func1,
             ObjectFunction<S, K> func2) {
-        return join(joinClass, JoinType.LEFT, WrapperValue.fromFunction(func1), WrapperValue.fromFunction(func2));
+        return join(joinClass, JoinType.LEFT, WrapperValue.from(func1), WrapperValue.from(func2));
     }
 
     public <S extends Serializable, R extends Serializable, K extends Serializable, J extends Serializable> JoinWrapper rightJoin(
             Class<S> joinClass,
             ObjectFunction<J, R> func1,
             ObjectFunction<S, K> func2) {
-        return join(joinClass, JoinType.RIGHT, WrapperValue.fromFunction(func1), WrapperValue.fromFunction(func2));
+        return join(joinClass, JoinType.RIGHT, WrapperValue.from(func1), WrapperValue.from(func2));
     }
 
     public <S extends Serializable, R extends Serializable, K extends Serializable, J extends Serializable> JoinWrapper innerJoin(
             Class<S> joinClass,
             ObjectFunction<J, R> func1,
             ObjectFunction<S, K> func2) {
-        return join(joinClass, JoinType.INNER, WrapperValue.fromFunction(func1), WrapperValue.fromFunction(func2));
+        return join(joinClass, JoinType.INNER, WrapperValue.from(func1), WrapperValue.from(func2));
     }
 
     public <S extends Serializable, R extends Serializable, K extends Serializable, J extends Serializable> JoinWrapper outerJoin(
             Class<S> joinClass,
             ObjectFunction<J, R> func1,
             ObjectFunction<S, K> func2) {
-        return join(joinClass, JoinType.OUTER, WrapperValue.fromFunction(func1), WrapperValue.fromFunction(func2));
+        return join(joinClass, JoinType.OUTER, WrapperValue.from(func1), WrapperValue.from(func2));
     }
 
 
@@ -145,7 +145,7 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
     }
 
     public <S extends Serializable, R extends Serializable> QueryWrapper<T> groupBy(ObjectFunction<S, R> func) {
-        return groupBy(WrapperValue.fromFunction(func));
+        return groupBy(WrapperValue.from(func));
     }
 
     public QueryWrapper<T> groupBy(WrapperValue wrapperValue) {
@@ -156,11 +156,11 @@ public class QueryWrapper<T extends Serializable> extends ListWrapper {
     }
 
     public <S extends Serializable, R extends Serializable> QueryWrapper<T> desc(ObjectFunction<S, R> func) {
-        return orderBy(WrapperValue.fromFunction(func), OrderByType.DESC);
+        return orderBy(WrapperValue.from(func), OrderByType.DESC);
     }
 
     public <S extends Serializable, R extends Serializable> QueryWrapper<T> asc(ObjectFunction<S, R> func) {
-        return orderBy(WrapperValue.fromFunction(func), OrderByType.ASC);
+        return orderBy(WrapperValue.from(func), OrderByType.ASC);
     }
 
     public QueryWrapper<T> orderBy(WrapperValue wrapperValue, OrderByType type) {

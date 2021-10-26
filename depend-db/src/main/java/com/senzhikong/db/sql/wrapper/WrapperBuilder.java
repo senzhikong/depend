@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class WrapperBuilder {
@@ -163,14 +164,27 @@ public class WrapperBuilder {
     public String getFunctionWrapper(Wrapper wrapper, List<Object> params) {
         StringBuilder sql = new StringBuilder();
         Function function = wrapper.getFunction();
-        String functionParams = StringUtils.join(
-                wrapper.getValueList().stream().map(v -> wrapperValueToText(v, params)).toArray(), ",");
+        List<String> valueTexts = wrapper.getValueList().stream().map(v -> wrapperValueToText(v, params)).collect(
+                Collectors.toList());
+        String functionParams = StringUtils.join(valueTexts, ",");
         switch (function) {
             case COUNT_DISTINCT:
                 sql.append("COUNT( DISTINCT ").append(functionParams).append(")");
                 break;
             case CUSTOMIZE:
                 sql.append(wrapper.getFunctionName()).append("(").append(functionParams).append(")");
+                break;
+            case CUSTOMIZE_TEXT:
+                String functionText = wrapper.getFunctionName();
+                String[] arr = functionText.split("\\?");
+                if (arr.length != valueTexts.size() + 1) {
+                    throw new RuntimeException(
+                            String.format("参数数量不符，应该是%d个，实际有%d个", arr.length - 1, valueTexts.size()));
+                }
+                valueTexts.add("");
+                for (int i = 0; i < valueTexts.size(); i++) {
+                    sql.append(arr[i]).append(valueTexts.get(i));
+                }
                 break;
             default:
                 sql.append(function).append("(").append(functionParams).append(")");
