@@ -8,7 +8,6 @@ import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class BaseService extends WrapperService implements IBaseService {
     }
 
     @Override
-    public <T extends BaseEntity,R> R entityToDTO(T t, Class<R> clz) {
+    public <T extends BaseEntity, R> R entityToDTO(T t, Class<R> clz) {
         try {
             R dto = clz.getDeclaredConstructor().newInstance();
             BeanUtils.copyProperties(t, clz);
@@ -55,5 +54,15 @@ public class BaseService extends WrapperService implements IBaseService {
         return SpringContextHolder.getBeanByClassName(clzName);
     }
 
+    public void checkNull(Object obj, String err) {
+        if (obj == null) {
+            throw new RuntimeException(err);
+        }
+    }
 
+    public void checkNull(Object obj, RuntimeException err) {
+        if (obj == null) {
+            throw err;
+        }
+    }
 }

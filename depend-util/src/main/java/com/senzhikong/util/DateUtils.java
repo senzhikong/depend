@@ -42,13 +42,8 @@ public class DateUtils {
      * @return 时间
      * @throws Exception
      */
-    public static Date parseDate(String startDate) throws Exception {
-        if (StringUtil.isEmpty(startDate)) {
-            return null;
-        }
-        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-        Date date = format.parse(startDate);
-        return date;
+    public static Date parseDate(String date) {
+        return parseDate(date, YYYY_MM_DD_HH_MM_SS);
     }
 
     /**

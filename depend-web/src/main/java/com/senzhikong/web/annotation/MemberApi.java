@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 @RequestMapping
 @ResponseBody
 public @interface MemberApi {
-    boolean login();
+    boolean login() default true;
 
     @AliasFor("path") String[] value() default {};
 
