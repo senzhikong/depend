@@ -74,6 +74,17 @@ public class WebEntryData {
         s.put("data", data);
         search.add(s);
     }
+    public void addTreeSearch(String name, String code, String nameCol, String codeCol,String children, Collection<?> data) {
+        JSONObject s = new JSONObject();
+        s.put("type", "tree");
+        s.put("name", name);
+        s.put("code", code);
+        s.put("nameCol", nameCol);
+        s.put("codeCol", codeCol);
+        s.put("children", children);
+        s.put("data", data);
+        search.add(s);
+    }
 
     public void addDetail(String name, String code, Object data) {
         JSONObject s = new JSONObject();
@@ -98,6 +109,18 @@ public class WebEntryData {
         s.put("code", code);
         s.put("nameCol", nameCol);
         s.put("codeCol", codeCol);
+        s.put("data", data);
+        detail.put(code, s);
+    }
+
+    public void addTreeDetail(String name, String code, String nameCol, String codeCol,String children, Collection<?> data) {
+        JSONObject s = new JSONObject();
+        s.put("type", "tree");
+        s.put("name", name);
+        s.put("code", code);
+        s.put("nameCol", nameCol);
+        s.put("codeCol", codeCol);
+        s.put("children", children);
         s.put("data", data);
         detail.put(code, s);
     }
