@@ -28,10 +28,6 @@ public class BasicAspect {
     @Resource
     protected HttpSession session;
 
-//    protected void visitLog(ProceedingJoinPoint pjp, Annotation annotation, Annotation api) {
-//        visitLog(pjp, null);
-//    }
-
     protected String getClassName(ProceedingJoinPoint pjp) {
         String controllerName = null;
         Api api = pjp.getTarget().getClass().getAnnotation(Api.class);
@@ -111,10 +107,7 @@ public class BasicAspect {
         normalMsg.append("\nRequest Method:\t").append("class=").append(targetName).append(",method=")
                  .append(methodName);
         normalMsg.append("\nRequest Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
-        normalMsg.append("\nRequest Params:\t");
-        if (request.getParameterMap() != null) {
-            normalMsg.append(JSON.toJSONString(request.getParameterMap()));
-        }
+        normalMsg.append("\nRequest Params:\t").append(JSON.toJSONString(pjp.getArgs()));
         normalMsg.append("\nRequest Host:\t").append(ip).append("  ").append(request.getMethod());
         normalMsg.append("\nResponse Result:\t");
         if (res != null) {
@@ -136,9 +129,7 @@ public class BasicAspect {
                  .append(methodName);
         normalMsg.append("\nFeign Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nFeign Params:\t");
-        if (request.getParameterMap() != null) {
-            normalMsg.append(JSON.toJSONString(request.getParameterMap()));
-        }
+        normalMsg.append(JSON.toJSONString(pjp.getArgs()));
         normalMsg.append("\nFeign Host:\t").append(ip).append("  ").append(request.getMethod());
         normalMsg.append("\nFeign Result:\t");
         if (res != null) {
