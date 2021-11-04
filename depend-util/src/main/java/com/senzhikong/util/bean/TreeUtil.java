@@ -101,8 +101,10 @@ public class TreeUtil {
                     List<T> childList = findChildrenObj(fromList, pidKey, idValue);
                     fromList.removeAll(childList);
                     tempList.addAll(childList);
-                    Method method = item.getClass().getMethod(setMethodName, List.class);
-                    method.invoke(item, childList);
+                    if (childList.size() > 0) {
+                        Method method = item.getClass().getMethod(setMethodName, List.class);
+                        method.invoke(item, childList);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
