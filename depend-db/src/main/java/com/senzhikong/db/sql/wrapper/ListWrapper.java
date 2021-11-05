@@ -27,6 +27,12 @@ public class ListWrapper extends Wrapper {
     }
 
 
+    public <S extends Serializable, R extends Serializable, U extends Serializable, V extends Serializable> ListWrapper eq(
+            ObjectFunction<S, R> func1,
+            ObjectFunction<U, V> func2) {
+        return add(WrapperType.EQ, null, null, WrapperValue.from(func1), WrapperValue.from(func2));
+    }
+
     public <S extends Serializable, R extends Serializable> ListWrapper eq(ObjectFunction<S, R> func1,
             Object value) {
         return add(WrapperType.EQ, null, null, WrapperValue.from(func1), WrapperValue.fromValue(value));
