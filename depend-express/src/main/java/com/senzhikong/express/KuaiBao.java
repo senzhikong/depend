@@ -64,7 +64,7 @@ public class KuaiBao {
                     response.setStatus(Status.QUESTION);
                     break;
                 default:
-                    response.setStatus(Status.UNKNOW);
+                    response.setStatus(Status.UNKNOWN);
                     break;
             }
             JSONArray array = json.getJSONArray("data");

@@ -1,8 +1,11 @@
 package com.senzhikong.task;
 
+import lombok.Getter;
+
 /**
  * @author Shu.Zhou
  */
+@Getter
 public enum TaskStatus {
     BLOCKED("blocked", "阻塞"),
     COMPLETE("complete", "完成"),
@@ -11,8 +14,8 @@ public enum TaskStatus {
     NORMAL("normal", "正常"),
     NONE("none", "未运行");
 
-    private String code;
-    private String description;
+    private final String code;
+    private final String description;
 
     TaskStatus(String code, String description) {
         this.code = code;
@@ -27,19 +30,4 @@ public enum TaskStatus {
         return description;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

@@ -1,10 +1,13 @@
 package com.senzhikong.web.ajax;
 
+import lombok.Getter;
+
 /**
  * 业务编码
  *
  * @author Shu.zhou
  */
+@Getter
 public enum ApiStatus {
     /**
      * 成功

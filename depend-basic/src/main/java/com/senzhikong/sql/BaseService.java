@@ -1,7 +1,7 @@
 package com.senzhikong.sql;
 
-import com.senzhikong.db.entity.BaseEntity;
-import com.senzhikong.db.enums.CommonStatus;
+import com.senzhikong.entity.BaseEntity;
+import com.senzhikong.enums.CommonStatus;
 import com.senzhikong.db.sql.BaseJpaRepository;
 import com.senzhikong.db.sql.wrapper.WrapperService;
 import com.senzhikong.spring.SpringContextHolder;

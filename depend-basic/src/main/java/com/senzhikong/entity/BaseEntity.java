@@ -1,7 +1,7 @@
-package com.senzhikong.db.entity;
+package com.senzhikong.entity;
 
 import com.alibaba.fastjson.JSON;
-import com.senzhikong.db.enums.CommonStatus;
+import com.senzhikong.enums.CommonStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Example;

@@ -1,16 +1,19 @@
-package com.senzhikong.db.enums;
+package com.senzhikong.enums;
+
+import lombok.Getter;
 
 /**
  * @author Shu.Zhou
  */
+@Getter
 public enum CommonStatus {
     NORMAL("normal", "正常"),
     FORBIDDEN("forbidden", "禁用"),
     DELETE("delete", "已删除"),
-    UNKNOW("unknow", "未知");
+    UNKNOWN("unknown", "未知");
 
-    private String code;
-    private String description;
+    private final String code;
+    private final String description;
 
     CommonStatus(String code, String description) {
         this.code = code;
@@ -29,15 +32,8 @@ public enum CommonStatus {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

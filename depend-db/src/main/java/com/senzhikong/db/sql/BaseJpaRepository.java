@@ -1,6 +1,5 @@
 package com.senzhikong.db.sql;
 
-import com.senzhikong.db.entity.BaseEntity;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,7 +16,7 @@ import java.util.Optional;
  * @date 2018年9月24日下午4:01:24
  */
 @NoRepositoryBean
-public interface BaseJpaRepository<T extends BaseEntity, ID extends Serializable>
+public interface BaseJpaRepository<T extends Serializable, ID extends Serializable>
         extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
 
     default T findOneByExample(Example<T> example) {
@@ -42,5 +41,5 @@ public interface BaseJpaRepository<T extends BaseEntity, ID extends Serializable
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     T findAndLockById(ID id);
 
-    T findByIdAndStatus(ID id,String status);
+    T findByIdAndStatus(ID id, String status);
 }
