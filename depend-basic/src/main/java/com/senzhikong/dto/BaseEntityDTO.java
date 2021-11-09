@@ -25,5 +25,5 @@ public class BaseEntityDTO implements Serializable {
     @Schema(description = "更新人")
     private Long updateBy;
     @Schema(description = "备注")
-    private Long remark;
+    private String remark;
 }
