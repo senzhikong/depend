@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.senzhikong</groupId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>depend-parent</name>
-    <url>https://maven.apache.org</url>
+    <url>https://github.com/senzhikong/depend</url>
     <artifactId>depend-parent</artifactId>
     <description>森之空基础依赖</description>
     <modules>
@@ -100,6 +100,8 @@
         <swagger.version>3.0.0</swagger.version>
         <dingtalk.version>1.0.1</dingtalk.version>
         <tomcat.version>10.0.12</tomcat.version>
+        <!--senzhikong插件-->
+        <szk.jpa-plus.version>1.0.1</szk.jpa-plus.version>
     </properties>
     <dependencies>
         <dependency>
@@ -134,6 +136,11 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
+                <artifactId>jpa-plus</artifactId>
+                <version>${szk.jpa-plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
@@ -491,7 +498,7 @@
                 </configuration>
             </plugin>
             <!-- 文档生产插件 -->
-          <!--  <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
@@ -507,7 +514,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
             <!-- 生成sources源码包的插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -555,7 +562,7 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.6</version>
@@ -568,7 +575,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
