@@ -66,9 +66,9 @@ public class QRCodeUtil {
     /**
      * 生成二维码图片
      *
-     * @param content二维码内容
-     * @param size二维码图片大小
-     * @param margin二维码图片边距
+     * @param content 二维码内容
+     * @param size 二维码图片大小
+     * @param margin 二维码图片边距
      * @return
      */
     public static BufferedImage encodeQrcode(String content, int size, int margin) {
@@ -76,9 +76,9 @@ public class QRCodeUtil {
     }
 
     /**
-     * @param image二维码图片
-     * @param logo中心logo图片
-     * @param logoSize中心logo大小
+     * @param image 二维码图片
+     * @param logo 中心logo图片
+     * @param logoSize 中心logo大小
      */
     public static void appendQRLogo(BufferedImage image, Image logo, int logoSize) {
         if (logo == null)

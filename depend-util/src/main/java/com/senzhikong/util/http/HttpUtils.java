@@ -21,8 +21,7 @@ public class HttpUtils {
     /**
      * 基于http协议get请求
      *
-     * @param url请求地址
-     * @return
+     * @param url 请求地址
      */
     public static String get(String url) {
         String body = "";
@@ -32,7 +31,7 @@ public class HttpUtils {
         try (CloseableHttpResponse response = client.execute(get)) {
             entity = response.getEntity();
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 get.abort();
                 return null;
             }
@@ -65,9 +64,8 @@ public class HttpUtils {
     /**
      * 基于http协议get请求
      *
-     * @param url请求地址
-     * @param code指定编码
-     * @return
+     * @param url  请求地址
+     * @param code 指定编码
      */
     public static String get(String url, String code) {
         String result = "";
@@ -76,7 +74,7 @@ public class HttpUtils {
         HttpGet get = new HttpGet(url);
         try (CloseableHttpResponse response = client.execute(get)) {
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 get.abort();
                 return null;
             }
@@ -111,8 +109,7 @@ public class HttpUtils {
     /**
      * 基于http协议post请求
      *
-     * @param url请求地址
-     * @return
+     * @param url 请求地址
      */
     public static String post(String url) {
         String result = "";
@@ -121,7 +118,7 @@ public class HttpUtils {
         HttpPost post = new HttpPost(url);
         try (CloseableHttpResponse response = client.execute(post)) {
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 post.abort();
                 return null;
             }
@@ -155,9 +152,8 @@ public class HttpUtils {
     /**
      * 基于http协议post请求
      *
-     * @param url请求地址
-     * @param code指定编码
-     * @return
+     * @param url  请求地址
+     * @param code 指定编码
      */
     public static String post(String url, String code) {
         String result = "";
@@ -166,7 +162,7 @@ public class HttpUtils {
         HttpPost post = new HttpPost(url);
         try (CloseableHttpResponse response = client.execute(post)) {
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 post.abort();
                 return null;
             }
@@ -200,9 +196,8 @@ public class HttpUtils {
     /**
      * 基于http协议post请求
      *
-     * @param url请求地址
-     * @param jsonObject请求实体
-     * @return
+     * @param url        请求地址
+     * @param jsonObject 请求实体
      */
     public static String postWithJson(String url, Object jsonObject) {
         String result = "";
@@ -214,7 +209,7 @@ public class HttpUtils {
         post.setEntity(params);
         try (CloseableHttpResponse response = client.execute(post)) {
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 post.abort();
                 return null;
             }
@@ -248,10 +243,9 @@ public class HttpUtils {
     /**
      * 基于http协议post请求
      *
-     * @param url请求地址
-     * @param jsonObject请求实体
-     * @param code指定编码
-     * @return
+     * @param url        请求地址
+     * @param jsonObject 请求实体
+     * @param code       指定编码
      */
     public static String postWithJson(String url, JSONObject jsonObject, String code) {
         String result = "";
@@ -263,7 +257,7 @@ public class HttpUtils {
         post.setEntity(params);
         try (CloseableHttpResponse response = client.execute(post)) {
             if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+                        .getStatusCode() != 200) {
                 post.abort();
                 return null;
             }

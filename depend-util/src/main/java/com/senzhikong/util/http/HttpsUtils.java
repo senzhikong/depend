@@ -65,7 +65,7 @@ public class HttpsUtils {
     /**
      * 发起https请求并获取结果
      *
-     * @param url请求地址
+     * @param url 请求地址
      * @throws Exception
      */
     public static String post(String url) {
@@ -111,7 +111,7 @@ public class HttpsUtils {
     /**
      * 发起https请求并获取结果
      *
-     * @param url请求地址
+     * @param url 请求地址
      * @throws Exception
      */
     public static String delete(String url) {

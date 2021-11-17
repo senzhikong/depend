@@ -26,15 +26,7 @@ public @interface PartnerApi {
 
     String log() default "";
 
-    RequestMethod[] method() default {};
-
-    String[] origins() default {"*"};
-
-    String[] allowedHeaders() default {"Content-Type", "Accept", "Cookie", "set-cookie", WebConstants.WEB_AUTH_TOKEN};
-
-    String allowCredentials() default "true";
-
-    boolean cors() default true;
+    RequestMethod[] method() default {RequestMethod.POST};
 
     String[] produces() default {MediaType.APPLICATION_JSON_VALUE};
 }

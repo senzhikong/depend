@@ -26,7 +26,7 @@ public @interface OpenApi {
 
     String log() default "";
 
-    RequestMethod[] method() default {};
+    RequestMethod[] method() default {RequestMethod.POST};
 
     String[] produces() default {MediaType.APPLICATION_JSON_VALUE};
 }

@@ -31,10 +31,10 @@ public class BarCodeUtil {
     /**
      * 生成二维码图片
      *
-     * @param content条形码内容
-     * @param width条形码宽
-     * @param height条形码高
-     * @param margin条形码边距
+     * @param content 条形码内容
+     * @param width 条形码宽
+     * @param height 条形码高
+     * @param margin 条形码边距
      * @return
      */
     public static BufferedImage encodeQrcode(String content, int width, int height, int margin) {

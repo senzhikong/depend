@@ -38,7 +38,7 @@ public class DateUtils {
     /**
      * 转换字符串为date，格式yyyy-MM-dd HH:mm:ss
      *
-     * @param startDate 日期字符串
+     * @param date 日期字符串
      * @return 时间
      * @throws Exception
      */
