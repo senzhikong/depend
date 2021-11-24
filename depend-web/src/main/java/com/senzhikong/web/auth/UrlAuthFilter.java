@@ -1,10 +1,8 @@
 package com.senzhikong.web.auth;
 
-import com.senzhikong.cache.CacheUtil;
 import com.senzhikong.web.ajax.ApiResponse;
 import com.senzhikong.web.ajax.ApiStatus;
 
-import javax.annotation.Resource;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class UrlAuthFilter extends BaseFilter {
-
-    @Resource
-    protected CacheUtil cacheUtil;
 
     public abstract void initFilter();
 

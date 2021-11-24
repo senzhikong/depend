@@ -31,20 +31,23 @@ public class QRCodeUtil {
     /**
      * 生成二维码图片
      *
-     * @param content二维码内容
-     * @param size二维码图片大小
-     * @param margin二维码图片边距
-     * @param logo二维码中心logo图片
-     * @param logoSize二维码logo图片大小
+     * @param content  二维码内容
+     * @param size     二维码图片大小
+     * @param margin   二维码图片边距
+     * @param logo     二维码中心logo图片
+     * @param logoSize 二维码logo图片大小
      * @return
      */
     public static BufferedImage encodeQrcode(String content, int size, int margin, Image logo, int logoSize) {
-        if (content == null || "".equals(content))
+        if (content == null || "".equals(content)) {
             return null;
-        if (margin < MIN_MARGIN)
+        }
+        if (margin < MIN_MARGIN) {
             margin = MIN_MARGIN;
-        if (size < MIN_SIZE)
+        }
+        if (size < MIN_SIZE) {
             size = MIN_SIZE;
+        }
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8"); // 设置字符集编码类型
@@ -67,8 +70,8 @@ public class QRCodeUtil {
      * 生成二维码图片
      *
      * @param content 二维码内容
-     * @param size 二维码图片大小
-     * @param margin 二维码图片边距
+     * @param size    二维码图片大小
+     * @param margin  二维码图片边距
      * @return
      */
     public static BufferedImage encodeQrcode(String content, int size, int margin) {
@@ -76,16 +79,18 @@ public class QRCodeUtil {
     }
 
     /**
-     * @param image 二维码图片
-     * @param logo 中心logo图片
+     * @param image    二维码图片
+     * @param logo     中心logo图片
      * @param logoSize 中心logo大小
      */
     public static void appendQRLogo(BufferedImage image, Image logo, int logoSize) {
-        if (logo == null)
+        if (logo == null) {
             return;
+        }
         Graphics2D gs = image.createGraphics();
-        if (logoSize > image.getWidth() * 2 / 5)
+        if (logoSize > image.getWidth() * 2 / 5) {
             logoSize = image.getWidth() * 2 / 5;
+        }
         int logoWidth = logo.getWidth(null) > logoSize ? logoSize : logo.getWidth(null);
         int logoHeight = logo.getHeight(null) > logoSize ? logoSize : logo.getHeight(null);
         int x = (image.getWidth() - logoWidth) / 2;

@@ -1,5 +1,6 @@
 package com.senzhikong.cache;
 
+import com.senzhikong.cache.cache.IBaseCache;
 import com.senzhikong.cache.manager.BaseCacheManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
@@ -7,6 +8,7 @@ import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.Objects;
 
 /**
@@ -19,60 +21,63 @@ public class CacheUtil {
     private BaseCacheManager cacheManager;
 
     public void cleanCache(String cacheName) {
-        log.debug("准备清空缓存：" + cacheName);
+        log.debug("Ready To Clean Cache：" + cacheName);
         Objects.requireNonNull(cacheManager.getCache(cacheName))
                 .clear();
-        log.debug("成功清空缓存：" + cacheName);
+        log.debug("Clean Cache Success：" + cacheName);
     }
 
-    private Cache getCache(String cacheName) {
+    private IBaseCache getCache(String cacheName) {
         return cacheManager.getOrCreateCache(cacheName);
     }
 
     public Object findCache(String cacheName, String key) {
-        Cache cache = getCache(cacheName);
-        log.debug(String.format("查找缓存：%s:::%s", cacheName, key));
+        IBaseCache cache = getCache(cacheName);
+        log.debug(String.format("Looking For Cache：%s:::%s", cacheName, key));
         if (cache == null) {
             return null;
         }
-        ValueWrapper value = cache.get(key);
+        Cache.ValueWrapper value = cache.get(key);
         Object val = value == null ? null : value.get();
-        log.debug(String.format("查询结果：%s", val));
+        log.debug(String.format("Looking Cache Result：%s", val));
         return val;
     }
 
     public <T> T findCache(String cacheName, String key, Class<T> clz) {
         Cache cache = getCache(cacheName);
-        log.debug(String.format("查找缓存：%s:::%s", cacheName, key));
+        log.debug(String.format("Looking For Cache：%s:::%s", cacheName, key));
         if (cache == null) {
             return null;
         }
         T val = cache.get(key, clz);
-        log.debug(String.format("查询结果：%s", val));
+        log.debug(String.format("Looking For Cache：%s", val));
         return val;
     }
 
     public void saveCache(String cacheName, String key, Object value) {
-        Cache cache = getCache(cacheName);
-        log.debug(String.format("添加缓存：%s:::%s", cacheName, key));
-        log.debug(String.format("缓存内容：%s", value));
+        saveCache(cacheName,key,value,null);
+    }
+
+    public void saveCache(String cacheName,String key, Object value, Duration duration) {
+        IBaseCache cache = getCache(cacheName);
+        log.debug(String.format("Save Cache：%s:::%s", cacheName, key));
+        log.debug(String.format("Save Cache Content：%s", value));
         if (cache == null) {
             return;
         }
         if (value == null) {
-            removeCache(cacheName, key);
+            removeCache(key);
         } else {
-            cache.put(key, value);
+            cache.put(key, value, duration);
         }
     }
-
     public void removeCache(String cacheName, String... keys) {
-        Cache cache = getCache(cacheName);
+        IBaseCache cache = getCache(cacheName);
         if (cache == null) {
             return;
         }
         for (String key : keys) {
-            log.debug(String.format("移除缓存：%s:::%s", cacheName, key));
+            log.debug(String.format("Remove Cache：%s:::%s", cacheName, key));
             cache.evict(key);
         }
     }

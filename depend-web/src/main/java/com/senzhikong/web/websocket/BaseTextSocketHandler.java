@@ -1,7 +1,5 @@
 package com.senzhikong.web.websocket;
 
-import com.senzhikong.cache.CacheUtil;
-import com.senzhikong.spring.SpringContextHolder;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -15,7 +13,6 @@ import java.util.List;
  * @date 2018年12月3日下午3:20:15
  */
 public class BaseTextSocketHandler extends TextWebSocketHandler {
-    protected static CacheUtil cacheUtil = SpringContextHolder.getBean(CacheUtil.class);
 
     public BaseTextSocketHandler() {
     }

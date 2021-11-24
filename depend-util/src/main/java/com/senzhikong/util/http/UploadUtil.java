@@ -8,10 +8,9 @@ package com.senzhikong.util.http;
 public class UploadUtil {
 
     /**
-     * http协议下载文件
-     *
-     * @param url
-     * @param out
+     * http协议上传文件
+     * @param urlStr
+     * @param entity
      * @return
      * @throws Exception
      */

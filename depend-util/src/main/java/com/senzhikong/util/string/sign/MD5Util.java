@@ -1,5 +1,6 @@
 package com.senzhikong.util.string.sign;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
 public class MD5Util {
@@ -9,8 +10,9 @@ public class MD5Util {
     }
 
     public static MD5Util getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new MD5Util();
+        }
         return instance;
     }
 
@@ -18,9 +20,10 @@ public class MD5Util {
         String md5Password;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] infoBytes = null;
-            if (key != null && !"".equals(key))
+            byte[] infoBytes;
+            if (key != null && !"".equals(key)) {
                 info += key;
+            }
             if (encoding != null && !"".equals(encoding.trim())) {
                 infoBytes = info.getBytes(encoding);
             } else {
@@ -29,13 +32,15 @@ public class MD5Util {
             md.update(infoBytes);
             byte[] b = md.digest();
             int i;
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (int offset = 0; offset < b.length; offset++) {
                 i = b[offset];
-                if (i < 0)
+                if (i < 0) {
                     i += 256;
-                if (i < 16)
+                }
+                if (i < 16) {
                     buf.append("0");
+                }
                 buf.append(Integer.toHexString(i));
             }
             md5Password = buf.toString();
@@ -45,4 +50,11 @@ public class MD5Util {
         return md5Password;
     }
 
+    public String encode(String info) {
+        return encode(info, "UTF-8", "");
+    }
+
+    public String encode(String info, String key) {
+        return encode(info, "UTF-8", key);
+    }
 }

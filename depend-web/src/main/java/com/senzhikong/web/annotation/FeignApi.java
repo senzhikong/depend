@@ -30,4 +30,6 @@ public @interface FeignApi {
     RequestMethod[] method() default {};
 
     String[] produces() default {MediaType.APPLICATION_JSON_VALUE};
+
+    String[] consumes() default {MediaType.APPLICATION_JSON_VALUE};
 }

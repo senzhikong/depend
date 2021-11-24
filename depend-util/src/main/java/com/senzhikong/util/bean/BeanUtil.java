@@ -141,4 +141,8 @@ public class BeanUtil {
         }
     }
 
+    public static <T> T convert(Object obj, Class<T> clz) {
+        return JSONObject.parseObject(JSON.toJSONString(obj), clz);
+    }
+
 }
