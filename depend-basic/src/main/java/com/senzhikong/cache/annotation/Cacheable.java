@@ -3,7 +3,6 @@ package com.senzhikong.cache.annotation;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
-import java.time.Duration;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

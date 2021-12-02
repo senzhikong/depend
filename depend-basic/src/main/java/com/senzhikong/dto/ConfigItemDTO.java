@@ -6,12 +6,13 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @ApiModel("配置节点")
-public class ConfigItemDTO {
+public class ConfigItemDTO implements Serializable {
     private String code;
     private String description;
     private String type;

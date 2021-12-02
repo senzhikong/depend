@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel("基础分页请求参数")
-public class PagerRequestDTO {
+public class PagerRequestDTO implements Serializable {
 
     @Schema(description = "页码", example = "1")
     private Integer pageNumber = 1;

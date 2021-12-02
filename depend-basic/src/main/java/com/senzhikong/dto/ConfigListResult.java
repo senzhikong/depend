@@ -5,12 +5,13 @@ import com.senzhikong.module.ConfigInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @ApiModel("配置列表")
-public class ConfigListResult {
+public class ConfigListResult implements Serializable {
     private String title;
     private List<ConfigListResult> children;
     private List<ConfigItemDTO> configs;

@@ -6,11 +6,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @ApiModel("基础分页返回参数")
-public class PagerResponseDTO<T> {
+public class PagerResponseDTO<T> implements Serializable {
     @Schema(description = "页码", example = "1")
     private Integer pageNumber = 1;
     @Schema(description = "页码", example = "10")

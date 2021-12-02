@@ -4,9 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @ApiModel("基础ID")
-public class IdDTO {
+public class IdDTO implements Serializable {
     @Schema(description = "ID")
     private Long id;
 
