@@ -1,7 +1,7 @@
 package com.senzhikong.dto;
 
-import com.senzhikong.module.BaseConfigConstants;
-import com.senzhikong.module.ConfigInterface;
+import com.senzhikong.config.BaseConfigConstants;
+import com.senzhikong.config.ConfigInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

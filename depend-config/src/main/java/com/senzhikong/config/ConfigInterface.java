@@ -1,8 +1,8 @@
-package com.senzhikong.module;
+package com.senzhikong.config;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.util.string.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -24,19 +24,19 @@ public abstract class ConfigInterface {
 
     public Integer getIntConfig(String key) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Integer.parseInt(configValue) : null;
+        return StringUtils.isNotEmpty(configValue) ? Integer.parseInt(configValue) : null;
     }
 
 
     public Double getDoubleConfig(String key) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Double.parseDouble(configValue) : null;
+        return StringUtils.isNotEmpty(configValue) ? Double.parseDouble(configValue) : null;
     }
 
 
     public Boolean getBooleanConfig(String key) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Boolean.parseBoolean(configValue) : null;
+        return StringUtils.isNotEmpty(configValue) ? Boolean.parseBoolean(configValue) : null;
     }
 
     public JSONObject getJSONObject(String key) {
@@ -53,31 +53,31 @@ public abstract class ConfigInterface {
 
     public Long getLongConfig(String key) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Long.parseLong(configValue) : null;
+        return StringUtils.isNotEmpty(configValue) ? Long.parseLong(configValue) : null;
     }
 
 
     public Boolean getBooleanConfig(String key, boolean defaultValue) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Boolean.parseBoolean(configValue) : defaultValue;
+        return StringUtils.isNotEmpty(configValue) ? Boolean.parseBoolean(configValue) : defaultValue;
     }
 
 
     public Integer getIntConfig(String key, int defaultValue) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Integer.parseInt(configValue) : defaultValue;
+        return StringUtils.isNotEmpty(configValue) ? Integer.parseInt(configValue) : defaultValue;
     }
 
 
     public Double getDoubleConfig(String key, double defaultValue) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Double.parseDouble(configValue) : defaultValue;
+        return StringUtils.isNotEmpty(configValue) ? Double.parseDouble(configValue) : defaultValue;
     }
 
 
     public Long getLongConfig(String key, long defaultValue) {
         String configValue = getConfigValue(key);
-        return StringUtil.isNotEmpty(configValue) ? Long.parseLong(configValue) : defaultValue;
+        return StringUtils.isNotEmpty(configValue) ? Long.parseLong(configValue) : defaultValue;
     }
 
 

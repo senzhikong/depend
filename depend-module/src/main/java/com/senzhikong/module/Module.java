@@ -1,7 +1,7 @@
 package com.senzhikong.module;
 
 
-import com.senzhikong.web.InitializeBean;
+import com.senzhikong.config.BaseConfigConstants;
 
 public interface Module extends InitializeBean {
 

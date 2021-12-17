@@ -1,4 +1,4 @@
-package com.senzhikong.web;
+package com.senzhikong.module;
 
 public interface InitializeBean {
     void init() throws Exception;

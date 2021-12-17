@@ -2,7 +2,7 @@ package com.senzhikong.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.module.ConfigInterface;
+import com.senzhikong.config.ConfigInterface;
 import com.senzhikong.util.string.StringUtil;
 import com.senzhikong.web.util.WebConstants;
 import lombok.extern.slf4j.Slf4j;

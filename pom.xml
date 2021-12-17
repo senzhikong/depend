@@ -19,6 +19,10 @@
         <module>depend-sms</module>
         <module>depend-email</module>
         <module>depend-web</module>
+        <module>depend-cache</module>
+        <module>depend-spring</module>
+        <module>depend-module</module>
+        <module>depend-config</module>
     </modules>
     <properties>
         <java.version>11</java.version>

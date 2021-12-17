@@ -1,4 +1,4 @@
-package com.senzhikong.module;
+package com.senzhikong.config;
 
 import com.alibaba.fastjson.JSONObject;
 

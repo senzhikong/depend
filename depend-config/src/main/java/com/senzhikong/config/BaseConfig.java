@@ -1,4 +1,4 @@
-package com.senzhikong.module;
+package com.senzhikong.config;
 
 public interface BaseConfig {
     public String getConfigName();

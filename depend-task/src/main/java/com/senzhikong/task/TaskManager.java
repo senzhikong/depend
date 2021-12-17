@@ -2,7 +2,7 @@ package com.senzhikong.task;
 
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
-import com.senzhikong.web.InitializeBean;
+import com.senzhikong.module.InitializeBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.*;
