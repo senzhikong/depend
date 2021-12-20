@@ -18,6 +18,11 @@
         </dependency>
         <dependency>
             <groupId>com.senzhikong</groupId>
+            <artifactId>depend-cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.senzhikong</groupId>
             <artifactId>depend-db</artifactId>
             <version>${project.version}</version>
         </dependency>
