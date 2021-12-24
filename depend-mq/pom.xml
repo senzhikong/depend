@@ -2,26 +2,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>depend-parent</artifactId>
         <groupId>com.senzhikong</groupId>
+        <artifactId>depend-parent</artifactId>
         <version>1.0.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>depend-config</artifactId>
-    <name>depend-config</name>
+    <artifactId>depend-mq</artifactId>
+    <name>depend-mq</name>
     <url>https://maven.apache.org</url>
-
     <dependencies>
-        <!-- 格式化对象，方便输出日志 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -23,6 +23,7 @@
         <module>depend-spring</module>
         <module>depend-module</module>
         <module>depend-config</module>
+        <module>depend-mq</module>
     </modules>
     <properties>
         <java.version>11</java.version>
