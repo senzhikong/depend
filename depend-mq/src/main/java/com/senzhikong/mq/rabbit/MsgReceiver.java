@@ -1,35 +1,39 @@
 package com.senzhikong.mq.rabbit;
 
 import com.rabbitmq.client.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class MsgReceiver implements InitializingBean {
-    private String exchange;
-    private String routingKey;
+public abstract class MsgReceiver implements InitializingBean {
+    @Getter
+    @Setter
     private String queue;
-    @Resource
-    protected RabbitTemplate rabbitTemplate;
     @Resource
     ConnectionFactory factory;
     private Connection connection;
+    private Channel channel;
 
-    public void process(String content) {
-        log.info("接收处理队列A当中的消息： " + content);
-    }
+    public abstract void process(String content);
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        this.open();
+    }
+
+    public void open() throws Exception {
+        if (this.connection != null || this.channel != null) {
+            return;
+        }
         this.connection = factory.createConnection();
-        final Channel channel = connection.createChannel(false);    // 创建信道
+        this.channel = connection.createChannel(false);    // 创建信道
         channel.basicQos(64);    // 设置客户端最多接受未被ack的消息的个数
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
@@ -42,8 +46,20 @@ public class MsgReceiver implements InitializingBean {
             }
         };
         channel.basicConsume(queue, consumer);
-        TimeUnit.SECONDS.sleep(5);
-        channel.close();
-        connection.close();
+    }
+
+    public void close() {
+        if (this.connection != null) {
+            this.connection.close();
+            this.connection = null;
+        }
+        if (this.channel != null) {
+            try {
+                this.channel.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            this.channel = null;
+        }
     }
 }
