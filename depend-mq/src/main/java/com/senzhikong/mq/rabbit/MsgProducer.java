@@ -16,6 +16,7 @@ public class MsgProducer {
     protected RabbitTemplate rabbitTemplate;
 
     public void sendMsg(String content) {
+        //
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend(exchange, routingKey, content, correlationId);
     }
