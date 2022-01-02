@@ -1,6 +1,7 @@
 package com.senzhikong.cache.cache;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisCallback;
@@ -20,24 +21,25 @@ public class RedisCache implements IBaseCache {
 
 
     @Override
+    @NonNull
     public Object getNativeCache() {
         return this.redisTemplate;
     }
 
     @Override
-    public ValueWrapper get(Object key) {
+    public ValueWrapper get(@NonNull Object key) {
         final String keyStr = prefix + name + "-" + key;
         Object value = redisTemplate.opsForValue().get(keyStr);
         return (value != null ? new SimpleValueWrapper(value) : null);
     }
 
     @Override
-    public void put(Object key, Object value) {
+    public void put(@NonNull Object key, Object value) {
         put(key, value, null);
     }
 
     @Override
-    public void evict(Object key) {
+    public void evict(@NonNull Object key) {
         final String keyStr = prefix + name + "-" + key;
         redisTemplate.execute((RedisCallback<Long>) connection -> connection.del(keyStr.getBytes()));
     }
@@ -59,7 +61,7 @@ public class RedisCache implements IBaseCache {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T get(Object key, Class<T> type) {
+    public <T> T get(@NonNull Object key, Class<T> type) {
         final String keyStr = prefix + name + "-" + key;
         try {
             return (T) redisTemplate.opsForValue().get(keyStr);
@@ -70,13 +72,13 @@ public class RedisCache implements IBaseCache {
     }
 
     @Override
-    public ValueWrapper putIfAbsent(Object key, Object value) {
+    public ValueWrapper putIfAbsent(@NonNull Object key, Object value) {
         put(key, value);
         return new SimpleValueWrapper(value);
     }
 
     @Override
-    public <T> T get(Object arg0, Callable<T> arg1) {
+    public <T> T get(@NonNull Object arg0, @NonNull Callable<T> arg1) {
         try {
             return arg1.call();
         } catch (Exception e) {
