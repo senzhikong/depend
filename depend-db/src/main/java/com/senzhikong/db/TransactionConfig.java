@@ -3,7 +3,6 @@ package com.senzhikong.db;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
@@ -17,18 +16,17 @@ import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
 public class TransactionConfig {
     @Resource
     EntityManagerFactory entityManagerFactory;
 
-    @Bean("jpaTransactionManager")
-    public TransactionManager jpaTransactionManager() {
+    @Bean("transactionManager")
+    public TransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory);
     }
 
     @Bean("jpaTxAdvice")
-    public TransactionInterceptor transactionInterceptor(TransactionManager jpaTransactionManager) {
+    public TransactionInterceptor transactionInterceptor(TransactionManager transactionManager) {
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
         //非只读事务
         RuleBasedTransactionAttribute requiredTx = new RuleBasedTransactionAttribute();
@@ -51,7 +49,7 @@ public class TransactionConfig {
         map.put("find*", readOnlyTx);
         map.put("list*", readOnlyTx);
         source.setNameMap(map);
-        return new TransactionInterceptor(jpaTransactionManager, source);
+        return new TransactionInterceptor(transactionManager, source);
     }
 
 
