@@ -38,28 +38,21 @@ public class TreeUtil {
         return array1;
     }
 
-    public static JSONArray TreeToSelect(JSONArray array, String children, String label, String preAppend) {
-        JSONArray array1 = JSONArray.parseArray(array.toJSONString());
-        JSONArray res = new JSONArray();
-        JSONObject obj = new JSONObject();
-        obj.put(children, array1);
-        TreeToSelect(res, obj, children, label, "", preAppend);
-        return res;
-    }
-
-    private static JSONArray TreeToSelect(JSONArray res, JSONObject obj, String children, String label, String before,
-            String preAppend) {
-        JSONArray childrenArray = obj.getJSONArray(children);
-        for (int i = 0; i < childrenArray.size(); i++) {
-            JSONObject child = childrenArray.getJSONObject(i);
-            child.put(label, before + child.getString(label));
-            res.add(child);
-            JSONArray childrenArray2 = child.getJSONArray(children);
-            if (childrenArray2 != null && childrenArray2.size() > 0) {
-                TreeToSelect(res, child, children, label, before + preAppend, preAppend);
+    public static  <T> List<T> treeToList(List<T> list, String childName) {
+        List<T> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            T item = list.get(i);
+            res.add(item);
+            try {
+                final String getMethodName = getMethod(childName);
+                List<T> children = (List<T>) item.getClass().getMethod(getMethodName).invoke(item);
+                if (children != null && !children.isEmpty()) {
+                    res.addAll(treeToList(children, childName));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        obj.put(children, null);
         return res;
     }
 
