@@ -2,16 +2,12 @@ package com.senzhikong.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.senzhikong.enums.CommonStatus;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.domain.Example;
 
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
-@Setter
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
     /**
