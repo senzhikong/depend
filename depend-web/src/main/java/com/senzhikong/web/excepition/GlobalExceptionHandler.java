@@ -1,5 +1,7 @@
 package com.senzhikong.web.excepition;
 
+import com.senzhikong.exception.AuthError;
+import com.senzhikong.exception.DataError;
 import com.senzhikong.web.ajax.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -19,5 +19,7 @@ public @interface ApiController {
 
     @AliasFor("value") String[] path() default {};
 
-    String log() default "";
+    @AliasFor("name") String log() default "";
+
+    @AliasFor("log") String name() default "";
 }

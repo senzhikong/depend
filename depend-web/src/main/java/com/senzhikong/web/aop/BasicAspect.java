@@ -40,12 +40,6 @@ public class BasicAspect {
                 controllerName = apiController.log();
             }
         }
-        if (StringUtil.isEmpty(controllerName)) {
-            AdminApi adminApi = pjp.getTarget().getClass().getAnnotation(AdminApi.class);
-            if (adminApi != null) {
-                controllerName = adminApi.name();
-            }
-        }
         return controllerName;
     }
 
@@ -57,21 +51,15 @@ public class BasicAspect {
             methodName = apiOperation.value();
         }
         if (StringUtil.isEmpty(methodName)) {
-            OpenApi openApi = pjp.getTarget().getClass().getAnnotation(OpenApi.class);
-            if (openApi != null) {
-                methodName = openApi.log();
+            ApiMethod apiMethod = pjp.getTarget().getClass().getAnnotation(ApiMethod.class);
+            if (apiMethod != null) {
+                methodName = apiMethod.log();
             }
         }
         if (StringUtil.isEmpty(methodName)) {
             MemberApi memberApi = pjp.getTarget().getClass().getAnnotation(MemberApi.class);
             if (memberApi != null) {
                 methodName = memberApi.log();
-            }
-        }
-        if (StringUtil.isEmpty(methodName)) {
-            AdminApi adminApi = pjp.getTarget().getClass().getAnnotation(AdminApi.class);
-            if (adminApi != null) {
-                methodName = adminApi.name();
             }
         }
         if (StringUtil.isEmpty(methodName)) {
@@ -119,7 +107,6 @@ public class BasicAspect {
 
     protected void feignLog(ProceedingJoinPoint pjp, Object res) {
         StringBuilder apiName = requestName(pjp);
-        String ip = IPUtils.getRemoteHost(request);
         String targetName = pjp.getTarget().getClass().getName();
         String methodName = pjp.getSignature().getName();
         final StringBuilder normalMsg = new StringBuilder();
@@ -130,7 +117,6 @@ public class BasicAspect {
         normalMsg.append("\nFeign Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nFeign Params:\t");
         normalMsg.append(JSON.toJSONString(pjp.getArgs()));
-        normalMsg.append("\nFeign Host:\t").append(ip).append("  ").append(request.getMethod());
         normalMsg.append("\nFeign Result:\t");
         if (res != null) {
             normalMsg.append(res);

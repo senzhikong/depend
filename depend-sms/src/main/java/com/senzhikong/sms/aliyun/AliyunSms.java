@@ -10,9 +10,7 @@ public class AliyunSms {
 
     public static Client createClient(String accessKeyId, String accessKeySecret) throws Exception {
         Config config = new Config()
-                // 您的AccessKey ID
                 .setAccessKeyId(accessKeyId)
-                // 您的AccessKey Secret
                 .setAccessKeySecret(accessKeySecret);
         // 访问的域名
         config.endpoint = "dysmsapi.aliyuncs.com";

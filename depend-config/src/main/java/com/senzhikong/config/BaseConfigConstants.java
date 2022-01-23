@@ -5,36 +5,30 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.Serializable;
 
 public interface BaseConfigConstants extends Serializable {
-    public String code();
+    String getCode();
 
-    public String description();
+    String getDescription();
 
-    public String getCode();
+    String getType();
 
-    public void setCode(String code);
+    boolean isSecret();
 
-    public String getDescription();
+    Object getData();
 
-    public void setDescription(String description);
+      default String code() {
+        return getCode();
+    }
 
-    public String getType();
+      default String description() {
+        return getDescription();
+    }
 
-    public void setType(String type);
-
-    public boolean getSecret();
-
-    public void setSecret(boolean secret);
-
-    public Object getData();
-
-    public void setData(Object data);
-
-    public default JSONObject toJSON() {
+    default JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("code", getCode());
         json.put("description", getDescription());
         json.put("type", getType());
-        json.put("secret", getSecret());
+        json.put("secret", isSecret());
         json.put("data", getData());
         return json;
     }
