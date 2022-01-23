@@ -1,4 +1,4 @@
-package com.senzhikong.web.excepition;
+package com.senzhikong.exception;
 
 public class DataError extends RuntimeException {
     public DataError() {

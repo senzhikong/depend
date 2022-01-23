@@ -1,4 +1,4 @@
-package com.senzhikong.web.excepition;
+package com.senzhikong.exception;
 
 public class AuthError extends RuntimeException {
     public AuthError() {

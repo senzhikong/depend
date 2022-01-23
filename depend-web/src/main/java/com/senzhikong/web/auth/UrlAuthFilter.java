@@ -16,8 +16,6 @@ public abstract class UrlAuthFilter extends BaseFilter {
 
     public abstract void initFilter();
 
-    public abstract void logout(String token);
-
     @Override
     public void init(FilterConfig filterConfig) {
         initFilter();

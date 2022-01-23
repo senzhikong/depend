@@ -1,13 +1,15 @@
 package com.senzhikong.sql;
 
+import com.senzhikong.db.sql.BaseJpaRepository;
 import com.senzhikong.db.sql.wrapper.WrapperService;
 import com.senzhikong.entity.BaseEntity;
 import com.senzhikong.enums.CommonStatus;
-import com.senzhikong.db.sql.BaseJpaRepository;
+import com.senzhikong.exception.DataError;
 import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -54,9 +56,15 @@ public class BaseService extends WrapperService implements IBaseService {
         return SpringContextHolder.getBeanByClassName(clzName);
     }
 
+    public void checkStringNull(String obj, String err) {
+        if (StringUtils.isBlank(obj)) {
+            throw new DataError(err);
+        }
+    }
+
     public void checkNull(Object obj, String err) {
         if (obj == null) {
-            throw new RuntimeException(err);
+            throw new DataError(err);
         }
     }
 

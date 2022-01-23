@@ -21,10 +21,10 @@ public class ConfigItemDTO implements Serializable {
     private Object value;
 
     public ConfigItemDTO(BaseConfigConstants constants, ConfigInterface config) {
-        this.code = constants.code();
-        this.description = constants.description();
+        this.code = constants.getCode();
+        this.description = constants.getDescription();
         this.type = constants.getType();
-        this.secret = constants.getSecret();
+        this.secret = constants.isSecret();
         this.data = constants.getData();
         if (secret) {
             return;

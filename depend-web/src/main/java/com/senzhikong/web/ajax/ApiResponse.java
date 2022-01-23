@@ -61,7 +61,7 @@ public class ApiResponse<T> implements Serializable {
     }
 
     public static <T> ApiResponse<T> ok(T data) {
-        return ApiResponse.of(ApiStatus.OK,data);
+        return ApiResponse.of(ApiStatus.OK, data);
     }
 
     public static <T> ApiResponse<T> ok(String message, T data) {
@@ -97,28 +97,8 @@ public class ApiResponse<T> implements Serializable {
                 ApiStatus.PARAMS_VALIDATE_ERROR.message());
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
+    public boolean isSuccess() {
+        return code == ApiStatus.OK.value();
     }
 
     @Override
