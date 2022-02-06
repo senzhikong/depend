@@ -57,12 +57,6 @@ public class BasicAspect {
             }
         }
         if (StringUtil.isEmpty(methodName)) {
-            MemberApi memberApi = pjp.getTarget().getClass().getAnnotation(MemberApi.class);
-            if (memberApi != null) {
-                methodName = memberApi.log();
-            }
-        }
-        if (StringUtil.isEmpty(methodName)) {
             PartnerApi partnerApi = pjp.getTarget().getClass().getAnnotation(PartnerApi.class);
             if (partnerApi != null) {
                 methodName = partnerApi.log();
