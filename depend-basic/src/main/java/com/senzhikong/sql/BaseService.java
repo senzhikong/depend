@@ -1,7 +1,9 @@
 package com.senzhikong.sql;
 
 import com.senzhikong.db.sql.BaseJpaRepository;
+import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
 import com.senzhikong.db.sql.wrapper.WrapperService;
+import com.senzhikong.dto.PagerRequestDTO;
 import com.senzhikong.entity.BaseEntity;
 import com.senzhikong.enums.CommonStatus;
 import com.senzhikong.exception.DataError;
@@ -72,5 +74,11 @@ public class BaseService extends WrapperService implements IBaseService {
         if (obj == null) {
             throw err;
         }
+    }
+
+    public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerRequestDTO requestDTO){
+        wrapper.setPageNumber(requestDTO.getPageNumber());
+        wrapper.setPageSize(requestDTO.getPageSize());
+        wrapper.setPage(requestDTO.isPage());
     }
 }

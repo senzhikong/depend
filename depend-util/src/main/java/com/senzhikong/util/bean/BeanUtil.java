@@ -130,6 +130,9 @@ public class BeanUtil {
                                        .getMethod(methodNameGet);
                 Object keyValue = methodGet.invoke(item);
                 K val = map.get(keyValue);
+                if (val == null) {
+                    continue;
+                }
                 String methodNameSet = "set" + prop.substring(0, 1)
                                                    .toUpperCase() + prop.substring(1);
                 Method methodSet = item.getClass()
@@ -141,8 +144,40 @@ public class BeanUtil {
         }
     }
 
+    public static <T, K, H> void setListPropFromList(List<T> target, String prop1, String key1, List<K> source,
+            String prop2, String key2) {
+        try {
+            Map<Object, K> map = BeanUtil.listToMap(source, key2);
+            for (T item : target) {
+                String methodNameGet = getMethodName(key1);
+                Method methodGet = item.getClass().getMethod(methodNameGet);
+                Object keyValue = methodGet.invoke(item);
+                K val = map.get(keyValue);
+                if (val == null) {
+                    continue;
+                }
+                String methodNameGet2 = getMethodName(prop2);
+                Method methodGet2 = val.getClass().getMethod(methodNameGet2);
+                Object propVal = methodGet2.invoke(val);
+
+                String methodNameSet = setMethodName(prop1);
+                Method methodSet = item.getClass().getMethod(methodNameSet, propVal.getClass());
+                methodSet.invoke(item, propVal);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static <T> T convert(Object obj, Class<T> clz) {
         return JSONObject.parseObject(JSON.toJSONString(obj), clz);
     }
 
+    public static String getMethodName(String prop) {
+        return "get" + prop.substring(0, 1).toUpperCase() + prop.substring(1);
+    }
+
+    public static String setMethodName(String prop) {
+        return "set" + prop.substring(0, 1).toUpperCase() + prop.substring(1);
+    }
 }

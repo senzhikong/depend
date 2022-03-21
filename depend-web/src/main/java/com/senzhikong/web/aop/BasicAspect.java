@@ -1,9 +1,13 @@
 package com.senzhikong.web.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.senzhikong.exception.AuthError;
+import com.senzhikong.exception.DataError;
 import com.senzhikong.util.DateUtils;
 import com.senzhikong.util.string.StringUtil;
-import com.senzhikong.web.annotation.*;
+import com.senzhikong.web.annotation.ApiController;
+import com.senzhikong.web.annotation.ApiMethod;
+import com.senzhikong.web.annotation.PartnerApi;
 import com.senzhikong.web.util.IPUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -126,6 +130,10 @@ public class BasicAspect {
         sb.append(t.getClass()).append("[").append(t.getMessage()).append("]");
         sb.append("\r\n");
         StackTraceElement[] stackTraceElements = t.getStackTrace();
+        if (t instanceof AuthError || t instanceof DataError) {
+            log.error(sb.toString());
+            return;
+        }
         for (StackTraceElement stackTraceElement : stackTraceElements) {
             String stackTrace = String
                     .format("at %s.%s(%s:%s)", stackTraceElement.getFileName(), stackTraceElement.getMethodName(),
