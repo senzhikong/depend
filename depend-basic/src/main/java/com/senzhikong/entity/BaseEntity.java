@@ -10,9 +10,6 @@ import java.util.Date;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
-    /**
-     * @Fields serialVersionUID
-     */
     protected static final long serialVersionUID = 1L;
 
     public void updateStatus(CommonStatus status) {

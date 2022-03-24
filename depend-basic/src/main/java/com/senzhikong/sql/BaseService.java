@@ -70,13 +70,17 @@ public class BaseService extends WrapperService implements IBaseService {
         }
     }
 
+    public void throwError(String err) {
+        throw new DataError(err);
+    }
+
     public void checkNull(Object obj, RuntimeException err) {
         if (obj == null) {
             throw err;
         }
     }
 
-    public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerRequestDTO requestDTO){
+    public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerRequestDTO requestDTO) {
         wrapper.setPageNumber(requestDTO.getPageNumber());
         wrapper.setPageSize(requestDTO.getPageSize());
         wrapper.setPage(requestDTO.isPage());
