@@ -107,7 +107,6 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
 
                 @Override
                 public Executor getExecutor() {
-                    log.info("getExecutor\n\r");
                     return null;
                 }
             });
@@ -117,6 +116,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     }
 
     public void refreshRedisCache(String configInfo) {
+        log.info("nacos更新redis缓存配置：\n" + configInfo);
         this.config = JSONObject.parseObject(configInfo);
         for (String key : this.config.keySet()) {
             JSONObject json = this.config.getJSONObject(key);

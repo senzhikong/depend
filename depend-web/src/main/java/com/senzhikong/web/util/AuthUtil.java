@@ -42,4 +42,9 @@ public class AuthUtil {
     public static String encryptPwd(String pwd) {
         return SignUtil.getSHAUtil().encode(pwd, "UTF-8", "senzhikong");
     }
+
+
+    public static String generateEncryptCode() {
+        return SignUtil.generateEncryptCode(8);
+    }
 }

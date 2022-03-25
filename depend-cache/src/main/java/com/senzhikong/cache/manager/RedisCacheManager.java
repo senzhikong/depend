@@ -2,11 +2,14 @@ package com.senzhikong.cache.manager;
 
 import com.senzhikong.cache.cache.IBaseCache;
 import com.senzhikong.cache.cache.RedisCache;
+import com.senzhikong.cache.config.NacosRedisConfig;
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import javax.annotation.Resource;
 
 /**
  * @author Shu.Zhou
@@ -14,8 +17,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Getter
 @Setter
 public class RedisCacheManager extends BaseCacheManager {
-//    @Resource
+    //    @Resource
 //    protected RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    NacosRedisConfig nacosRedisConfig;
 
     @Override
     public IBaseCache createCache(String cacheName) {

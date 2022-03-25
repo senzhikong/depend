@@ -1,6 +1,7 @@
 package com.senzhikong.cache.manager;
 
 import com.senzhikong.cache.cache.IBaseCache;
+import com.senzhikong.cache.config.NacosRedisConfig;
 import com.senzhikong.module.Module;
 import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
