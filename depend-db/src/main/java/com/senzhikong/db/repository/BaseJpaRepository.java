@@ -1,4 +1,4 @@
-package com.senzhikong.db.sql;
+package com.senzhikong.db.repository;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;

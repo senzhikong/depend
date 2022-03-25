@@ -1,4 +1,4 @@
-package com.senzhikong.db;
+package com.senzhikong.db.config;
 
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;

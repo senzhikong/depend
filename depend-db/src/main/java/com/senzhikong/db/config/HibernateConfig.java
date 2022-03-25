@@ -1,4 +1,4 @@
-package com.senzhikong.db.sql;
+package com.senzhikong.db.config;
 
 import com.senzhikong.db.dialect.CommentIntegrator;
 import org.hibernate.jpa.boot.spi.IntegratorProvider;

@@ -1,6 +1,6 @@
 package com.senzhikong.sql;
 
-import com.senzhikong.db.sql.BaseJpaRepository;
+import com.senzhikong.db.repository.BaseJpaRepository;
 import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
 import com.senzhikong.db.sql.wrapper.WrapperService;
 import com.senzhikong.dto.PagerRequestDTO;
