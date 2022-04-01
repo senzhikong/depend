@@ -31,8 +31,14 @@ public class BaseService extends WrapperService implements IBaseService {
 
     @Override
     public <T extends BaseEntity> void updateStatus(Class<T> clz, Long[] ids, String status, String statusDesc) {
+        if (ids == null || ids.length == 0) {
+            return;
+        }
         BaseJpaRepository<T, Long> repository = getBaseJpaRepository(clz);
         List<T> list = repository.findByIdIn(ids);
+        if (list == null || list.isEmpty()) {
+            return;
+        }
         for (T item : list) {
             item.setStatus(status);
             item.setStatusDesc(statusDesc);
