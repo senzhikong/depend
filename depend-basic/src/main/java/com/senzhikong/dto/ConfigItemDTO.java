@@ -5,6 +5,7 @@ import com.senzhikong.config.ConfigInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -32,7 +33,9 @@ public class ConfigItemDTO implements Serializable {
         if ("longtext".equals(type)) {
             this.value = config.getConfigValue(this.code, "");
         } else if ("number".equals(type)) {
-            this.value = new BigDecimal(config.getConfigValue(this.code));
+            if (StringUtils.isNotBlank(config.getConfigValue(this.code))) {
+                this.value = new BigDecimal(config.getConfigValue(this.code));
+            }
         } else if ("boolean".equals(type)) {
             this.value = config.getBooleanConfig(this.code, false);
         } else if ("json".equals(type)) {
