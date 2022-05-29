@@ -1,5 +1,6 @@
 package com.senzhikong.web.aop;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Order(10)
+@Slf4j
 public class ApiLogAspect extends BasicAspect {
 
     @Pointcut("@annotation(com.senzhikong.web.annotation.ApiMethod)")
@@ -30,6 +32,7 @@ public class ApiLogAspect extends BasicAspect {
             visitLog(pjp, res);
             return res;
         } catch (Throwable t) {
+            visitLog(pjp, null);
             errorLog(t);
             throw t;
         }
