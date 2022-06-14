@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TransactionConfig {
+    public String expression="execution(* com.senzhikong..*.service.impl..*.*(..))";
     @Resource
     EntityManagerFactory entityManagerFactory;
 
@@ -61,7 +62,7 @@ public class TransactionConfig {
         DefaultPointcutAdvisor advisor = new DefaultPointcutAdvisor();
         advisor.setAdvice(jpaTxAdvice);
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-        pointcut.setExpression("execution(* com.senzhikong..*.service.impl..*.*(..))");
+        pointcut.setExpression(expression);
         advisor.setPointcut(pointcut);
         return advisor;
     }

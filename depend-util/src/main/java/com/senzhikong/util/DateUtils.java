@@ -38,9 +38,17 @@ public class DateUtils {
     /**
      * 转换字符串为date，格式yyyy-MM-dd HH:mm:ss
      *
+     * @return 时间
+     */
+    public static Date getToday() {
+        return parseDate(formatDate(new Date(), YYYYMMDD), YYYYMMDD);
+    }
+
+    /**
+     * 转换字符串为date，格式yyyy-MM-dd HH:mm:ss
+     *
      * @param date 日期字符串
      * @return 时间
-     * @throws Exception
      */
     public static Date parseDate(String date) {
         return parseDate(date, YYYY_MM_DD_HH_MM_SS);
@@ -52,7 +60,6 @@ public class DateUtils {
      * @param startDate 日期字符串
      * @param pattern   日期格式
      * @return 时间
-     * @throws Exception
      */
     public static Date parseDate(String startDate, String pattern) {
         if (StringUtil.isEmpty(startDate)) {
@@ -73,11 +80,9 @@ public class DateUtils {
      * 返回当前时间字符串，格式yyyy-MM-dd HH:mm:ss
      *
      * @return 时间字符串
-     * @throws Exception
      */
     public static String formatDate() {
-        String datestr = null;
-        datestr = null;
+        String datestr;
         SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
         datestr = format.format(new Date());
         return datestr;
@@ -88,7 +93,6 @@ public class DateUtils {
      *
      * @param date 时间
      * @return 时间字符串
-     * @throws Exception
      */
     public static String formatDate(Date date) {
         if (null == date) {
@@ -103,11 +107,10 @@ public class DateUtils {
     /**
      * 转换指定时间指定格式的字符串到指定的格式字符串
      *
-     * @param date
+     * @param date        时间字符串
      * @param fromPattern 原时间格式
      * @param toPattern   需要转换到的时间格式
      * @return 时间字符串
-     * @throws Exception
      */
     public static String formatDate(String date, String fromPattern, String toPattern) {
         if (null == date) {
@@ -115,7 +118,6 @@ public class DateUtils {
         }
         String datestr = null;
         try {
-            datestr = null;
             SimpleDateFormat format = new SimpleDateFormat(toPattern);
             datestr = format.format(parseDate(date, fromPattern));
         } catch (Exception e) {
@@ -135,7 +137,7 @@ public class DateUtils {
         if (date == null) {
             return null;
         }
-        String datestr = null;
+        String datestr;
         SimpleDateFormat format = new SimpleDateFormat(pattern);
         datestr = format.format(date);
         return datestr;
@@ -150,8 +152,6 @@ public class DateUtils {
      *
      * @param smdate 较小的时间
      * @param bdate  较大的时间
-     * @return
-     * @throws Exception
      */
     public static int daysBetween(Date smdate, Date bdate) {
         try {
@@ -165,12 +165,9 @@ public class DateUtils {
             long time2 = cal.getTimeInMillis();
             long betweenDays = (time2 - time1) / (1000 * 3600 * 24);
             return Integer.parseInt(String.valueOf(betweenDays));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     /**
@@ -178,8 +175,6 @@ public class DateUtils {
      *
      * @param smdate 较小的时间
      * @param bdate  较大的时间
-     * @return
-     * @throws Exception
      */
     public static long hoursBetween(Date smdate, Date bdate) {
         try {
@@ -191,12 +186,10 @@ public class DateUtils {
             long time1 = cal.getTimeInMillis();
             cal.setTime(bdate);
             long time2 = cal.getTimeInMillis();
-            long betweenDays = (time2 - time1) / (1000 * 60 * 60);
-            return betweenDays;
+            return (time2 - time1) / (1000 * 60 * 60);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     /**
@@ -204,8 +197,6 @@ public class DateUtils {
      *
      * @param smdate 较小的时间
      * @param bdate  较大的时间
-     * @return
-     * @throws Exception
      */
     public static long minutesBetween(Date smdate, Date bdate) {
         try {
@@ -217,12 +208,10 @@ public class DateUtils {
             long time1 = cal.getTimeInMillis();
             cal.setTime(bdate);
             long time2 = cal.getTimeInMillis();
-            long betweenDays = (time2 - time1) / (1000 * 60);
-            return betweenDays;
+            return (time2 - time1) / (1000 * 60);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     /**
@@ -231,7 +220,6 @@ public class DateUtils {
      * @param smdate 较小的时间
      * @param bdate  较大的时间
      * @return
-     * @throws Exception
      */
     public static long secondsBetween(Date smdate, Date bdate) {
         try {
@@ -243,12 +231,10 @@ public class DateUtils {
             long time1 = cal.getTimeInMillis();
             cal.setTime(bdate);
             long time2 = cal.getTimeInMillis();
-            long betweenDays = (time2 - time1) / (1000);
-            return betweenDays;
+            return (time2 - time1) / (1000);
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     /**
@@ -264,8 +250,6 @@ public class DateUtils {
 
     /**
      * 获取时间描述
-     *
-     * @return
      */
     public static String getDateSpoken() {
         Calendar cal = Calendar.getInstance();
@@ -338,7 +322,6 @@ public class DateUtils {
     /**
      * 获取本周第一天
      *
-     * @return
      */
     public static Date getWeekFirstDay() {
 

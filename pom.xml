@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.senzhikong</groupId>
     <packaging>pom</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>depend-parent</name>
     <url>https://github.com/senzhikong/depend</url>
     <artifactId>depend-parent</artifactId>
@@ -35,6 +35,8 @@
         <skip.javadoc>true</skip.javadoc>
         <skip.source>false</skip.source>
         <lombok.version>1.18.22</lombok.version>
+        <!--senzhikong插件-->
+        <szk.jpa-plus.version>1.0.3</szk.jpa-plus.version>
 
         <!-- Spring -->
         <spring.boot.version>2.5.8</spring.boot.version>
@@ -103,11 +105,10 @@
         <cos.sts.version>3.0.6</cos.sts.version>
         <!--swagger接口文档-->
         <swagger.version>3.0.0</swagger.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <!--钉钉-->
         <dingtalk.version>1.0.1</dingtalk.version>
         <tomcat.version>10.0.12</tomcat.version>
-        <!--senzhikong插件-->
-        <szk.jpa-plus.version>1.0.3</szk.jpa-plus.version>
     </properties>
     <dependencies>
         <dependency>
@@ -443,6 +444,16 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-common</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
             <!--钉钉-->
             <dependency>
