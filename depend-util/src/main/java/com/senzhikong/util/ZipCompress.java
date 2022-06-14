@@ -18,8 +18,9 @@ public class ZipCompress {
             String fileName = it.next();
             String filePath = files.get(fileName);
             File file = new File(filePath);
-            if (file.exists())
+            if (file.exists()) {
                 addZipFile(zos, file, fileName);
+            }
         }
         zos.close();
     }

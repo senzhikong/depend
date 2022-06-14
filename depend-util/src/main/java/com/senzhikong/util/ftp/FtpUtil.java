@@ -128,20 +128,18 @@ public class FtpUtil {
         boolean success = true;
         String directory = remote + "/";
         // 如果远程目录不存在，则递归创建远程服务器目录
-        if (!directory.equalsIgnoreCase("/") && !changeWorkingDirectory(new String(directory))) {
+        if (!"/".equalsIgnoreCase(directory) && !changeWorkingDirectory(new String(directory))) {
             int start = 0;
             int end = 0;
             if (directory.startsWith("/")) {
                 start = 1;
-            } else {
-                start = 0;
             }
             end = directory.indexOf("/", start);
             String path = "";
             String paths = "";
-            while (true) {
+            do {
                 String subDirectory = new String(remote.substring(start, end)
-                        .getBytes("GBK"), "iso-8859-1");
+                                                       .getBytes("GBK"), "iso-8859-1");
                 path = path + "/" + subDirectory;
                 if (!existFile(path)) {
                     if (makeDirectory(subDirectory)) {
@@ -157,10 +155,7 @@ public class FtpUtil {
                 start = end + 1;
                 end = directory.indexOf("/", start);
                 // 检查所有目录是否创建完毕
-                if (end <= start) {
-                    break;
-                }
-            }
+            } while (end > start);
         }
         return success;
     }

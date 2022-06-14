@@ -15,18 +15,21 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * @author shu
+ */
 public class HttpUtil {
 
     public static final String POST = "POST";
     public static final String GET = "GET";
+    public static final String HTTPS = "https";
     private static final String BOUNDARY = "ZS--------HV2ymHFg03ehbqgZCaKO6jyH";
 
     public static String getStringByUrl(String url) {
-        String result = "fail";
+        String result;
         try {
             InputStream in = new URL(url).openStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -50,12 +53,12 @@ public class HttpUtil {
         return http(url, param, GET);
     }
 
-    public static String http(String targetURL, String param, String type) {
-        String result = "fail";
+    public static String http(String targetUrl, String param, String type) {
+        String result;
         try {
-            URL targetUrl = new URL(targetURL);
-            HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
-            if (targetURL.startsWith("https://")) {
+            URL url = new URL(targetUrl);
+            HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+            if (targetUrl.startsWith(HTTPS)) {
                 useHttps(httpConnection);
             }
             httpConnection.setDoOutput(true);
@@ -79,7 +82,7 @@ public class HttpUtil {
                     new InputStreamReader((httpConnection.getInputStream()), StandardCharsets.UTF_8));
 
             String output;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((output = responseBuffer.readLine()) != null) {
                 sb.append(output);
             }
@@ -92,14 +95,13 @@ public class HttpUtil {
     }
 
     public static String http(RequestEntity entity) {
-        String result = "fail";
+        String result;
         try {
             URL targetUrl = new URL(entity.getUrl());
 
             HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
 
-            if (entity.getUrl()
-                    .startsWith("https://")) {
+            if (entity.getUrl().startsWith(HTTPS)) {
                 useHttps(httpConnection);
             }
             httpConnection.setDoOutput(true);
@@ -108,24 +110,19 @@ public class HttpUtil {
             httpConnection.setRequestMethod(entity.getMethod());
 
             Map<String, String> headers = entity.getHeaders();
-            if (headers.get("Connection") == null)
-                headers.put("Connection", "Keep-Alive");
-            if (headers.get("Charset") == null)
-                headers.put("Charset", "UTF-8");
-            if (headers.get("Content-Type") == null)
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
+            headers.putIfAbsent("Connection", "Keep-Alive");
+            headers.putIfAbsent("CharSet", "UTF-8");
+            headers.putIfAbsent("Content-Type", "application/x-www-form-urlencoded");
             String charset = headers.get("Charset");
-            Iterator<Entry<String, String>> itHeader = headers.entrySet()
-                    .iterator();
-            while (itHeader.hasNext()) {
-                Entry<String, String> header = itHeader.next();
+            for (Entry<String, String> header : headers.entrySet()) {
                 httpConnection.setRequestProperty(header.getKey(), header.getValue());
             }
 
             OutputStream outputStream = httpConnection.getOutputStream();
-            if (entity.getParam() != null)
+            if (entity.getParam() != null) {
                 outputStream.write(entity.getParam()
-                        .getBytes(charset));
+                                         .getBytes(charset));
+            }
             outputStream.flush();
 
             if (httpConnection.getResponseCode() != 200) {
@@ -136,7 +133,7 @@ public class HttpUtil {
                     new BufferedReader(new InputStreamReader((httpConnection.getInputStream()), charset));
 
             String output;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((output = responseBuffer.readLine()) != null) {
                 sb.append(output);
             }
@@ -155,11 +152,6 @@ public class HttpUtil {
 
     /**
      * post请求
-     *
-     * @param urlStr
-     * @param entity
-     * @return
-     * @throws Exception
      */
     public static ResponseEntity postForm(String urlStr, RequestEntity entity) throws Exception {
         OutputStream out = null;
@@ -173,77 +165,25 @@ public class HttpUtil {
             connection.setRequestMethod(POST);
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
             Map<String, String> headers = entity.getHeaders();
-            if (headers.get("Connection") == null)
-                headers.put("Connection", "Keep-Alive");
-            if (headers.get("CharSet") == null)
-                headers.put("CharSet", "UTF-8");
+            headers.putIfAbsent("Connection", "Keep-Alive");
+            headers.putIfAbsent("CharSet", "UTF-8");
             headers.remove("Content-Type");
             String charset = headers.get("CharSet");
-            Iterator<Entry<String, String>> itHeader = headers.entrySet()
-                    .iterator();
-            while (itHeader.hasNext()) {
-                Entry<String, String> header = itHeader.next();
+            for (Entry<String, String> header : headers.entrySet()) {
                 connection.setRequestProperty(header.getKey(), header.getValue());
             }
-
             out = connection.getOutputStream();
-
             // 1. 处理普通表单域(即形如key = value对)的POST请求
-            StringBuffer contentBody = new StringBuffer();
+            StringBuilder contentBody = new StringBuilder();
             Map<String, Object> params = entity.getFormFields();
-            Iterator<Entry<String, Object>> it = params.entrySet()
-                    .iterator();
-            while (it.hasNext()) {
-                Entry<String, Object> param = it.next();
-                contentBody
-                        .append("\r\n--" + BOUNDARY)
-                        .append("\r\n")
-                        .append("Content-Disposition: form-data; name=\"")
-                        .append(param.getKey() + "\"")
-                        .append("\r\n\r\n")
-                        .append(param.getValue())
-                ;
+            for (Entry<String, Object> param : params.entrySet()) {
+                contentBody.append("\r\n--" + BOUNDARY).append("\r\n")
+                           .append("Content-Disposition: form-data; name=\"").append(param.getKey()).append("\"")
+                           .append("\r\n\r\n").append(param.getValue());
             }
-            out.write(contentBody.toString()
-                    .getBytes(charset));
+            out.write(contentBody.toString().getBytes(charset));
             // 2. 处理文件上传
-            for (UploadFile file : entity.getFiles()) {
-                byte[] bufferOut = null;
-                int bytes = 0;
-                if (file.getFileBuffer() != null) {
-                    bufferOut = file.getFileBuffer();
-                    bytes = bufferOut.length;
-                } else if (file.getFileStream() != null) {
-                    InputStream stream = file.getFileStream();
-                    bufferOut = new byte[stream.available()];
-                    bytes = stream.read(bufferOut);
-                    stream.close();
-                } else if (file.getFile() != null) {
-                    File f = file.getFile();
-                    DataInputStream dis = new DataInputStream(new FileInputStream(f));
-                    bufferOut = new byte[(int) f.length()];
-                    bytes = dis.read(bufferOut);
-                    dis.close();
-                }
-                contentBody = new StringBuffer();
-                contentBody.append("--" + BOUNDARY)
-                        .append("\r\n")
-                        .append("Content-Disposition:form-data;name=\"")
-                        .append(file.getFieldName() + "\";") // form中field的名称
-                        .append("filename=\"")
-                        .append(file.getFileName() + "\";") // 上传文件的文件名
-                        .append("filelength=\"")
-                        .append(bytes + "\"") // 上传文件的文件名
-                        .append("\r\n")
-                        .append("Content-Type:" + ContentType.get(file))
-                        .append("\r\n\r\n");
-                String boundaryMessage2 = contentBody.toString();
-                out.write(boundaryMessage2.getBytes(charset));
-                // 开始真正向服务器写文件
-
-                out.write(bufferOut, 0, bytes);
-                out.write(("\r\n").getBytes(charset));
-            }
+            appendFormFiles(entity, out,charset);
             // 3. 写结尾
             String endBoundary = "\r\n--" + BOUNDARY + "--\r\n";
             out.write(endBoundary.getBytes(charset));
@@ -254,16 +194,50 @@ public class HttpUtil {
             throw new Exception("上传失败：" + urlStr, e);
         } finally {
             try {
-                if (in != null)
+                if (in != null) {
                     in.close();
-                if (out != null)
+                }
+                if (out != null) {
                     out.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private static void appendFormFiles(RequestEntity entity, OutputStream out,String charset) throws IOException {
+        for (UploadFile file : entity.getFiles()) {
+            byte[] bufferOut = null;
+            int bytes = 0;
+            if (file.getFileBuffer() != null) {
+                bufferOut = file.getFileBuffer();
+                bytes = bufferOut.length;
+            } else if (file.getFileStream() != null) {
+                InputStream stream = file.getFileStream();
+                bufferOut = new byte[stream.available()];
+                bytes = stream.read(bufferOut);
+                stream.close();
+            } else if (file.getFile() != null) {
+                File f = file.getFile();
+                DataInputStream dis = new DataInputStream(new FileInputStream(f));
+                bufferOut = new byte[(int) f.length()];
+                bytes = dis.read(bufferOut);
+                dis.close();
+            }
+            String boundaryMessage2 = "--" + BOUNDARY + "\r\n" +
+                    "Content-Disposition:form-data;name=\"" + file.getFieldName() + "\";" +
+                    "filename=\"" + file.getFileName() + "\";" +
+                    "filelength=\"" + bytes + "\"" +
+                    "\r\n" + "Content-Type:" + ContentType.get(file) +
+                    "\r\n\r\n";
+            out.write(boundaryMessage2.getBytes(charset));
+            // 开始真正向服务器写文件
+            assert bufferOut != null;
+            out.write(bufferOut, 0, bytes);
+            out.write(("\r\n").getBytes(charset));
+        }
+    }
 
     public static void useHttps(HttpURLConnection conn) throws Exception {
 
@@ -284,7 +258,6 @@ public class HttpUtil {
      *
      * @param url 请求地址
      * @return json String字符串
-     * @throws Exception
      */
     public static String postWithJson(String url, Object jsonObject) {
         String body = "";
@@ -296,8 +269,7 @@ public class HttpUtil {
         StringEntity params = new StringEntity(jsonObject.toString(), "UTF-8");
         httpPost.setEntity(params);
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            if (response.getStatusLine()
-                    .getStatusCode() != 200) {
+            if (response.getStatusLine() .getStatusCode() != 200) {
                 httpPost.abort();
                 return null;
             }
@@ -328,21 +300,4 @@ public class HttpUtil {
         }
     }
 
-    public static void main(String[] args) {
-        RequestEntity re = new RequestEntity();
-        // re.setMethod(GET);
-        re.setUrl("https://www.sojson.com/open/api/lunar/json.shtml?date=2019-01-25");
-        re.setParam("");
-        re.addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-        re.addHeader("user-agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3610.2 Safari/537.36");
-        re.addHeader("Content-Type", "application/json;charset=UTF-8");
-        // re.addHeader("", "");
-        // re.addHeader("", "");
-        // re.addHeader("", "");
-        // re.addHeader("", "");
-        // re.addHeader("", "");
-//        String res = HttpUtil.http(re);
-        // String res = HttpUtil.httpByGet("http://www.sojson.com/open/api/lunar/json.shtml?", "");
-    }
 }

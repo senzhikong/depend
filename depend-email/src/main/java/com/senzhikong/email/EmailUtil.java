@@ -256,8 +256,9 @@ public class EmailUtil {
     private static JSONObject getAttachment(BodyPart bodyPart, String filePos) throws Exception {
         JSONObject file = new JSONObject();
         String fileName = decodeText(bodyPart.getFileName());
-        if (StringUtil.isEmpty(fileName))
+        if (StringUtil.isEmpty(fileName)) {
             fileName = "unknow" + System.currentTimeMillis();
+        }
         file.put("pos", filePos);
         file.put("fileName", fileName);
         file.put("size", bodyPart.getSize());
@@ -281,9 +282,9 @@ public class EmailUtil {
             // 获得收件箱的邮件列表
             MessageIDTerm term = new MessageIDTerm(file.getString("messageId")); //false代表未读，true代表已读
             Message msg = folder.search(term)[0];
-            String pos[] = file.getString("pos")
-                    .replace("root,", "")
-                    .split(",");
+            String[] pos = file.getString("pos")
+                               .replace("root,", "")
+                               .split(",");
 
             Part part = msg;
             for (String p : pos) {

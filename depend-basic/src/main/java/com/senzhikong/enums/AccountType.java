@@ -2,6 +2,10 @@ package com.senzhikong.enums;
 
 import lombok.Getter;
 
+/**
+ * @author shu
+ */
+
 @Getter
 public enum AccountType {
     MEMBER("member", "会员"),

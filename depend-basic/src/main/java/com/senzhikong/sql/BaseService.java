@@ -89,6 +89,6 @@ public class BaseService extends WrapperService implements IBaseService {
     public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerRequestDTO requestDTO) {
         wrapper.setPageNumber(requestDTO.getPageNumber());
         wrapper.setPageSize(requestDTO.getPageSize());
-        wrapper.setPage(requestDTO.isPage());
+        wrapper.setPage(requestDTO.getPage());
     }
 }

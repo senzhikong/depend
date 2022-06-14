@@ -149,8 +149,9 @@ public class TaskManager implements InitializeBean {
     public BaseTask getTaskStatus(BaseTask task) throws Exception {
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
         Trigger trigger = scheduler.getTrigger(triggerKey);
-        if (trigger != null)
+        if (trigger != null) {
             task.setNextFireTime(trigger.getNextFireTime());
+        }
         TriggerState state = scheduler.getTriggerState(triggerKey);
         switch (state) {
             case BLOCKED:
@@ -187,13 +188,16 @@ public class TaskManager implements InitializeBean {
     public void init() throws Exception {
         logger.debug("-------------------初始化定时任务-------------------");
         classUtil = new TaskClassUtil(applicationContext);
-        if (StringUtil.isEmpty(initClz))
+        if (StringUtil.isEmpty(initClz)) {
             return;
-        if (StringUtil.isEmpty(group))
+        }
+        if (StringUtil.isEmpty(group)) {
             return;
+        }
         String[] groups = group.split(",");
-        if (groups.length == 0)
+        if (groups.length == 0) {
             return;
+        }
         if (StringUtil.equal("0", group)) {
             groups = null;
         }
@@ -204,8 +208,9 @@ public class TaskManager implements InitializeBean {
             Method method = clz.getClass()
                     .getMethod("listAutoStartTask", String[].class);
             @SuppressWarnings("unchecked") List<BaseTask> list = (List<BaseTask>) method.invoke(clz, new Object[]{groups});
-            if (list != null && list.size() > 0)
+            if (list != null && list.size() > 0) {
                 initTaskList.addAll(list);
+            }
 
         } catch (Exception e) {
 //            e.printStackTrace();

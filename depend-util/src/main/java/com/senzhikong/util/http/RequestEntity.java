@@ -32,10 +32,11 @@ public class RequestEntity {
     }
 
     public void addParam(String key, Object value) {
-        if (StringUtil.isEmpty(param))
+        if (StringUtil.isEmpty(param)) {
             param = "";
-        else
+        } else {
             param += "&";
+        }
         param += key + "=" + (value == null ? "" : value);
 
     }

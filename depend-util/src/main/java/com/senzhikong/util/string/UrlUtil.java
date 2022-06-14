@@ -44,8 +44,9 @@ public class UrlUtil {
 
     public static Map<String, Object> getParams(String url) {
         Map<String, Object> data = new HashMap<>();
-        if (StringUtil.isEmpty(url))
+        if (StringUtil.isEmpty(url)) {
             return data;
+        }
         String[] urlParts = url.split("\\?");
         //没有参数
         if (urlParts.length == 1) {

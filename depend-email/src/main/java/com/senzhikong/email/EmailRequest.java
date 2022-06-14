@@ -33,8 +33,9 @@ public class EmailRequest {
     }
 
     public void addToUser(String toEmail) {
-        if (toList == null)
+        if (toList == null) {
             toList = new ArrayList<>();
+        }
         toList.add(toEmail);
     }
 
@@ -60,8 +61,9 @@ public class EmailRequest {
 
     public void setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
-        if (StringUtil.isEmpty(fromEmail))
+        if (StringUtil.isEmpty(fromEmail)) {
             return;
+        }
         if (fromEmail.endsWith("@exmail.qq.com")) {
             emailHost = "exmail.qq.com";
             isSSL = true;

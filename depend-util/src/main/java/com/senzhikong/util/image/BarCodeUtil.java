@@ -38,14 +38,18 @@ public class BarCodeUtil {
      * @return
      */
     public static BufferedImage encodeQrcode(String content, int width, int height, int margin) {
-        if (content == null || "".equals(content))
+        if (content == null || "".equals(content)) {
             return null;
-        if (margin < MIN_MARGIN)
+        }
+        if (margin < MIN_MARGIN) {
             margin = MIN_MARGIN;
-        if (width < MIN_WIDTH)
+        }
+        if (width < MIN_WIDTH) {
             width = MIN_WIDTH;
-        if (height < MIN_HEIGHT)
+        }
+        if (height < MIN_HEIGHT) {
             height = MIN_HEIGHT;
+        }
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8"); // 设置字符集编码类型

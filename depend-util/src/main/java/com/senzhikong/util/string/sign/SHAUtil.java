@@ -9,8 +9,9 @@ public class SHAUtil {
     }
 
     public static SHAUtil getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new SHAUtil();
+        }
         return instance;
     }
 
@@ -19,8 +20,9 @@ public class SHAUtil {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA");
             byte[] infoBytes = null;
-            if (key != null && !"".equals(key))
+            if (key != null && !"".equals(key)) {
                 info += key;
+            }
             if (encoding != null && !"".equals(encoding.trim())) {
                 infoBytes = info.getBytes(encoding);
             } else {
@@ -32,10 +34,12 @@ public class SHAUtil {
             StringBuffer buf = new StringBuffer();
             for (int offset = 0; offset < b.length; offset++) {
                 i = b[offset];
-                if (i < 0)
+                if (i < 0) {
                     i += 256;
-                if (i < 16)
+                }
+                if (i < 16) {
                     buf.append("0");
+                }
                 buf.append(Integer.toHexString(i));
             }
             password = buf.toString();

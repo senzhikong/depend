@@ -3,6 +3,7 @@ package com.senzhikong.web.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.senzhikong.web.ajax.ApiStatus;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -74,7 +75,7 @@ public class ResponseUtils {
     }
 
     public static void renderJsonP(HttpServletResponse response, Object callback, Object text) throws Exception {
-        if (StringUtils.isEmpty(callback)) {
+        if (ObjectUtils.isEmpty(callback)) {
             render(response, "application/json;charset=UTF-8", text);
             return;
         }

@@ -38,8 +38,9 @@ public class DESUtil {
     }
 
     public static DESUtil getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new DESUtil();
+        }
         return instance;
     }
 

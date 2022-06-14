@@ -144,8 +144,9 @@ public class DownloadUtil {
                 httpUrl = new URL(url);
                 connection = (HttpURLConnection) httpUrl.openConnection();
             }
-            if (info == null)
+            if (info == null) {
                 info = new DownloadFile();
+            }
             info.setTotalSize(connection.getContentLengthLong());
             in = new DataInputStream(connection.getInputStream());
             DataOutputStream dos = new DataOutputStream(out);
@@ -223,9 +224,10 @@ public class DownloadUtil {
     public static boolean downloadHttpAndFtp(String url, File file, DownloadFile rate) throws Exception {
         FileOutputStream fos = null;
         try {
-            if (!file.exists())
+            if (!file.exists()) {
                 file.getParentFile()
                         .mkdirs();
+            }
             fos = new FileOutputStream(file);
             return downloadHttpAndFtp(url, fos, rate);
         } catch (Exception e) {
@@ -260,14 +262,16 @@ public class DownloadUtil {
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection();
             in = conn.getInputStream();
-            if (rate != null)
+            if (rate != null) {
                 rate.setTotalSize(conn.getContentLengthLong());
+            }
             byte[] buffer = new byte[4096];
             int count = 0;
             while ((count = in.read(buffer)) > 0) {
                 out.write(buffer, 0, count);
-                if (rate != null)
+                if (rate != null) {
                     rate.setNow(rate.getNow() + count);
+                }
             }
             return true;
         } catch (Exception e) {

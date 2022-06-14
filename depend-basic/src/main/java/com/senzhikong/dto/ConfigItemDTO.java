@@ -10,6 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * @author shu
+ */
 @Data
 @NoArgsConstructor
 @ApiModel("配置节点")
@@ -17,7 +20,7 @@ public class ConfigItemDTO implements Serializable {
     private String code;
     private String description;
     private String type;
-    private boolean secret;
+    private Boolean secret;
     private Object data;
     private Object value;
 

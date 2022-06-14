@@ -121,8 +121,9 @@ public class ImageUtil {
             throw new RuntimeException(e);
         } finally {
             try {
-                if (in != null)
+                if (in != null) {
                     in.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -280,8 +281,9 @@ public class ImageUtil {
         // targetW，targetH分别表示目标长和宽
         int type = source.getType();
         BufferedImage target = null;
-        if (targetW == source.getWidth())
+        if (targetW == source.getWidth()) {
             return source;
+        }
         int targetH = targetW * source.getHeight() / source.getWidth();
         double sx = (double) targetW / source.getWidth();
         double sy = (double) targetH / source.getHeight();
@@ -312,8 +314,9 @@ public class ImageUtil {
         // targetW，targetH分别表示目标长和宽
         int type = source.getType();
         BufferedImage target = null;
-        if (targetW == source.getWidth() && targetH == source.getHeight())
+        if (targetW == source.getWidth() && targetH == source.getHeight()) {
             return source;
+        }
         double sx = (double) targetW / source.getWidth();
         double sy = (double) targetH / source.getHeight();
         // 这里想实现在targetW，targetH范围内实现等比缩放。
@@ -362,8 +365,9 @@ public class ImageUtil {
     }
 
     public static void saveImage(BufferedImage image, String formatName, OutputStream os) throws Exception {
-        if (formatName == null || "".equals(formatName.trim()))
+        if (formatName == null || "".equals(formatName.trim())) {
             formatName = "jpg";
+        }
         ImageIO.write(image, formatName, os);
     }
 

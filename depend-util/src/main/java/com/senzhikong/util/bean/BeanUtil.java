@@ -111,15 +111,6 @@ public class BeanUtil {
         return map;
     }
 
-    public static <T> List<T> arrayToList(T[] array) {
-        return new ArrayList<>(Arrays.asList(array));
-    }
-
-    public static <T> T[] listToArray(List<T> list) {
-        @SuppressWarnings("unchecked") T[] array = (T[]) list.toArray();
-        return array;
-    }
-
     public static <T, K> void setListPropFromList(List<T> list1, String prop, String key1, List<K> list2, String key2) {
         try {
             Map<Object, K> map = BeanUtil.listToMap(list2, key2);

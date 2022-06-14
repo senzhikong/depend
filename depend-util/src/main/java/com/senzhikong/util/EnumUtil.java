@@ -22,7 +22,7 @@ public class EnumUtil {
                         .toString();
                 if (eCode.equals(code)) {
                     return obj;
-                } else if (eCode.equals("unknow")) {
+                } else if ("unknow".equals(eCode)) {
                     unknow = obj;
                 }
             }
