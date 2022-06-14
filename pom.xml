@@ -39,7 +39,7 @@
         <szk.jpa-plus.version>1.0.3</szk.jpa-plus.version>
 
         <!-- Spring -->
-        <spring.boot.version>2.6.5</spring.boot.version>
+        <spring.boot.version>2.7.0</spring.boot.version>
         <spring.cloud.version>2021.0.3</spring.cloud.version>
         <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
         <spring.cloud.admin.version>2.3.1</spring.cloud.admin.version>
