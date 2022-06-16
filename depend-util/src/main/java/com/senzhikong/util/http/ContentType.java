@@ -3,6 +3,9 @@ package com.senzhikong.util.http;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 
+/**
+ * @author shu
+ */
 public class ContentType {
 
     public static final String HEAD_CONTENTYPE = "Content-Type";
@@ -31,7 +34,6 @@ public class ContentType {
         } else if ("mp4".equalsIgnoreCase(end)) {
             return "video/mpeg4";
         }
-
         return "application/octet-stream";
     }
 

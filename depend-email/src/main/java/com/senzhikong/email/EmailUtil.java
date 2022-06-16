@@ -178,8 +178,8 @@ public class EmailUtil {
         email.setPriority(priority);
         email.setPriorityDesc(priorityDesc);
         //文本内容
-        StringBuffer contentText = new StringBuffer();
-        StringBuffer contentHtml = new StringBuffer();
+        StringBuilder contentText = new StringBuilder();
+        StringBuilder contentHtml = new StringBuilder();
         getMailTextContent(msg, contentHtml, contentText);
         email.setHtmlMsg(contentHtml.toString());
         email.setTextMsg(contentText.toString());
@@ -204,7 +204,7 @@ public class EmailUtil {
      * @param contentText
      * @throws Exception
      */
-    public static void getMailTextContent(Part part, StringBuffer contentHtml, StringBuffer contentText)
+    public static void getMailTextContent(Part part, StringBuilder contentHtml, StringBuilder contentText)
             throws Exception {
         //如果是文本类型的附件，通过getContent方法可以取到文本内容，但这不是我们需要的结果，所以在这里要做判断
         boolean isContainTextAttach = part.getContentType()

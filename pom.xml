@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.senzhikong</groupId>
     <packaging>pom</packaging>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
     <name>depend-parent</name>
     <url>https://github.com/senzhikong/depend</url>
     <artifactId>depend-parent</artifactId>
@@ -598,13 +598,6 @@
                 <configuration>
                     <autoUpdate>true</autoUpdate>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <!--打包加密-->
             <plugin>

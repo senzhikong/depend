@@ -19,7 +19,7 @@ public class UrlUtil {
      */
     public static String generateUrl(String url, Map<String, Object> data) {
         String newUrl = url;
-        StringBuffer param = new StringBuffer();
+        StringBuilder param = new StringBuilder();
         for (String key : data.keySet()) {
             param.append(key + "=" + data.get(key)
                     .toString() + "&");

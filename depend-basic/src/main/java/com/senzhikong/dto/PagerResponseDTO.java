@@ -9,13 +9,16 @@ import org.springframework.data.domain.Page;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author shu
+ */
 @Data
 @ApiModel("基础分页返回参数")
 public class PagerResponseDTO<T> implements Serializable {
     @Schema(description = "页码", example = "1")
-    private Integer pageNumber = 1;
+    private Integer pageNumber;
     @Schema(description = "页码", example = "10")
-    private Integer pageSize = 10;
+    private Integer pageSize;
     @Schema(description = "数据总条数", example = "999")
     private Long total;
     @Schema(description = "总页数", example = "8")

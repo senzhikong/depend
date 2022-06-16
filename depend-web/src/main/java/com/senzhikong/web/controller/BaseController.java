@@ -35,7 +35,8 @@ public class BaseController {
             time = 30 * 24 * 60 * 60;
         }
         Cookie userCookie = new Cookie(key, String.valueOf(value));
-        userCookie.setMaxAge(time); // 存活期为一个月 30*24*60*60
+        // 存活期为一个月 30*24*60*60
+        userCookie.setMaxAge(time);
         response.addCookie(userCookie);
     }
 
@@ -51,12 +52,13 @@ public class BaseController {
         }
         return null;
     }
-
+    public static Integer HTTP_PORT=80;
+    public static Integer HTTPS_PORT=80;
     public String getBaseUrl() {
         String path = request.getContextPath();
         String scheme = request.getScheme();
         String port = ":" + request.getServerPort();
-        if (request.getServerPort() == 80 || request.getServerPort() == 443) {
+        if (request.getServerPort() == HTTP_PORT || request.getServerPort() == HTTPS_PORT) {
             port = "";
         }
         return scheme + "://" + request.getServerName() + port + path;

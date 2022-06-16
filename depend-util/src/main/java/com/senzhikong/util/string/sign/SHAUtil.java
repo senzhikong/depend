@@ -31,7 +31,7 @@ public class SHAUtil {
             md.update(infoBytes);
             byte[] b = md.digest();
             int i;
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (int offset = 0; offset < b.length; offset++) {
                 i = b[offset];
                 if (i < 0) {
