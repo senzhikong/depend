@@ -57,7 +57,7 @@ public class WebEntryData {
     }
 
     public void addSelectSearch(String name, String code, Class<? extends Enum<?>> clz) {
-        this.addSelectSearch(name, code, "description", "code", EnumUtil.toJSONArray(clz));
+        this.addSelectSearch(name, code, "description", "code", EnumUtil.toJsonArray(clz));
     }
 
     public void addSelectSearch(String name, String code, String nameCol, String codeCol, Object[] data) {
@@ -95,7 +95,7 @@ public class WebEntryData {
     }
 
     public void addSelectDetail(String name, String code, Class<? extends Enum<?>> clz) {
-        this.addSelectDetail(name, code, "description", "code", EnumUtil.toJSONArray(clz));
+        this.addSelectDetail(name, code, "description", "code", EnumUtil.toJsonArray(clz));
     }
 
     public void addSelectDetail(String name, String code, String nameCol, String codeCol, Object[] data) {

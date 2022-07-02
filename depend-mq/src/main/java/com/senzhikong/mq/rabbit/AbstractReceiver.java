@@ -11,8 +11,11 @@ import org.springframework.beans.factory.InitializingBean;
 import javax.annotation.Resource;
 import java.io.IOException;
 
+/**
+ * @author shu
+ */
 @Slf4j
-public abstract class MsgReceiver implements InitializingBean {
+public abstract class AbstractReceiver implements InitializingBean {
     @Getter
     @Setter
     private String queue;
@@ -21,6 +24,11 @@ public abstract class MsgReceiver implements InitializingBean {
     private Connection connection;
     private Channel channel;
 
+    /**
+     * 具体业务
+     *
+     * @param content
+     */
     public abstract void process(String content);
 
     @Override
@@ -33,8 +41,10 @@ public abstract class MsgReceiver implements InitializingBean {
             return;
         }
         this.connection = factory.createConnection();
-        this.channel = connection.createChannel(false);    // 创建信道
-        channel.basicQos(64);    // 设置客户端最多接受未被ack的消息的个数
+        // 创建信道
+        this.channel = connection.createChannel(false);
+        // 设置客户端最多接受未被ack的消息的个数
+        channel.basicQos(64);
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope,

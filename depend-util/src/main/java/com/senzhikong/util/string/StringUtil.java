@@ -62,7 +62,8 @@ public class StringUtil {
             if (Character.isUpperCase(c)) {
                 sb.append("_");
             }
-            sb.append(Character.toLowerCase(c));  //统一都转小写
+            //统一都转小写
+            sb.append(Character.toLowerCase(c));
         }
         return sb.toString();
     }

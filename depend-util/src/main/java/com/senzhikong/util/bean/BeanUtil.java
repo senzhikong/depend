@@ -71,11 +71,11 @@ public class BeanUtil {
         return result.toArray(rrr);
     }
 
-    public static JSONArray toJSONArray(Object o) {
+    public static JSONArray toJsonArray(Object o) {
         return JSONArray.parseArray(JSON.toJSONString(o));
     }
 
-    public static JSONObject toJSONObject(Object o) {
+    public static JSONObject toJsonObject(Object o) {
         return JSONObject.parseObject(JSON.toJSONString(o));
     }
 
@@ -95,7 +95,7 @@ public class BeanUtil {
     }
 
     public static <K, T> Map<K, T> listToMap(List<T> list, String column) {
-        Map<K, T> map = new HashMap<>();
+        Map<K, T> map = new HashMap<>(8);
         for (T obj : list) {
             try {
                 String methodName = "get" + column.substring(0, 1)

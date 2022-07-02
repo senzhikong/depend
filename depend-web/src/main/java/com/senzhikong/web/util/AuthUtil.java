@@ -1,6 +1,6 @@
 package com.senzhikong.web.util;
 
-import com.senzhikong.util.string.sign.MD5Util;
+import com.senzhikong.util.string.sign.Md5Util;
 import com.senzhikong.util.string.sign.SignUtil;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
+/**
+ * @author shu
+ */
 public class AuthUtil {
     public static final String ADMIN_MODEL = "auth-admin-model";
     public static final String PARTNER_MODEL = "auth-partner-model";
@@ -35,12 +38,12 @@ public class AuthUtil {
     }
 
     public static String generateToken() {
-        return MD5Util.getInstance()
+        return Md5Util.getInstance()
                       .encode(getSession().getId() + System.currentTimeMillis(), "UTF-8", "admin-login-token");
     }
 
     public static String encryptPwd(String pwd) {
-        return SignUtil.getSHAUtil().encode(pwd, "UTF-8", "senzhikong");
+        return SignUtil.getShaUtil().encode(pwd, "UTF-8", "senzhikong");
     }
 
 

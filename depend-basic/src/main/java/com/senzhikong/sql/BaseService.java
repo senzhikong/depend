@@ -6,7 +6,7 @@ import com.senzhikong.db.sql.wrapper.WrapperService;
 import com.senzhikong.dto.PagerRequestDTO;
 import com.senzhikong.entity.BaseEntity;
 import com.senzhikong.enums.CommonStatus;
-import com.senzhikong.exception.DataError;
+import com.senzhikong.exception.DataException;
 import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,18 +66,18 @@ public class BaseService extends WrapperService implements IBaseService {
 
     public void checkStringNull(String obj, String err) {
         if (StringUtils.isBlank(obj)) {
-            throw new DataError(err);
+            throw new DataException(err);
         }
     }
 
     public void checkNull(Object obj, String err) {
         if (obj == null) {
-            throw new DataError(err);
+            throw new DataException(err);
         }
     }
 
     public void throwError(String err) {
-        throw new DataError(err);
+        throw new DataException(err);
     }
 
     public void checkNull(Object obj, RuntimeException err) {

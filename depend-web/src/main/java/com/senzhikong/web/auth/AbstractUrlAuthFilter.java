@@ -7,13 +7,21 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class UrlAuthFilter extends BaseFilter {
+/**
+ * @author shu
+ */
+public abstract class AbstractUrlAuthFilter extends BaseFilter {
+    private static final String ANNO = "anno";
 
+    /**
+     * 初始化过滤器
+     */
     public abstract void initFilter();
 
     @Override
@@ -21,10 +29,26 @@ public abstract class UrlAuthFilter extends BaseFilter {
         initFilter();
     }
 
+    /**
+     * 获取所有过滤连
+     *
+     * @return 过滤链Map
+     */
     public abstract Map<String, UrlFilterChain> getChainMap();
 
+    /**
+     * 获取所有过滤键
+     *
+     * @return 过滤键
+     */
     public abstract List<String> getFilterKeys();
 
+    /**
+     * 登录校验
+     *
+     * @param servletRequest http请求
+     * @return 登录账号
+     */
     public abstract LoginAccountModel doLoginAuth(HttpServletRequest servletRequest);
 
     @Override
@@ -55,31 +79,26 @@ public abstract class UrlAuthFilter extends BaseFilter {
         }
         List<String> filters = urlFilterChain.getFilter();
         //登录校验
-        if (filters.contains("auth") && loginAccountModel == null) {
-            reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_LOGIN, "用户未登录"));
+        if (filters.contains(ANNO)) {
+            chain.doFilter(request, response);
             return;
-        }
-        if (!filters.contains("anon") && loginAccountModel == null) {
-            reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_LOGIN, "不允许匿名访问"));
+        } else if (!filters.contains(ANNO) && loginAccountModel == null) {
+            reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_LOGIN));
             return;
         }
         List<String> permissions = urlFilterChain.getPermissions();
         List<String> roles = urlFilterChain.getRoles();
 
-        if (loginAccountModel == null && (permissions.size() > 0 || roles.size() > 0)) {
-            reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_PERMISSION));
-            return;
-        }
         if (permissions != null && permissions.size() > 0) {
             List<String> accountPermission = loginAccountModel.getPermission();
-            if (!accountPermission.containsAll(permissions)) {
+            if (!new HashSet<>(accountPermission).containsAll(permissions)) {
                 reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_PERMISSION));
                 return;
             }
         }
         if (roles != null && roles.size() > 0) {
             List<String> accountRole = loginAccountModel.getRoles();
-            if (!accountRole.containsAll(roles)) {
+            if (!new HashSet<>(accountRole).containsAll(roles)) {
                 reject(servletResponse, new ApiResponse<>(ApiStatus.NOT_PERMISSION));
                 return;
             }

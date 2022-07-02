@@ -5,6 +5,9 @@ import lombok.NonNull;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author shu
+ */
 public class JsonArr extends JSONArray {
     public @NonNull JsonArr addItem(Object value) {
         super.add(value);

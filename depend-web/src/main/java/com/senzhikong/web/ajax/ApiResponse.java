@@ -17,11 +17,17 @@ public class ApiResponse<T> implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
-    // 返回错误编码
+    /**
+     * 返回错误编码
+     */
     private int code = ApiStatus.OK.value();
-    // 返回错误信息
+    /**
+     * 返回错误信息
+     */
     private String message = ApiStatus.OK.message();
-    // 返回数据,如果出错返回null
+    /**
+     * 返回数据,如果出错返回null
+     */
     private T data;
     private Object extension;
 
@@ -84,15 +90,15 @@ public class ApiResponse<T> implements Serializable {
         return new ApiResponse<>(ApiStatus.ERROR.value(), ApiStatus.ERROR.message());
     }
 
-    public static ApiResponse<Object> DataError(String message) {
+    public static ApiResponse<Object> dataError(String message) {
         return new ApiResponse<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(), message);
     }
 
-    public static <T> ApiResponse<T> DataError(String message, T data) {
+    public static <T> ApiResponse<T> dataError(String message, T data) {
         return new ApiResponse<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(), message, data);
     }
 
-    public static ApiResponse<Object> DataError() {
+    public static ApiResponse<Object> dataError() {
         return new ApiResponse<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(),
                 ApiStatus.PARAMS_VALIDATE_ERROR.message());
     }

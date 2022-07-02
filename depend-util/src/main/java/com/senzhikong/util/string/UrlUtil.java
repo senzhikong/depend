@@ -9,6 +9,9 @@ import java.util.regex.Pattern;
  * @author Shu.Zhou
  */
 public class UrlUtil {
+    private static final String URL_PARAM_SPLIT = "?";
+    private static final String PARAM_CONTACT = "&";
+    private static final String PARAM_VALUE_CONTACT = "=";
 
     /**
      * 在指定url后追加参数
@@ -18,20 +21,19 @@ public class UrlUtil {
      * @return
      */
     public static String generateUrl(String url, Map<String, Object> data) {
-        String newUrl = url;
+        StringBuilder resUrl = new StringBuilder();
         StringBuilder param = new StringBuilder();
         for (String key : data.keySet()) {
-            param.append(key + "=" + data.get(key)
-                    .toString() + "&");
+            param.append(key).append(PARAM_VALUE_CONTACT).append(data.get(key).toString()).append(PARAM_CONTACT);
         }
         String paramStr = param.toString();
         paramStr = paramStr.substring(0, paramStr.length() - 1);
-        if (newUrl.indexOf("?") >= 0) {
-            newUrl += "&" + paramStr;
+        if (resUrl.indexOf(URL_PARAM_SPLIT) > -1) {
+            resUrl.append(PARAM_CONTACT).append(paramStr);
         } else {
-            newUrl += "?" + paramStr;
+            resUrl.append(URL_PARAM_SPLIT + paramStr);
         }
-        return newUrl;
+        return resUrl.toString();
     }
 
     public static String appendParam(String url, String key, Object value) {
@@ -43,7 +45,7 @@ public class UrlUtil {
     }
 
     public static Map<String, Object> getParams(String url) {
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>(8);
         if (StringUtil.isEmpty(url)) {
             return data;
         }
@@ -54,9 +56,9 @@ public class UrlUtil {
         }
         String paramStr = urlParts[1];
         //有参数
-        String[] params = paramStr.split("&");
+        String[] params = paramStr.split(PARAM_CONTACT);
         for (String param : params) {
-            String[] keyValue = param.split("=");
+            String[] keyValue = param.split(PARAM_VALUE_CONTACT);
             data.put(keyValue[0], keyValue[1]);
         }
         return data;
@@ -70,13 +72,13 @@ public class UrlUtil {
      * @return
      */
     public static String getParamByUrl(String url, String name) {
-        url += "&";
-        String pattern = "(\\?|&){1}#{0,1}" + name + "=[a-zA-Z0-9]*(&{1})";
+        url += PARAM_CONTACT;
+        String pattern = "(\\?|&)#?" + name + "=[a-zA-Z\\d]*(&)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if (m.find()) {
             return m.group(0)
-                    .split("=")[1].replace("&", "");
+                    .split(PARAM_VALUE_CONTACT)[1].replace(PARAM_CONTACT, "");
         } else {
             return null;
         }

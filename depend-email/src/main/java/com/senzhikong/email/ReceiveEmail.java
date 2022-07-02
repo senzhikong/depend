@@ -6,6 +6,9 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author shu
+ */
 @Data
 public class ReceiveEmail {
     private String messageId;

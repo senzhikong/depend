@@ -33,7 +33,7 @@ public class EnumUtil {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <T> JSONArray toJSONArray(Class<T> clz) {
+    public static <T> JSONArray toJsonArray(Class<T> clz) {
         Class<Enum> enumClz = (Class<Enum>) clz;
         JSONArray array = new JSONArray();
         SerializeConfig config = new SerializeConfig();
@@ -47,7 +47,7 @@ public class EnumUtil {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static <T> JSONObject toJSON(T enumValue) {
+    public static <T> JSONObject toJson(T enumValue) {
         Class<Enum> enumClz = (Class<Enum>) enumValue.getClass();
         SerializeConfig config = new SerializeConfig();
         config.configEnumAsJavaBean(enumClz);

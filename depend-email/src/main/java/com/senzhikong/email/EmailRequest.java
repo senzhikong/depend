@@ -2,13 +2,20 @@ package com.senzhikong.email;
 
 import com.alibaba.fastjson.JSON;
 import com.senzhikong.util.string.StringUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author shu
+ */
+@Getter
+@Setter
 public class EmailRequest {
 
-    private boolean isSSL = false;
+    private boolean isSsl = false;
     private List<String> toList;
     private String fromEmail;
     private String fromName;
@@ -23,7 +30,7 @@ public class EmailRequest {
     }
 
     public EmailRequest(String fromEmail, String fromName, String fromPassword, String toEmail, String subject,
-                        String htmlMsg) {
+            String htmlMsg) {
         this.fromName = fromName;
         this.fromPassword = fromPassword;
         this.subject = subject;
@@ -39,26 +46,6 @@ public class EmailRequest {
         toList.add(toEmail);
     }
 
-    public boolean getIsSSL() {
-        return isSSL;
-    }
-
-    public void setIsSSL(boolean isSSL) {
-        this.isSSL = isSSL;
-    }
-
-    public List<String> getToList() {
-        return toList;
-    }
-
-    public void setToList(List<String> toList) {
-        this.toList = toList;
-    }
-
-    public String getFromEmail() {
-        return fromEmail;
-    }
-
     public void setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
         if (StringUtil.isEmpty(fromEmail)) {
@@ -66,7 +53,7 @@ public class EmailRequest {
         }
         if (fromEmail.endsWith("@exmail.qq.com")) {
             emailHost = "exmail.qq.com";
-            isSSL = true;
+            isSsl = true;
         } else if (fromEmail.endsWith("@sina.com")) {
             emailHost = "sina.com.cn";
         } else if (fromEmail.endsWith("@sina.cn")) {
@@ -81,62 +68,6 @@ public class EmailRequest {
         } else {
             emailHost = fromEmail.substring(fromEmail.lastIndexOf("@") + 1);
         }
-    }
-
-    public String getFromName() {
-        return fromName;
-    }
-
-    public void setFromName(String fromName) {
-        this.fromName = fromName;
-    }
-
-    public String getFromPassword() {
-        return fromPassword;
-    }
-
-    public void setFromPassword(String fromPassword) {
-        this.fromPassword = fromPassword;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getHtmlMsg() {
-        return htmlMsg;
-    }
-
-    public void setHtmlMsg(String htmlMsg) {
-        this.htmlMsg = htmlMsg;
-    }
-
-    public String getEmailHost() {
-        return emailHost;
-    }
-
-    public void setSendHost(String sendHost) {
-        this.emailHost = sendHost;
-    }
-
-    public Integer getSendPort() {
-        return sendPort;
-    }
-
-    public void setSendPort(Integer sendPort) {
-        this.sendPort = sendPort;
-    }
-
-    public Integer getSendSslPort() {
-        return sendSslPort;
-    }
-
-    public void setSendSslPort(Integer sendSslPort) {
-        this.sendSslPort = sendSslPort;
     }
 
     @Override

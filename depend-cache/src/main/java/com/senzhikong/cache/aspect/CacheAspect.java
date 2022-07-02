@@ -111,7 +111,8 @@ public class CacheAspect implements InitializingBean {
             return;
         }
         String value = cacheRemove.value();
-        String[] keys = cacheRemove.key(); // 需要移除的正则key
+        // 需要移除的正则key
+        String[] keys = cacheRemove.key();
         cacheUtil.removeCache(value, keys);
     }
 

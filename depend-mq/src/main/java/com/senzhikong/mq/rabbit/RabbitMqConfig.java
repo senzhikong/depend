@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author shu
+ */
 @Slf4j
 @Configuration
 public class RabbitMqConfig implements MqConfig {
@@ -49,7 +52,10 @@ public class RabbitMqConfig implements MqConfig {
         return new RabbitTemplate(connectionFactory());
     }
 
-    //配置消费者监听的容器
+    /**
+     * 配置消费者监听的容器
+     * @return 消费者监听的容器
+     */
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();

@@ -8,17 +8,19 @@ import java.io.File;
  */
 public class CleanLocalMavenRepository {
 
-    // 仓库根目录
+    /**
+     * 仓库根目录
+     */
     static String root = "D:\\Develop\\maven-jar";
 
     public static void main(String[] args) {
 
         File file = new File(root);
 
-        File[] _files = file.listFiles();
-        if (_files != null && _files.length > 0) {
-            for (File _file : _files) {
-                validate(_file);
+        File[] files = file.listFiles();
+        if (files != null && files.length > 0) {
+            for (File f : files) {
+                validate(f);
             }
         }
 
@@ -26,24 +28,24 @@ public class CleanLocalMavenRepository {
 
     public static boolean validate(File file) {
         boolean isHaveJar = false;
-        File[] _files = file.listFiles();
-        if (_files != null && _files.length > 0) {
+        File[] files = file.listFiles();
+        if (files != null && files.length > 0) {
             // 判断是否有*jar 是否是有文件夹
-            for (File _file : _files) {
-                if (_file.getName()
+            for (File f : files) {
+                if (f.getName()
                         .endsWith(".jar")) {
                     isHaveJar = true;
                 }
-                if (_file.getName()
+                if (f.getName()
                         .endsWith(".pom")) {
                     isHaveJar = true;
                 }
-                if (_file.getName()
+                if (f.getName()
                         .endsWith(".war")) {
                     isHaveJar = true;
                 }
-                if (_file.isDirectory()) {
-                    boolean isNextHaveJar = validate(_file);
+                if (f.isDirectory()) {
+                    boolean isNextHaveJar = validate(f);
                     if (isNextHaveJar) {
                         isHaveJar = true;
                     }
@@ -57,13 +59,13 @@ public class CleanLocalMavenRepository {
     }
 
     public static void delete(File file) {
-        File[] _files = file.listFiles();
-        if (_files != null && _files.length > 0) {
-            for (File _file : _files) {
-                if (_file.isDirectory()) {
-                    delete(_file);
+        File[] files = file.listFiles();
+        if (files != null && files.length > 0) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    delete(f);
                 }
-                _file.delete();
+                f.delete();
             }
         } else {
             file.delete();

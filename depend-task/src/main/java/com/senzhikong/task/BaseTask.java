@@ -2,70 +2,147 @@ package com.senzhikong.task;
 
 import java.util.Date;
 
+/**
+ * @author shu
+ */
 public interface BaseTask {
+    /**
+     * 获取任务编号
+     *
+     * @return 任务编号
+     */
+    String getTaskCode();
 
-    public String getTaskCode();
+    /**
+     * 获取任务分组
+     *
+     * @return 任务分组
+     */
+    String getGroupCode();
 
-    public void setTaskCode(String taskCode);
+    /**
+     * 获取任务实现类
+     *
+     * @return 任务编实现类
+     */
+    String getTaskClass();
 
-    public String getGroupCode();
+    /**
+     * 获取任cron表达式
+     *
+     * @return cron表达式
+     */
+    String getCronExpression();
 
-    public void setGroupCode(String groupCode);
+    /**
+     * 获取任务状态
+     *
+     * @return 任务状态
+     */
+    String getStatus();
 
-    public String getTaskClass();
+    /**
+     * 设置任务状态
+     *
+     * @param status 任务状态
+     */
+    void setStatus(String status);
 
-    public void setTaskClass(String taskClass);
+    /**
+     * 获取任务参数
+     *
+     * @return 任务参数
+     */
+    String getTaskParam();
 
-    public String getCronExpression();
+    /**
+     * 获取任务描述
+     *
+     * @return 任务描述
+     */
+    String getDescription();
 
-    public void setCronExpression(String cronExpression);
+    /**
+     * 设置任务描述
+     *
+     * @param description 任务描述
+     */
+    void setDescription(String description);
 
-    public String getStatus();
+    /**
+     * 获取任务创建时间
+     *
+     * @return 任务创建时间
+     */
+    Date getCreateTime();
 
-    public void setStatus(String status);
+    /**
+     * 设置任务创建时间
+     *
+     * @param createTime 任务创建时间
+     */
+    void setCreateTime(Date createTime);
 
-    public String getTaskParam();
+    /**
+     * 获取cron表达式描述
+     *
+     * @return cron表达式描述
+     */
+    String getCronDescription();
 
-    public void setTaskParam(String taskParam);
+    /**
+     * 获取任务名称
+     *
+     * @return 任务名称
+     */
+    String getTaskName();
 
-    public String getDescription();
+    /**
+     * 获取任务分组名称
+     *
+     * @return 任务分组名称
+     */
+    String getGroupName();
 
-    public void setDescription(String description);
+    /**
+     * 获取是否自动启动
+     *
+     * @return 是否自启
+     */
+    Boolean getAutoStart();
 
-    public Date getCreateTime();
+    /**
+     * 设置是否自启
+     *
+     * @param autoStart 是否自启
+     */
+    void setAutoStart(Boolean autoStart);
 
-    public void setCreateTime(Date createTime);
+    /**
+     * 获取java文件内容
+     *
+     * @return 任务编号
+     */
+    String getJavaFile();
 
-    public String getCronDescription();
+    /**
+     * 设置运行状态
+     *
+     * @param runningStatus 运行状态
+     */
+    void setRunningStatus(String runningStatus);
 
-    public void setCronDescription(String cronDescription);
+    /**
+     * 设置下一次触发时间
+     *
+     * @param nextFireTime 下一次触发时间
+     */
+    void setNextFireTime(Date nextFireTime);
 
-    public String getTaskName();
-
-    public void setTaskName(String taskName);
-
-    public String getGroupName();
-
-    public void setGroupName(String groupName);
-
-    public Boolean getAutoStart();
-
-    public void setAutoStart(Boolean autoStart);
-
-    public String getJavaFile();
-
-    public void setJavaFile(String javaFile);
-
-
-    public String getRunningStatus();
-
-    public void setRunningStatus(String runningStatus);
-
-    public Date getNextFireTime();
-
-    public void setNextFireTime(Date nextFireTime);
-
-    public String getRunningStatusDesc();
-
-    public void setRunningStatusDesc(String runningStatusDesc);
+    /**
+     * 设置运行状态描述
+     *
+     * @param runningStatusDesc 运行状态描述
+     */
+    void setRunningStatusDesc(String runningStatusDesc);
 }

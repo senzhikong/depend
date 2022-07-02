@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author shu
+ */
 @Lazy
 @Component
 public class WebUtil {
@@ -23,8 +26,9 @@ public class WebUtil {
         Map<RequestMappingInfo, HandlerMethod> map = this.handlerMapping.getHandlerMethods();
         Set<RequestMappingInfo> set = map.keySet();
         for (RequestMappingInfo info : set) {
-            String reqURIs = info.getPatternsCondition().toString();
-            String url = reqURIs.substring(1, reqURIs.length() - 1);
+            assert info.getPatternsCondition() != null;
+            String reqUris = info.getPatternsCondition().toString();
+            String url = reqUris.substring(1, reqUris.length() - 1);
             urls.add(url);
         }
         return urls;

@@ -16,6 +16,9 @@ import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author shu
+ */
 public class TransactionConfig {
     public String expression="execution(* com.senzhikong..*.service.impl..*.*(..))";
     @Resource
@@ -35,7 +38,7 @@ public class TransactionConfig {
         //只读事务
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
         readOnlyTx.setReadOnly(true);
-        Map<String, TransactionAttribute> map = new HashMap<>();
+        Map<String, TransactionAttribute> map = new HashMap<>(8);
 
         map.put("add*", requiredTx);
         map.put("save*", requiredTx);

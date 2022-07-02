@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author shu
+ */
 @Data
 @ApiModel("更新状态请求参数")
 public class UpdateStatusDTO implements Serializable {

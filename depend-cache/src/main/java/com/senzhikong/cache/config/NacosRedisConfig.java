@@ -19,9 +19,13 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * @author shu
+ */
 @Getter
 @Setter
 @Slf4j
@@ -32,13 +36,19 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     private String namespace;
     private JSONObject config;
 
-    //最大空闲连接数
+    /**
+     * 最大空闲连接数
+     */
     @Value("${spring.redis.jedis.pool.maxIdle}")
     private int maxIdle = 5;
-    //最大连接数
+    /**
+     * 最大连接数
+     */
     @Value("${spring.redis.jedis.pool.maxActive}")
     private int maxActive = 10;
-    //建立连接最长等待时间
+    /**
+     * 建立连接最长等待时间
+     */
     @Value("${spring.redis.jedis.pool.maxWait}")
     private long maxWait = 1000;
 
@@ -51,7 +61,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxIdle(maxIdle);
         poolConfig.setMaxTotal(maxTotal);
-        poolConfig.setMaxWaitMillis(maxWaitMillis);
+        poolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
         poolConfig.setTestOnBorrow(testOnBorrow);
         return poolConfig;
     }
@@ -71,12 +81,8 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
             redisStandaloneConfiguration.setPassword(password);
         }
 
-        JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxIdle(maxIdle);
-        poolConfig.setMaxTotal(maxTotal);
-        poolConfig.setMaxWaitMillis(maxWaitMillis);
-        poolConfig.setTestOnBorrow(false);
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+
         jedisConnectionFactory.setPoolConfig(poolConfig(maxIdle, maxTotal, maxWaitMillis, false));
         jedisConnectionFactory.afterPropertiesSet();
         return jedisConnectionFactory;

@@ -21,7 +21,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class ResponseUtils {
 
-    // 设置json 全局时间转换格式
+    /**
+     * 设置json 全局时间转换格式
+     */
     private static SerializerFeature[] sf =
             {SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteDateUseDateFormat};
 
@@ -81,7 +83,8 @@ public class ResponseUtils {
         }
         response.setContentType("application/x-javascript");
         PrintWriter out = response.getWriter();
-        out.println(callback + "(" + JSON.toJSONString(text) + ")");// 返回jsonp格式数据
+        // 返回jsonp格式数据
+        out.println(callback + "(" + JSON.toJSONString(text) + ")");
         out.flush();
         out.close();
     }

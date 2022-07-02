@@ -1,8 +1,16 @@
 package com.senzhikong.util.http;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.File;
 import java.io.InputStream;
 
+/**
+ * @author shu
+ */
+@Getter
+@Setter
 public class UploadFile {
 
     private String fieldName;
@@ -31,45 +39,5 @@ public class UploadFile {
         this.fieldName = fieldName;
         this.fileName = fileName;
         this.fileBuffer = fileBuffer;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public byte[] getFileBuffer() {
-        return fileBuffer;
-    }
-
-    public void setFileBuffer(byte[] fileBuffer) {
-        this.fileBuffer = fileBuffer;
-    }
-
-    public InputStream getFileStream() {
-        return fileStream;
-    }
-
-    public void setFileStream(InputStream fileStream) {
-        this.fileStream = fileStream;
     }
 }

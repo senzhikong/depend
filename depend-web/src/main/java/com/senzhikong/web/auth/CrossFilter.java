@@ -10,10 +10,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@Slf4j
-//@Order(1)
-//@Component
-//@WebFilter(filterName = "crossFilter", urlPatterns = "/*")
+/**
+ * @author shu
+ */
 public class CrossFilter extends BaseFilter {
     @Value("${szk.filter.cross}")
     private boolean cross;
@@ -34,7 +33,6 @@ public class CrossFilter extends BaseFilter {
             chain.doFilter(request, response);
         } catch (Exception ignore) {
         }
-//        CrosUtil.cors(servletRequest, servletResponse);
     }
 
     @Override

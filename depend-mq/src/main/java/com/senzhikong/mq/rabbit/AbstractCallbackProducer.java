@@ -5,8 +5,11 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.InitializingBean;
 
+/**
+ * @author shu
+ */
 @Slf4j
-public abstract class MsgCallbackProducer extends MsgProducer implements RabbitTemplate.ConfirmCallback, InitializingBean {
+public abstract class AbstractCallbackProducer extends MsgProducer implements RabbitTemplate.ConfirmCallback, InitializingBean {
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         log.info(" 回调id:" + correlationData);
@@ -19,12 +22,19 @@ public abstract class MsgCallbackProducer extends MsgProducer implements RabbitT
         }
     }
 
+    /**
+     * 成功回调
+     */
     public abstract void success();
 
+    /**
+     * 识别回调
+     */
     public abstract void fail();
 
     @Override
     public void afterPropertiesSet() {
-        rabbitTemplate.setConfirmCallback(this); //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
+        rabbitTemplate.setConfirmCallback(this);
+        //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
     }
 }

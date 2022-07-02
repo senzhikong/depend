@@ -1,17 +1,19 @@
 package com.senzhikong.util.string.sign;
 
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
-public class MD5Util {
-    private static MD5Util instance;
+/**
+ * @author shu
+ */
+public class Md5Util {
+    private static Md5Util instance;
 
-    private MD5Util() {
+    private Md5Util() {
     }
 
-    public static MD5Util getInstance() {
+    public static Md5Util getInstance() {
         if (instance == null) {
-            instance = new MD5Util();
+            instance = new Md5Util();
         }
         return instance;
     }

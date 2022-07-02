@@ -17,7 +17,7 @@ import java.util.Random;
 public class VerifyCodeUtils {
 
     public static final String VERIFY_CODES = "23456789abcdefgknpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     /**
      * 使用系统默认字符源生成验证码
@@ -56,22 +56,12 @@ public class VerifyCodeUtils {
         Random rand = new Random();
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        g2.setColor(Color.GRAY);// 设置边框色
-//        g2.fillRect(0, 0, w, h);
 
         Color c = getRandColor(200, 230);
-        g2.setColor(c);// 设置背景色
+        // 设置背景色
+        g2.setColor(c);
         g2.fillRect(0, 0, w, h);
 
-        // 添加噪点
-//        float yawpRate = 0.05f;// 噪声率
-//        int area = (int) (yawpRate * w * h);
-//        for (int i = 0; i < area; i++) {
-//            int x = random.nextInt(w);
-//            int y = random.nextInt(h);
-//            int rgb = getRandomIntColor();
-//            image.setRGB(x, y, rgb);
-//        }
         g2.setColor(getRandColor(50, 100));
         float fontSize = h - h / 8f;
         Font font = g2.getFont().deriveFont(fontSize);
@@ -91,15 +81,16 @@ public class VerifyCodeUtils {
     }
 
     private static Color getRandColor(int fc, int bc) {
-        if (fc > 255) {
-            fc = 255;
+        int max = 255;
+        if (fc > max) {
+            fc = max;
         }
-        if (bc > 255) {
-            bc = 255;
+        if (bc > max) {
+            bc = max;
         }
-        int r = fc + random.nextInt(bc - fc);
-        int g = fc + random.nextInt(bc - fc);
-        int b = fc + random.nextInt(bc - fc);
+        int r = fc + RANDOM.nextInt(bc - fc);
+        int g = fc + RANDOM.nextInt(bc - fc);
+        int b = fc + RANDOM.nextInt(bc - fc);
         return new Color(r, g, b);
     }
 
@@ -115,23 +106,44 @@ public class VerifyCodeUtils {
 
     private static int[] getRandomRgb() {
         int[] rgb = new int[3];
-        for (int i = 0; i < 3; i++) {
-            rgb[i] = random.nextInt(255);
+        for (int i = 0; i < rgb.length; i++) {
+            rgb[i] = RANDOM.nextInt(255);
         }
         return rgb;
     }
 
-    // 保存图片到指定的输出流
+    /**
+     * 创建验证码并保存图片到指定的输出流
+     *
+     * @param response http答应
+     * @return 验证码
+     * @throws IOException 流未找到异常
+     */
     public static String createCode(HttpServletResponse response) throws IOException {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         return createCode(response.getOutputStream(), "jpg", 4);
     }
 
-    // 保存图片到指定的输出流
+    /**
+     * 创建验证码并保存图片到指定的输出流
+     *
+     * @param outputStream 输出流
+     * @return 验证码
+     * @throws IOException 流未找到异常
+     */
     public static String createCode(OutputStream outputStream) throws IOException {
         return createCode(outputStream, "jpg", 4);
     }
 
+    /**
+     * 创建验证码并保存图片到指定的输出流
+     *
+     * @param outputStream 输出流
+     * @param type         图片类型
+     * @param length       长度
+     * @return 验证码
+     * @throws IOException 流未找到异常
+     */
     public static String createCode(OutputStream outputStream, String type, int length) throws IOException {
         String verifyCode = generateVerifyCode(length);
         BufferedImage image = outputImage(150, 50, verifyCode);
@@ -139,6 +151,13 @@ public class VerifyCodeUtils {
         return verifyCode;
     }
 
+    /**
+     * 验证码写入到文件流
+     *
+     * @param outputStream 输出流
+     * @param verifyCode   验证码
+     * @throws IOException 流未找到异常
+     */
     public static void writeCodeImage(OutputStream outputStream, String verifyCode) throws IOException {
         BufferedImage image = outputImage(150, 50, verifyCode);
         ImageIO.write(image, "jpg", outputStream);

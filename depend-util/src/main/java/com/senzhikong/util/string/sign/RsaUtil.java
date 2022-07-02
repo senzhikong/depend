@@ -11,8 +11,11 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-public class RSAUtil {
-    private static final String src = "abcdefghijklmnopqrstuvwxyz";
+/**
+ * @author shu
+ */
+public class RsaUtil {
+    private static final String SRC = "abcdefghijklmnopqrstuvwxyz";
 
 
     private static final int MAX_ENCRYPT_BLOCK = 117;
@@ -110,7 +113,7 @@ public class RSAUtil {
      *
      * @return 密钥对
      */
-    public static RSAKeyPair generateKeyPair() throws NoSuchAlgorithmException {
+    public static RsaKeyPair generateKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(1024);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -118,7 +121,7 @@ public class RSAUtil {
         RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
         String publicKeyString = Base64.encodeBase64String(rsaPublicKey.getEncoded());
         String privateKeyString = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
-        RSAKeyPair rsaKeyPair = new RSAKeyPair();
+        RsaKeyPair rsaKeyPair = new RsaKeyPair();
         rsaKeyPair.setPrivateKey(privateKeyString);
         rsaKeyPair.setPublicKey(publicKeyString);
         return rsaKeyPair;
@@ -129,7 +132,7 @@ public class RSAUtil {
      * RSA密钥对对象
      */
     @Data
-    public static class RSAKeyPair {
+    public static class RsaKeyPair {
         private String publicKey;
         private String privateKey;
     }

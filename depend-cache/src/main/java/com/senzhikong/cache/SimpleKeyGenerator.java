@@ -1,14 +1,12 @@
 package com.senzhikong.cache;
 
 import com.alibaba.fastjson.JSON;
-import com.senzhikong.util.string.sign.MD5Util;
+import com.senzhikong.util.string.sign.Md5Util;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ClassUtils;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 /**
@@ -45,6 +43,6 @@ public class SimpleKeyGenerator implements KeyGenerator {
             return NO_PARAM_KEY;
         }
         String paramStr = JSON.toJSONString(params);
-        return MD5Util.getInstance().encode(paramStr);
+        return Md5Util.getInstance().encode(paramStr);
     }
 }

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * @author shu
+ */
 public class EmailUtil {
     public static String sendMail(EmailRequest emailRequest) {
         // 配置发送邮件的环境属性
@@ -29,7 +32,7 @@ public class EmailUtil {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp." + emailRequest.getEmailHost());
         props.put("mail.smtp.port", emailRequest.getSendPort());
-        if (emailRequest.getIsSSL()) {
+        if (emailRequest.isSsl()) {
             props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
             props.put("mail.smtp.socketFactory.port", emailRequest.getSendSslPort());
             props.put("mail.smtp.port", emailRequest.getSendSslPort());
@@ -54,7 +57,7 @@ public class EmailUtil {
             InternetAddress from = new InternetAddress(nick + "<" + emailRequest.getFromEmail() + ">");
             message.setFrom(from);
             InternetAddress[] toUsers = new InternetAddress[emailRequest.getToList()
-                    .size()];
+                                                                        .size()];
             List<InternetAddress> tos = new ArrayList<>();
             for (String t : emailRequest.getToList()) {
                 tos.add(new InternetAddress(t));
@@ -128,7 +131,8 @@ public class EmailUtil {
     }
 
     public static List<ReceiveEmail> receiveUnread(EmailRequest emailRequest) {
-        FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false); //false代表未读，true代表已读
+        //false代表未读，true代表已读
+        FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
         return receiveEmail(emailRequest, ft);
     }
 
@@ -158,7 +162,7 @@ public class EmailUtil {
         email.setSendTime(msg.getSentDate());
         //是否已读
         email.setRead(msg.getFlags()
-                .contains(Flags.Flag.SEEN));
+                         .contains(Flags.Flag.SEEN));
         //是否需要回执
         email.setReplySign(msg.getHeader("Disposition-Notification-To") != null);
         //优先级
@@ -167,10 +171,10 @@ public class EmailUtil {
         String[] headers = msg.getHeader("X-Priority");
         if (headers != null) {
             String headerPriority = headers[0];
-            if (headerPriority.indexOf("1") != -1 || headerPriority.indexOf("High") != -1) {
+            if (headerPriority.contains("1") || headerPriority.contains("High")) {
                 priority = "High";
                 priorityDesc = "普通";
-            } else if (headerPriority.indexOf("5") != -1 || headerPriority.indexOf("Low") != -1) {
+            } else if (headerPriority.contains("5") || headerPriority.contains("Low")) {
                 priority = "Low";
                 priorityDesc = "低";
             }
@@ -208,13 +212,13 @@ public class EmailUtil {
             throws Exception {
         //如果是文本类型的附件，通过getContent方法可以取到文本内容，但这不是我们需要的结果，所以在这里要做判断
         boolean isContainTextAttach = part.getContentType()
-                .indexOf("name") > 0;
+                                          .indexOf("name") > 0;
         if (part.isMimeType("text/plain") && !isContainTextAttach) {
             contentText.append(part.getContent()
-                    .toString());
+                                   .toString());
         } else if (part.isMimeType("text/html") && !isContainTextAttach) {
             contentHtml.append(part.getContent()
-                    .toString());
+                                   .toString());
         } else if (part.isMimeType("message/rfc822")) {
             getMailTextContent((Part) part.getContent(), contentHtml, contentText);
         } else if (part.isMimeType("multipart/*")) {
@@ -229,7 +233,8 @@ public class EmailUtil {
 
     public static void listAttachment(Part part, String pos, JSONArray files) throws Exception {
         if (part.isMimeType("multipart/*")) {
-            Multipart multipart = (Multipart) part.getContent();    //复杂体邮件
+            //复杂体邮件
+            Multipart multipart = (Multipart) part.getContent();
             //复杂体邮件包含多个邮件体
             int partCount = multipart.getCount();
             for (int i = 0; i < partCount; i++) {
@@ -237,13 +242,13 @@ public class EmailUtil {
                 //某一个邮件体也有可能是由多个邮件体组成的复杂体
                 String disp = bodyPart.getDisposition();
                 String filePos = pos + "," + i;
-                if (disp != null && (disp.equalsIgnoreCase(Part.ATTACHMENT) || disp.equalsIgnoreCase(Part.INLINE))) {
+                if (disp.equalsIgnoreCase(Part.ATTACHMENT) || disp.equalsIgnoreCase(Part.INLINE)) {
                     files.add(getAttachment(bodyPart, filePos));
                 } else if (bodyPart.isMimeType("multipart/*")) {
                     listAttachment(bodyPart, filePos, files);
                 } else {
                     String contentType = bodyPart.getContentType();
-                    if (contentType.indexOf("name") != -1 || contentType.indexOf("application") != -1) {
+                    if (contentType.contains("name") || contentType.contains("application")) {
                         files.add(getAttachment(bodyPart, filePos));
                     }
                 }
@@ -271,7 +276,7 @@ public class EmailUtil {
     }
 
     public static void downloadAttachment(EmailRequest emailRequest, JSONObject file, OutputStream out,
-                                          HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception {
         try {
             // 创建IMAP协议的Store对象
             Store store = getImapStore(emailRequest);
@@ -280,7 +285,7 @@ public class EmailUtil {
             // 以读写模式打开收件箱
             folder.open(Folder.READ_WRITE);
             // 获得收件箱的邮件列表
-            MessageIDTerm term = new MessageIDTerm(file.getString("messageId")); //false代表未读，true代表已读
+            MessageIDTerm term = new MessageIDTerm(file.getString("messageId"));
             Message msg = folder.search(term)[0];
             String[] pos = file.getString("pos")
                                .replace("root,", "")
@@ -289,7 +294,8 @@ public class EmailUtil {
             Part part = msg;
             for (String p : pos) {
                 if (part.isMimeType("multipart/*")) {
-                    Multipart multipart = (Multipart) part.getContent();    //复杂体邮件
+                    //复杂体邮件
+                    Multipart multipart = (Multipart) part.getContent();
                     part = multipart.getBodyPart(Integer.parseInt(p));
                 } else if (part.isMimeType("message/rfc822")) {
                     part = (Part) part.getContent();

@@ -17,19 +17,19 @@ import javax.annotation.Resource;
 @Getter
 @Setter
 public class RedisCacheManager extends BaseCacheManager {
-    //    @Resource
-//    protected RedisTemplate<String, Object> redisTemplate;
     @Resource
     NacosRedisConfig nacosRedisConfig;
+    private static final String DEFAULT_REDIS_TEMPLATE ="defaultRedisTemplate";
+    private static final String  REDIS_TEMPLATE ="RedisTemplate";
 
     @Override
     public IBaseCache createCache(String cacheName) {
         RedisCache cache = new RedisCache();
         RedisTemplate<String, Object> redisTemplate;
-        if (SpringContextHolder.containsBean(cacheName + "RedisTemplate")) {
-            redisTemplate = SpringContextHolder.getBean(cacheName + "RedisTemplate");
-        } else if (SpringContextHolder.containsBean("defaultRedisTemplate")) {
-            redisTemplate = SpringContextHolder.getBean("defaultRedisTemplate");
+        if (SpringContextHolder.containsBean(cacheName + REDIS_TEMPLATE)) {
+            redisTemplate = SpringContextHolder.getBean(cacheName + REDIS_TEMPLATE);
+        } else if (SpringContextHolder.containsBean(DEFAULT_REDIS_TEMPLATE)) {
+            redisTemplate = SpringContextHolder.getBean(DEFAULT_REDIS_TEMPLATE);
         } else {
             redisTemplate = SpringContextHolder.getBean("redisTemplate");
         }

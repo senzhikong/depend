@@ -22,13 +22,15 @@ public class UserAgentUtil {
         List<String> mobileAgents =
                 Arrays.asList("ipad", "iphone os", "rv:1.2.3.4", "ucweb", "android", "windows ce", "windows mobile");
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
+                           .toLowerCase();
         for (String sua : mobileAgents) {
-            if (ua.indexOf(sua) > -1) {
-                return true;// 手机端
+            // 手机端
+            if (ua.contains(sua)) {
+                return true;
             }
         }
-        return false;// PC端
+        // PC端
+        return false;
     }
 
     /**
@@ -42,15 +44,13 @@ public class UserAgentUtil {
      */
     public static boolean isWechat(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
-        return ua.indexOf("micromessenger") > -1;// 微信
-        // 非微信手机浏览器
+                           .toLowerCase();
+        return ua.contains("micromessenger");
     }
 
     public static boolean isAlipay(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
-        return ua.indexOf("alipayclient") > -1;// 微信
-        // 非微信手机浏览器
+                           .toLowerCase();
+        return ua.contains("alipayclient");
     }
 }

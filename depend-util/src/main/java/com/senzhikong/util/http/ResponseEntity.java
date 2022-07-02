@@ -3,6 +3,9 @@ package com.senzhikong.util.http;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+/**
+ * @author shu
+ */
 public class ResponseEntity {
     private InputStream inputStream;
     private byte[] bytes = null;

@@ -210,7 +210,8 @@ public class ImageUtil {
             tag = g.getDeviceConfiguration()
                     .createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
             g.fillRect(0, 0, tag.getWidth(null), tag.getHeight(null));
-            g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+            // 绘制缩小后的图
+            g.drawImage(image, 0, 0, null);
             g.dispose();
             image = tag;
         }

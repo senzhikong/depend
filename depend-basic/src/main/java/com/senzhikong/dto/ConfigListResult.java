@@ -1,7 +1,7 @@
 package com.senzhikong.dto;
 
 import com.senzhikong.config.BaseConfigConstants;
-import com.senzhikong.config.ConfigInterface;
+import com.senzhikong.config.AbstractConfigInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author shu
+ */
 @Data
 @ApiModel("配置列表")
 public class ConfigListResult implements Serializable {
@@ -26,7 +29,7 @@ public class ConfigListResult implements Serializable {
         return res;
     }
 
-    public void addConfigItem(BaseConfigConstants constants, ConfigInterface config) {
+    public void addConfigItem(BaseConfigConstants constants, AbstractConfigInterface config) {
         if (configs == null) {
             configs = new ArrayList<>();
         }

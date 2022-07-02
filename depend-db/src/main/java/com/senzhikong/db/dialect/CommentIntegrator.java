@@ -11,6 +11,9 @@ import javax.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
+/**
+ * @author shu
+ */
 @Component
 public class CommentIntegrator implements Integrator {
     public static final CommentIntegrator INSTANCE = new CommentIntegrator();

@@ -1,8 +1,8 @@
 package com.senzhikong.task;
 
+import com.senzhikong.module.InitializeBean;
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
-import com.senzhikong.module.InitializeBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.*;
@@ -58,18 +58,19 @@ public class TaskManager implements InitializeBean {
         dataMap.put("data", data);
         try {
             JobDetail jobDetail = JobBuilder.newJob(cls)
-                    .withIdentity(taskCode, groupCode)
-                    .storeDurably()
-                    .usingJobData(dataMap)
-                    .build();
+                                            .withIdentity(taskCode, groupCode)
+                                            .storeDurably()
+                                            .usingJobData(dataMap)
+                                            .build();
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
             CronTrigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(taskCode, groupCode)
-                    .withSchedule(scheduleBuilder)
-                    .forJob(jobDetail)
-                    .build();
+                                                .withIdentity(taskCode, groupCode)
+                                                .withSchedule(scheduleBuilder)
+                                                .forJob(jobDetail)
+                                                .build();
             scheduler.addJob(jobDetail, true);
-            scheduler.scheduleJob(trigger); // 启动
+            // 启动
+            scheduler.scheduleJob(trigger);
             taskMap.put(taskCode, jobDetail);
         } catch (Exception e) {
             logger.error(e);
@@ -80,15 +81,18 @@ public class TaskManager implements InitializeBean {
         // TriggerKey
         JobKey jobKey = new JobKey(task.getTaskCode(), task.getGroupCode());
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
-        scheduler.pauseTrigger(triggerKey);// 停止触发器
+        // 停止触发器
+        scheduler.pauseTrigger(triggerKey);
         scheduler.unscheduleJob(triggerKey);
-        scheduler.deleteJob(jobKey);// 删除任务
+        // 删除任务
+        scheduler.deleteJob(jobKey);
     }
 
     public void pauseJob(BaseTask task) throws Exception {
         // TriggerKey
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
-        scheduler.pauseTrigger(triggerKey);// 停止触发器
+        // 停止触发器
+        scheduler.pauseTrigger(triggerKey);
     }
 
     public void startJob(BaseTask task) throws Exception {
@@ -104,23 +108,24 @@ public class TaskManager implements InitializeBean {
         if (jobDetail == null) {
             Class<? extends Job> taskClass = getTaskClass(task);
             jobDetail = JobBuilder.newJob(taskClass)
-                    .withIdentity(task.getTaskCode(), task.getGroupCode())
-                    .storeDurably()
-                    .usingJobData(dataMap)
-                    .build();
+                                  .withIdentity(task.getTaskCode(), task.getGroupCode())
+                                  .storeDurably()
+                                  .usingJobData(dataMap)
+                                  .build();
             scheduler.addJob(jobDetail, true);
         }
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), "run-one-time");
         Trigger trigger = scheduler.getTrigger(triggerKey);
         if (trigger == null) {
             trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
-                            "run-one-time" + System.currentTimeMillis()))
-                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
-                    .forJob(jobDetail)
-                    .startAt(new Date())
-                    .build();
-            scheduler.scheduleJob(trigger); // 启动
+                                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
+                                            "run-one-time" + System.currentTimeMillis()))
+                                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
+                                    .forJob(jobDetail)
+                                    .startAt(new Date())
+                                    .build();
+            // 启动
+            scheduler.scheduleJob(trigger);
         } else {
             scheduler.triggerJob(jobKey);
         }
@@ -184,8 +189,10 @@ public class TaskManager implements InitializeBean {
         return task;
     }
 
+    private static final String NON_GROUP = "0";
+
     @Override
-    public void init() throws Exception {
+    public void init() {
         logger.debug("-------------------初始化定时任务-------------------");
         classUtil = new TaskClassUtil(applicationContext);
         if (StringUtil.isEmpty(initClz)) {
@@ -198,7 +205,7 @@ public class TaskManager implements InitializeBean {
         if (groups.length == 0) {
             return;
         }
-        if (StringUtil.equal("0", group)) {
+        if (StringUtil.equal(NON_GROUP, group)) {
             groups = null;
         }
 
@@ -206,14 +213,14 @@ public class TaskManager implements InitializeBean {
         try {
             Object clz = SpringContextHolder.getBeanByClassName(initClz);
             Method method = clz.getClass()
-                    .getMethod("listAutoStartTask", String[].class);
-            @SuppressWarnings("unchecked") List<BaseTask> list = (List<BaseTask>) method.invoke(clz, new Object[]{groups});
+                               .getMethod("listAutoStartTask", String[].class);
+            @SuppressWarnings("unchecked") List<BaseTask> list = (List<BaseTask>) method.invoke(clz,
+                    new Object[]{groups});
             if (list != null && list.size() > 0) {
                 initTaskList.addAll(list);
             }
 
         } catch (Exception e) {
-//            e.printStackTrace();
             throw new RuntimeException("定时任务自启失败", e);
         }
         for (BaseTask task : initTaskList) {

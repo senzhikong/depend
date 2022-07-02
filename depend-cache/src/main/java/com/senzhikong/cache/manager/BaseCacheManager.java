@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
+import org.springframework.lang.NonNullApi;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -56,6 +57,11 @@ public abstract class BaseCacheManager extends org.springframework.cache.support
         }
     }
 
+    /**
+     * 创建缓存
+     * @param cacheName 缓存名称
+     * @return 创建好的缓存
+     */
     public abstract IBaseCache createCache(String cacheName);
 
     public IBaseCache getOrCreateCache(String cacheName) {

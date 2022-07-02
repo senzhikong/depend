@@ -17,10 +17,13 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.*;
 import java.util.concurrent.Executor;
 
+/**
+ * @author shu
+ */
 @Getter
 @Setter
 @Slf4j
-public class NacosConfig extends ConfigInterface implements InitializeBean {
+public class NacosConfig extends AbstractConfigInterface implements InitializeBean {
 
     @Value("${spring.cloud.nacos.discovery.server-addr}")
     private String nacosServerAddress;
@@ -28,7 +31,7 @@ public class NacosConfig extends ConfigInterface implements InitializeBean {
     private String nacosNamespace;
     @Value("${szk.config.publish}")
     private Boolean publish;
-    private static final Map<String, String> configMap = new HashMap<>();
+    private static final Map<String, String> CONFIG_MAP = new HashMap<>();
     private ConfigService configService;
 
     @Override
@@ -53,7 +56,7 @@ public class NacosConfig extends ConfigInterface implements InitializeBean {
             configConstantsList.addAll(Arrays.asList(module.getConfigConstants()));
         }
         configConstantsList.forEach(item -> {
-            configMap.put(item.getCode(), null);
+            CONFIG_MAP.put(item.getCode(), null);
             listenConfig(item.getCode());
         });
     }
@@ -72,14 +75,14 @@ public class NacosConfig extends ConfigInterface implements InitializeBean {
 
         @Override
         public void receiveConfigInfo(String s) {
-            log.info("\n配置更新：{}\n旧配置：{}\n新配置：{}\n", configName, configMap.get(configName), s);
-            configMap.put(configName, s);
+            log.info("\n配置更新：{}\n旧配置：{}\n新配置：{}\n", configName, CONFIG_MAP.get(configName), s);
+            CONFIG_MAP.put(configName, s);
         }
     }
 
     @Override
     public void reloadConfig() {
-        configMap.keySet().forEach(configName -> {
+        CONFIG_MAP.keySet().forEach(configName -> {
             String group = configName.substring(0, configName.indexOf("."));
             String configValue = null;
             try {
@@ -87,18 +90,18 @@ public class NacosConfig extends ConfigInterface implements InitializeBean {
             } catch (NacosException e) {
                 e.printStackTrace();
             }
-            configMap.put(configName, configValue);
+            CONFIG_MAP.put(configName, configValue);
         });
     }
 
     @Override
     public String getConfigValue(String key) {
-        return configMap.get(key);
+        return CONFIG_MAP.get(key);
     }
 
     @Override
     public String getConfigValue(String key, String defaultValue) {
-        return configMap.getOrDefault(key, defaultValue);
+        return CONFIG_MAP.getOrDefault(key, defaultValue);
     }
 
     @Override

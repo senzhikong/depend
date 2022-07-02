@@ -1,5 +1,8 @@
 package com.senzhikong.web.util;
 
+/**
+ * @author shu
+ */
 public class WebConstants {
     public static final String WEB_AUTH_TOKEN = "Authorization";
     public static final String USER_AUTH_CACHE= "user-auth";

@@ -1,14 +1,14 @@
 package com.senzhikong.web.aop;
 
 import com.alibaba.fastjson.JSON;
-import com.senzhikong.exception.AuthError;
-import com.senzhikong.exception.DataError;
+import com.senzhikong.exception.AuthException;
+import com.senzhikong.exception.DataException;
 import com.senzhikong.util.DateUtils;
 import com.senzhikong.util.string.StringUtil;
 import com.senzhikong.web.annotation.ApiController;
 import com.senzhikong.web.annotation.ApiMethod;
 import com.senzhikong.web.annotation.PartnerApi;
-import com.senzhikong.web.util.IPUtils;
+import com.senzhikong.web.util.IpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * @author shu
+ */
 @Slf4j
 public class BasicAspect {
     @Resource
@@ -84,7 +87,7 @@ public class BasicAspect {
 
     protected void visitLog(ProceedingJoinPoint pjp, Object res) {
         StringBuilder apiName = requestName(pjp);
-        String ip = IPUtils.getRemoteHost(request);
+        String ip = IpUtil.getRemoteHost(request);
         String targetName = pjp.getTarget().getClass().getName();
         String methodName = pjp.getSignature().getName();
         final StringBuilder normalMsg = new StringBuilder();
@@ -130,7 +133,7 @@ public class BasicAspect {
         sb.append(t.getClass()).append("[").append(t.getMessage()).append("]");
         sb.append("\r\n");
         StackTraceElement[] stackTraceElements = t.getStackTrace();
-        if (t instanceof AuthError || t instanceof DataError) {
+        if (t instanceof AuthException || t instanceof DataException) {
             log.error(sb.toString());
             return;
         }

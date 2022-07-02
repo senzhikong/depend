@@ -7,7 +7,10 @@ import lombok.Getter;
  */
 @Getter
 public enum SmsType {
-    VERIFY_CODE("verify_code", "未发送");
+    /**
+     * 验证码
+     */
+    VERIFY_CODE("verify_code", "验证码");
 
     private final String code;
     private final String description;

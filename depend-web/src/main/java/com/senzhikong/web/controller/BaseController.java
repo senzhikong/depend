@@ -2,7 +2,7 @@ package com.senzhikong.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.config.ConfigInterface;
+import com.senzhikong.config.AbstractConfigInterface;
 import com.senzhikong.util.string.StringUtil;
 import com.senzhikong.web.util.WebConstants;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class BaseController {
     @Resource
     protected HttpSession session;
     @Resource
-    protected ConfigInterface config;
+    protected AbstractConfigInterface config;
 
     public void setCookie(String key, Object value, Integer time) {
         if (time == null) {

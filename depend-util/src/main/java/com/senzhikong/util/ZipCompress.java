@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * @author shu
+ */
 public class ZipCompress {
 
 
@@ -38,15 +41,5 @@ public class ZipCompress {
             zos.write(buffer, 0, readLength);
         }
         inputStream.close();
-    }
-
-    public static void main(String[] args) throws Exception {
-        Map<String, String> files = new HashMap<>();
-        FileOutputStream fos = new FileOutputStream(new File("E:\\zip\\test.zip"));
-        for (int i = 1; i < 13; i++) {
-            files.put("test\\lxq (" + i + ").jpg", "E:\\zip\\lxq (" + i + ").jpg");
-        }
-        zipBuild(files, fos);
-        fos.close();
     }
 }

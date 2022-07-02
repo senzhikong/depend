@@ -1,7 +1,7 @@
 package com.senzhikong.dto;
 
+import com.senzhikong.config.AbstractConfigInterface;
 import com.senzhikong.config.BaseConfigConstants;
-import com.senzhikong.config.ConfigInterface;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +24,7 @@ public class ConfigItemDTO implements Serializable {
     private Object data;
     private Object value;
 
-    public ConfigItemDTO(BaseConfigConstants constants, ConfigInterface config) {
+    public ConfigItemDTO(BaseConfigConstants constants, AbstractConfigInterface config) {
         this.code = constants.getCode();
         this.description = constants.getDescription();
         this.type = constants.getType();
@@ -33,15 +33,15 @@ public class ConfigItemDTO implements Serializable {
         if (secret) {
             return;
         }
-        if ("longtext".equals(type)) {
+        if (BaseConfigConstants.LONGTEXT.equals(type)) {
             this.value = config.getConfigValue(this.code, "");
-        } else if ("number".equals(type)) {
+        } else if (BaseConfigConstants.NUMBER.equals(type)) {
             if (StringUtils.isNotBlank(config.getConfigValue(this.code))) {
                 this.value = new BigDecimal(config.getConfigValue(this.code));
             }
-        } else if ("boolean".equals(type)) {
+        } else if (BaseConfigConstants.BOOLEAN.equals(type)) {
             this.value = config.getBooleanConfig(this.code, false);
-        } else if ("json".equals(type)) {
+        } else if (BaseConfigConstants.JSON.equals(type)) {
             this.value = config.getConfigValue(this.code, "{}");
         } else {
             this.value = config.getConfigValue(this.code, "");

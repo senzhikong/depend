@@ -7,6 +7,9 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import javax.annotation.Resource;
 import java.util.UUID;
 
+/**
+ * @author shu
+ */
 @Slf4j
 public class MsgProducer {
     private String exchange;

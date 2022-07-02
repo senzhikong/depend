@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author shu
+ */
 public class RequestEntity {
     private Map<String, Object> formFields = new HashMap<String, Object>();
     private Map<String, String> headers = new HashMap<String, String>();

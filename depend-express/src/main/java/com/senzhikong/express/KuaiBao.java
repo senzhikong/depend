@@ -5,17 +5,19 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.senzhikong.util.http.HttpUtil;
 import com.senzhikong.util.http.RequestEntity;
-import com.senzhikong.util.string.sign.MD5Util;
+import com.senzhikong.util.string.sign.Md5Util;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Shu.zhou
  * @date 2018年12月12日上午10:31:11
  */
 public class KuaiBao {
+    private static final String CODE = "code";
 
-    public static ExpressResponse query(KuaiBaoConfig config, String no, String company_code) {
+    public static ExpressResponse query(KuaiBaoConfig config, String no, String companyCode) {
         ExpressResponse response = new ExpressResponse();
         response.setSuccess(false);
         try {
@@ -26,25 +28,25 @@ public class KuaiBao {
             // 根据API的要求，定义相对应的Content-Type
             JSONObject object = new JSONObject();
             object.put("waybill_no", no);
-            object.put("exp_company_code", company_code);
+            object.put("exp_company_code", companyCode);
             object.put("result_sort", 0);
             String timestamp = String.valueOf(System.currentTimeMillis());
             String signStr = config.getAppid() + KuaiBaoConfig.QUERY_API_NAME + timestamp + config.getAppsecret();
-            String sign = MD5Util.getInstance()
-                    .encode(signStr, null, null);
+            String sign = Md5Util.getInstance()
+                                 .encode(signStr, null, null);
             String param = "app_id=" + config.getAppid() + "&method=" + KuaiBaoConfig.QUERY_API_NAME;
             param += "&ts=" + timestamp;
             param += "&sign=" + sign;
-            param += "&data=" + URLEncoder.encode(object.toJSONString(), "utf-8");
+            param += "&data=" + URLEncoder.encode(object.toJSONString(), StandardCharsets.UTF_8);
             re.setParam(param);
             String reString = HttpUtil.http(re);
             JSONObject json = JSON.parseObject(reString);
             response.setMsg(json.getString("msg"));
-            if (json.getInteger("code") != 0) {
+            if (json.getInteger(CODE) != 0) {
                 return response;
             }
             json = json.getJSONArray("data")
-                    .getJSONObject(0);
+                       .getJSONObject(0);
             response.setSuccess(true);
             response.setSerialNumber(no);
             switch (json.getString("status")) {

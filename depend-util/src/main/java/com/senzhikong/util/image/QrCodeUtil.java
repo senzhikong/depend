@@ -20,7 +20,7 @@ import java.util.Map;
  * @version 1.0.0
  * @time 2017年11月10日上午9:25:49
  */
-public class QRCodeUtil {
+public class QrCodeUtil {
 
     private static final int WHITE = 0xFFFFFFFF;
     private static final int BLACK = 0xFF000000;
@@ -49,15 +49,17 @@ public class QRCodeUtil {
             size = MIN_SIZE;
         }
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
-        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8"); // 设置字符集编码类型
-        hints.put(EncodeHintType.MARGIN, margin); // 边距
-        BitMatrix bitMatrix = null;
+        Map<EncodeHintType, Object> hints = new HashMap<>(8);
+        // 设置字符集编码类型
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        // 边距
+        hints.put(EncodeHintType.MARGIN, margin);
+        BitMatrix bitMatrix;
         try {
             bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.QR_CODE, size, size, hints);
             BufferedImage image = toBufferedImage(bitMatrix);
             if (logo != null) {
-                appendQRLogo(image, logo, logoSize);
+                appendQrLogo(image, logo, logoSize);
             }
             return image;
         } catch (Exception e) {
@@ -83,16 +85,17 @@ public class QRCodeUtil {
      * @param logo     中心logo图片
      * @param logoSize 中心logo大小
      */
-    public static void appendQRLogo(BufferedImage image, Image logo, int logoSize) {
+    public static void appendQrLogo(BufferedImage image, Image logo, int logoSize) {
         if (logo == null) {
             return;
         }
         Graphics2D gs = image.createGraphics();
-        if (logoSize > image.getWidth() * 2 / 5) {
-            logoSize = image.getWidth() * 2 / 5;
+        int ls = image.getWidth() * 2 / 5;
+        if (logoSize > ls) {
+            logoSize = ls;
         }
-        int logoWidth = logo.getWidth(null) > logoSize ? logoSize : logo.getWidth(null);
-        int logoHeight = logo.getHeight(null) > logoSize ? logoSize : logo.getHeight(null);
+        int logoWidth = Math.min(logo.getWidth(null), logoSize);
+        int logoHeight = Math.min(logo.getHeight(null), logoSize);
         int x = (image.getWidth() - logoWidth) / 2;
         int y = (image.getHeight() - logoHeight) / 2;
         gs.drawImage(logo, x, y, logoWidth, logoHeight, null);
@@ -122,10 +125,10 @@ public class QRCodeUtil {
      * @param file
      * @return
      */
-    public static String readQRCode(File file) {
+    public static String readQrCode(File file) {
         BufferedImage image;
         try {
-            if (file == null || file.exists() == false) {
+            if (file == null || !file.exists()) {
                 throw new Exception(" File not found:" + file.getPath());
             }
             image = ImageIO.read(file);
@@ -149,7 +152,102 @@ public class QRCodeUtil {
      * @param image
      * @return
      */
-    public static String readQRCode(BufferedImage image) {
+    public static String readQrCode(BufferedImage image) {
+        try {
+            if (image == null) {
+                throw new Exception(" File is empty:");
+            }
+            LuminanceSource source = new BufferedImageLuminanceSource(image);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            Result result;
+            // 解码设置编码方式为：utf-8，
+            Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
+            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
+            result = new MultiFormatReader().decode(bitmap, hints);
+            return result.getText();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    private static final int BAR_CODE_MIN_WIDTH = 50;
+    private static final int BAR_CODE_MIN_HEIGHT = 20;
+    private static final int BAR_CODE_MIN_MARGIN = 0;
+
+    /**
+     * 生成二维码图片
+     *
+     * @param content 条形码内容
+     * @param width   条形码宽
+     * @param height  条形码高
+     * @param margin  条形码边距
+     * @return
+     */
+    public static BufferedImage encodeQrcode(String content, int width, int height, int margin) {
+        if (content == null || "".equals(content)) {
+            return null;
+        }
+        if (margin < BAR_CODE_MIN_MARGIN) {
+            margin = BAR_CODE_MIN_MARGIN;
+        }
+        if (width < BAR_CODE_MIN_WIDTH) {
+            width = BAR_CODE_MIN_WIDTH;
+        }
+        if (height < BAR_CODE_MIN_HEIGHT) {
+            height = BAR_CODE_MIN_HEIGHT;
+        }
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        Map<EncodeHintType, Object> hints = new HashMap<>(8);
+        // 设置字符集编码类型
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        // 边距
+        hints.put(EncodeHintType.MARGIN, margin);
+        BitMatrix bitMatrix = null;
+        try {
+            bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.CODE_128, width, height, hints);
+            return toBufferedImage(bitMatrix);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * 解码
+     *
+     * @param file
+     * @return
+     */
+    public static String readBarCode(File file) {
+        BufferedImage image;
+        try {
+            if (file == null || !file.exists()) {
+                throw new Exception(" File not found:" + file.getPath());
+            }
+            image = ImageIO.read(file);
+            LuminanceSource source = new BufferedImageLuminanceSource(image);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            Result result;
+            // 解码设置编码方式为：utf-8，
+            Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
+            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
+            result = new MultiFormatReader().decode(bitmap, hints);
+            return result.getText();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 解码
+     *
+     * @param image
+     * @return
+     */
+    public static String readBarCode(BufferedImage image) {
         try {
             if (image == null) {
                 throw new Exception(" File is empty:");

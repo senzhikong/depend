@@ -6,6 +6,9 @@ import com.aliyun.dysmsapi20170525.models.SendSmsResponse;
 import com.aliyun.dysmsapi20170525.models.SendSmsResponseBody;
 import com.aliyun.teaopenapi.models.Config;
 
+/**
+ * @author shu
+ */
 public class AliyunSms {
 
     public static Client createClient(String accessKeyId, String accessKeySecret) throws Exception {

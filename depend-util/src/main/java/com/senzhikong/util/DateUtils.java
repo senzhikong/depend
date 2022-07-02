@@ -434,7 +434,10 @@ public class DateUtils {
         return c.getTime();
     }
 
-    // 获得当前日期与本周一相差的天数
+    /**
+     * 获得当前日期与本周一相差的天数
+     * @return 天数
+     */
     public static int getMondayPlus() {
         Calendar cd = Calendar.getInstance();
         // 获得今天是一周的第几天，星期日是第一天，星期二是第二天......
@@ -446,18 +449,23 @@ public class DateUtils {
         }
     }
 
-    // 获得当前周- 周一的日期
+    /**
+     * 获得当前周- 周一的日期
+     * @return 周一日期
+     */
     public static String getCurrentMonday() {
         int mondayPlus = getMondayPlus();
         GregorianCalendar currentDate = new GregorianCalendar();
         currentDate.add(GregorianCalendar.DATE, mondayPlus);
         Date monday = currentDate.getTime();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String preMonday = df.format(monday);
-        return preMonday;
+        return df.format(monday);
     }
 
-    // 获得当前周- 周日 的日期
+    /**
+     * 获得当前周- 周日 的日期
+     * @return 周日 的日期
+     */
     public static String getPreviousSunday() {
         int mondayPlus = getMondayPlus();
         GregorianCalendar currentDate = new GregorianCalendar();
@@ -468,7 +476,11 @@ public class DateUtils {
         return preMonday;
     }
 
-    // 获得当前月--开始日期
+    /**
+     * 获得当前月--开始日期
+     * @param date 日期
+     * @return  月开始日期
+     */
     public static String getMinMonthDate(String date) {
         Calendar calendar = Calendar.getInstance();
         try {
@@ -481,7 +493,11 @@ public class DateUtils {
         return null;
     }
 
-    // 获得当前月--结束日期
+    /**
+     *  获得当前月--结束日期
+     * @param date 日期
+     * @return 月结束日期
+     */
     public static String getMaxMonthDate(String date) {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);

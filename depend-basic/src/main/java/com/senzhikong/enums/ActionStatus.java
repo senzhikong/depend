@@ -7,8 +7,17 @@ import lombok.Getter;
  */
 @Getter
 public enum ActionStatus {
+    /**
+     * 成功
+     */
     SUCCESS("success", "成功"),
+    /**
+     * 失败
+     */
     FAIL("fail", "失败"),
+    /**
+     * 未知
+     */
     UNKNOWN("unknown", "未知");
 
     private final String code;

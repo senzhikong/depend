@@ -13,7 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
- * 以静态变量保存Spring ApplicationContext, 可在任何代码任何地方任何时候取出ApplicaitonContext.
+ * @author shu
  */
 @Component
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
@@ -38,7 +38,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
             logger.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:" +
                     SpringContextHolder.applicationContext);
         }
-        SpringContextHolder.applicationContext = applicationContext; // NOSONAR
+        SpringContextHolder.applicationContext = applicationContext;
     }
 
     /**

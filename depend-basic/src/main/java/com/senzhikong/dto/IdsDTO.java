@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author shu
+ */
 @Data
 @ApiModel("基础ID数组")
 public class IdsDTO implements Serializable {

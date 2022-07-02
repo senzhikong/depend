@@ -12,6 +12,9 @@ import java.time.Duration;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
+/**
+ * @author shu
+ */
 @Getter
 @Setter
 public class RedisCache implements IBaseCache {

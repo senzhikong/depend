@@ -6,9 +6,12 @@ import com.senzhikong.sms.aliyun.AliyunSmsRequest;
 import com.senzhikong.sms.aliyun.AliyunSmsResponse;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author shu
+ */
 @Slf4j
 public class SmsUtil {
-    public static String sendSms(SmsConfig config, JSONObject smsParam, String mobilePhone) { 
+    public static String sendSms(SmsConfig config, JSONObject smsParam, String mobilePhone) {
         if (config.getSmsProvider() == SmsProvider.ALIYUN) {
             return sendAli(config, smsParam, mobilePhone);
         }

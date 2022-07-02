@@ -2,15 +2,18 @@ package com.senzhikong.util.string.sign;
 
 import java.security.MessageDigest;
 
-public class SHAUtil {
-    private static SHAUtil instance;
+/**
+ * @author shu
+ */
+public class ShaUtil {
+    private static ShaUtil instance;
 
-    private SHAUtil() {
+    private ShaUtil() {
     }
 
-    public static SHAUtil getInstance() {
+    public static ShaUtil getInstance() {
         if (instance == null) {
-            instance = new SHAUtil();
+            instance = new ShaUtil();
         }
         return instance;
     }

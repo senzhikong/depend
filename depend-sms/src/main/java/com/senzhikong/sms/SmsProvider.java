@@ -7,6 +7,9 @@ import lombok.Getter;
  */
 @Getter
 public enum SmsProvider {
+    /**
+     * 阿里云
+     */
     ALIYUN("Aliyun", "阿里云");
 
     private final String code;

@@ -7,17 +7,20 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
-public class AESUtil {
+/**
+ * @author shu
+ */
+public class AesUtil {
 
     public static final String SIGN_ALGORITHMS = "SHA1PRNG";
-    private static AESUtil instance;
+    private static AesUtil instance;
 
-    private AESUtil() {
+    private AesUtil() {
     }
 
-    public static AESUtil getInstance() {
+    public static AesUtil getInstance() {
         if (instance == null) {
-            instance = new AESUtil();
+            instance = new AesUtil();
         }
         return instance;
     }
@@ -46,8 +49,8 @@ public class AESUtil {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] byteEncode = content.getBytes(StandardCharsets.UTF_8);
-            byte[] byteAES = cipher.doFinal(byteEncode);
-            return new String(Base64Util.encode(byteAES));
+            byte[] byteAes = cipher.doFinal(byteEncode);
+            return new String(Base64Util.encode(byteAes));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,14 +62,14 @@ public class AESUtil {
      */
     public String decode(String content, String encrypt) {
         try {
-            SecretKey original_key = getKey(encrypt);
-            byte[] raw = original_key.getEncoded();
+            SecretKey originalKey = getKey(encrypt);
+            byte[] raw = originalKey.getEncoded();
             SecretKey key = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] byte_content = Base64Util.decodeBuffer(content);
-            byte[] byte_decode = cipher.doFinal(byte_content);
-            return new String(byte_decode, StandardCharsets.UTF_8);
+            byte[] byteContent = Base64Util.decodeBuffer(content);
+            byte[] byteDecode = cipher.doFinal(byteContent);
+            return new String(byteDecode, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

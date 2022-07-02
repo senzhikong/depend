@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+/**
+ * @author shu
+ */
 @Component
 public class AppInitializeRunner implements ApplicationRunner {
     @Override

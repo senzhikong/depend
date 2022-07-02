@@ -1,10 +1,28 @@
 package com.senzhikong.enums;
 
+/**
+ * @author shu
+ */
 public enum ResourceStorageType {
+    /**
+     * 本地存储
+     */
     LOCAL("local", "本地存储"),
+    /**
+     * FTP存储
+     */
     FTP("ftp", "FTP存储"),
+    /**
+     * 阿里云OSS
+     */
     OSS("oss", "阿里云OSS"),
+    /**
+     * 腾讯云COS
+     */
     COS("cos", "腾讯云COS"),
+    /**
+     * 七牛云Kodo
+     */
     KODO("kodo", "七牛云Kodo");
 
     private String code;

@@ -9,7 +9,13 @@ import lombok.Getter;
  */
 @Getter
 public enum OrderType {
+    /**
+     * 正序
+     */
     ASC("asc", "正序"),
+    /**
+     * 倒序
+     */
     DESC("desc", "倒序");
 
     private final String code;

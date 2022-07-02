@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author shu
+ */
 @Data
 public class UrlFilterChain {
     private String pattern;

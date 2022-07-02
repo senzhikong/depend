@@ -1,5 +1,8 @@
 package com.senzhikong.util.http;
 
+/**
+ * @author shu
+ */
 public class DownloadFile {
 
     private String contentType;

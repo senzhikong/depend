@@ -6,29 +6,40 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import java.security.SecureRandom;
 
-public class DESUtil {
+/**
+ * @author shu
+ */
+public class DesUtil {
 
-    private static DESUtil instance;
-    // DES算法要求有一个可信任的随机数源
+    private static DesUtil instance;
+    /**
+     * DES算法要求有一个可信任的随机数源
+     */
     private SecureRandom random;
-    // 创建一个DESKeySpec对象
-    private DESKeySpec desKey;
-    // 创建一个密匙工厂
-    private SecretKeyFactory keyFactory;
-    // 将DESKeySpec对象转换成SecretKey对象
-    private SecretKey securekey;
-    // Cipher对象实际完成解密操作
-    private Cipher cipher;
+    /**
+     * 将DESKeySpec对象转换成SecretKey对象
+     */
+    private final SecretKey securekey;
+    /**
+     * Cipher对象实际完成解密操作
+     */
+    private final Cipher cipher;
 
-    private DESUtil() {
+    private DesUtil() {
         try {
             // DES算法要求有一个可信任的随机数源
             random = new SecureRandom();
             // 创建一个DESKeySpec对象
-            desKey = new DESKeySpec(SignUtil.getPassword()
-                    .getBytes());
+            /**
+             * 创建一个DESKeySpec对象
+             */
+            DESKeySpec desKey = new DESKeySpec(SignUtil.getPassword()
+                                                       .getBytes());
             // 创建一个密匙工厂，然后用它把DESKeySpec转换成
-            keyFactory = SecretKeyFactory.getInstance("DES");
+            /**
+             * 创建一个密匙工厂
+             */
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             securekey = keyFactory.generateSecret(desKey);
             // 生成Cipher对象,指定其支持的DES算法
             cipher = Cipher.getInstance("DES");
@@ -37,9 +48,9 @@ public class DESUtil {
         }
     }
 
-    public static DESUtil getInstance() {
+    public static DesUtil getInstance() {
         if (instance == null) {
-            instance = new DESUtil();
+            instance = new DesUtil();
         }
         return instance;
     }

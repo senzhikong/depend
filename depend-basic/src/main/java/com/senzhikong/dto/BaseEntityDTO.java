@@ -7,6 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author shu
+ */
 @Data
 @ApiModel("基础对象模型")
 public class BaseEntityDTO implements Serializable {

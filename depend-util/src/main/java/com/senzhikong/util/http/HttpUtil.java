@@ -27,6 +27,7 @@ public class HttpUtil {
     public static final String GET = "GET";
     public static final String HTTPS = "https";
     private static final String BOUNDARY = "ZS--------HV2ymHFg03ehbqgZCaKO6jyH";
+    private static final Integer CODE_200=200;
 
     public static String getStringByUrl(String url) {
         String result;
@@ -74,7 +75,7 @@ public class HttpUtil {
             outputStream.write(param.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
 
-            if (httpConnection.getResponseCode() != 200) {
+            if (httpConnection.getResponseCode() != CODE_200) {
                 throw new RuntimeException("Failed : HTTP error code : " + httpConnection.getResponseCode());
             }
 
@@ -125,7 +126,7 @@ public class HttpUtil {
             }
             outputStream.flush();
 
-            if (httpConnection.getResponseCode() != 200) {
+            if (httpConnection.getResponseCode() != CODE_200) {
                 throw new RuntimeException("Failed : HTTP error code : " + httpConnection.getResponseCode());
             }
 
@@ -269,7 +270,7 @@ public class HttpUtil {
         StringEntity params = new StringEntity(jsonObject.toString(), "UTF-8");
         httpPost.setEntity(params);
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            if (response.getStatusLine() .getStatusCode() != 200) {
+            if (response.getStatusLine() .getStatusCode() != CODE_200) {
                 httpPost.abort();
                 return null;
             }
