@@ -31,21 +31,4 @@ public enum CommonStatus {
         this.code = code;
         this.description = description;
     }
-
-    public String code() {
-        return code;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
 }

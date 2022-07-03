@@ -26,7 +26,7 @@ import java.util.List;
 public class BaseService extends WrapperService implements IBaseService {
 
     public <T extends BaseEntity> void updateStatus(Class<T> clz, Long[] ids, CommonStatus status) {
-        updateStatus(clz, ids, status.code(), status.description());
+        updateStatus(clz, ids, status.getCode(), status.getDescription());
     }
 
     @Override

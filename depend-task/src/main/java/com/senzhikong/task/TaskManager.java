@@ -160,28 +160,28 @@ public class TaskManager implements InitializeBean {
         TriggerState state = scheduler.getTriggerState(triggerKey);
         switch (state) {
             case BLOCKED:
-                task.setRunningStatus(TaskStatus.BLOCKED.code());
-                task.setRunningStatusDesc(TaskStatus.BLOCKED.description());
+                task.setRunningStatus(TaskStatus.BLOCKED.getCode());
+                task.setRunningStatusDesc(TaskStatus.BLOCKED.getDescription());
                 break;
             case COMPLETE:
-                task.setRunningStatus(TaskStatus.COMPLETE.code());
-                task.setRunningStatusDesc(TaskStatus.COMPLETE.description());
+                task.setRunningStatus(TaskStatus.COMPLETE.getCode());
+                task.setRunningStatusDesc(TaskStatus.COMPLETE.getDescription());
                 break;
             case ERROR:
-                task.setRunningStatus(TaskStatus.ERROR.code());
-                task.setRunningStatusDesc(TaskStatus.ERROR.description());
+                task.setRunningStatus(TaskStatus.ERROR.getCode());
+                task.setRunningStatusDesc(TaskStatus.ERROR.getDescription());
                 break;
             case PAUSED:
-                task.setRunningStatus(TaskStatus.PAUSED.code());
-                task.setRunningStatusDesc(TaskStatus.PAUSED.description());
+                task.setRunningStatus(TaskStatus.PAUSED.getCode());
+                task.setRunningStatusDesc(TaskStatus.PAUSED.getDescription());
                 break;
             case NORMAL:
-                task.setRunningStatus(TaskStatus.NORMAL.code());
-                task.setRunningStatusDesc(TaskStatus.NORMAL.description());
+                task.setRunningStatus(TaskStatus.NORMAL.getCode());
+                task.setRunningStatusDesc(TaskStatus.NORMAL.getDescription());
                 break;
             case NONE:
-                task.setRunningStatus(TaskStatus.NONE.code());
-                task.setRunningStatusDesc(TaskStatus.NONE.description());
+                task.setRunningStatus(TaskStatus.NONE.getCode());
+                task.setRunningStatusDesc(TaskStatus.NONE.getDescription());
                 break;
             default:
                 break;
