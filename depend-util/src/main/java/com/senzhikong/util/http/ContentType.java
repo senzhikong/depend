@@ -17,21 +17,31 @@ public class ContentType {
     public static final String TEXT_PLAIN = MediaType.TEXT_PLAIN;
     public static final String IMAGE_JPEG = "image/jpeg";
 
+    private static final String HTML = "html";
+    private static final String ICO = "ico";
+    private static final String JPG = "jpg";
+    private static final String JPEG = "jpeg";
+    private static final String JPE = "jpe";
+    private static final String MP3 = "mp3";
+    private static final String WAV = "wav";
+    private static final String WMA = "wma";
+    private static final String MP4 = "mp4";
+
     public static String get(String fileName) {
         String end = fileName.substring(fileName.lastIndexOf(".") + 1);
-        if ("html".equalsIgnoreCase(end)) {
+        if (HTML.equalsIgnoreCase(end)) {
             return "text/html";
-        } else if ("ico".equalsIgnoreCase(end)) {
+        } else if (ICO.equalsIgnoreCase(end)) {
             return "image/x-icon";
-        } else if ("jpg".equalsIgnoreCase(end) || "jpeg".equalsIgnoreCase(end) || "jpe".equalsIgnoreCase(end)) {
+        } else if (JPEG.equalsIgnoreCase(end) || JPG.equalsIgnoreCase(end) || JPE.equalsIgnoreCase(end)) {
             return "image/jpeg";
-        } else if ("mp3".equalsIgnoreCase(end)) {
+        } else if (MP3.equalsIgnoreCase(end)) {
             return "audio/mp3";
-        } else if ("wav".equalsIgnoreCase(end)) {
+        } else if (WAV.equalsIgnoreCase(end)) {
             return "audio/wav";
-        } else if ("wma".equalsIgnoreCase(end)) {
+        } else if (WMA.equalsIgnoreCase(end)) {
             return "audio/x-ms-wma";
-        } else if ("mp4".equalsIgnoreCase(end)) {
+        } else if (MP4.equalsIgnoreCase(end)) {
             return "video/mpeg4";
         }
         return "application/octet-stream";

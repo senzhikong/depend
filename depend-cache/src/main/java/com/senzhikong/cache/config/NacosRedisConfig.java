@@ -15,7 +15,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -36,6 +38,12 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     private String namespace;
     private JSONObject config;
 
+
+    /**
+     * 最小空闲连接数
+     */
+    @Value("${spring.redis.jedis.pool.minIdle}")
+    private int minIdle = 1;
     /**
      * 最大空闲连接数
      */
@@ -57,8 +65,10 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     /**
      * 连接池配置
      */
-    public JedisPoolConfig poolConfig(int maxIdle, int maxTotal, long maxWaitMillis, boolean testOnBorrow) {
+    public JedisPoolConfig poolConfig(int minIdle, int maxIdle, int maxTotal, long maxWaitMillis,
+            boolean testOnBorrow) {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMinIdle(minIdle);
         poolConfig.setMaxIdle(maxIdle);
         poolConfig.setMaxTotal(maxTotal);
         poolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
@@ -69,7 +79,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     /**
      * 配置工厂
      */
-    public RedisConnectionFactory connectionFactory(String host, int port, String password, int maxIdle,
+    public RedisConnectionFactory connectionFactory(String host, int port, String password, int minIdle, int maxIdle,
             int maxTotal, long maxWaitMillis, int index) {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
@@ -78,12 +88,14 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
             redisStandaloneConfiguration.setDatabase(index);
         }
         if (StringUtils.isNotEmpty(password)) {
-            redisStandaloneConfiguration.setPassword(password);
+            redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
         }
 
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
-
-        jedisConnectionFactory.setPoolConfig(poolConfig(maxIdle, maxTotal, maxWaitMillis, false));
+        JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfigurationBuilder = JedisClientConfiguration.builder();
+        JedisClientConfiguration jedisClientConfiguration = jedisClientConfigurationBuilder
+                .usePooling().poolConfig(this.poolConfig(minIdle, maxIdle, maxTotal, maxWaitMillis, false)).build();
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration,
+                jedisClientConfiguration);
         jedisConnectionFactory.afterPropertiesSet();
         return jedisConnectionFactory;
     }
@@ -128,8 +140,11 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
             JSONObject json = this.config.getJSONObject(key);
             RedisConnectionFactory connectionFactory = connectionFactory(json.getString("host"),
                     json.getInteger("port"),
-                    json.getString("password"), maxIdle,
-                    maxActive, maxWait,
+                    json.getString("password"),
+                    minIdle,
+                    maxIdle,
+                    maxActive,
+                    maxWait,
                     json.getInteger("database"));
             if (StringUtils.equals("default", key)) {
                 SpringContextHolder.removeBean("redisTemplate");

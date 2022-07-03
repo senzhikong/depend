@@ -2,6 +2,9 @@ package com.senzhikong.email;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.senzhikong.email.EmailPriority;
+import com.senzhikong.email.EmailRequest;
+import com.senzhikong.email.ReceiveEmail;
 import com.senzhikong.util.string.StringUtil;
 import com.sun.mail.imap.IMAPMessage;
 
@@ -10,17 +13,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import javax.mail.search.FlagTerm;
-import javax.mail.search.MessageIDTerm;
 import javax.mail.search.SearchTerm;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 /**
  * @author shu
  */
@@ -37,19 +34,8 @@ public class EmailUtil {
             props.put("mail.smtp.socketFactory.port", emailRequest.getSendSslPort());
             props.put("mail.smtp.port", emailRequest.getSendSslPort());
         }
-        props.put("mail.user", emailRequest.getFromEmail());
-        props.put("mail.password", emailRequest.getFromPassword());
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                // 用户名、密码
-                String userName = props.getProperty("mail.user");
-                String password = props.getProperty("mail.password");
-                return new PasswordAuthentication(userName, password);
-            }
-        };
         // 使用环境属性和授权信息，创建邮件会话
-        Session mailSession = Session.getInstance(props, authenticator);
+        Session mailSession = getAuthSession(props, emailRequest);
         MimeMessage message = new MimeMessage(mailSession);
         try {
             String nick = emailRequest.getFromName();
@@ -73,12 +59,7 @@ public class EmailUtil {
         return null;
     }
 
-    public static Store getImapStore(EmailRequest emailRequest) throws Exception {
-        Properties props = new Properties();
-        props.put("mail.store.protocol", "imap");
-        props.put("mail.imap.auth", "true");
-        props.put("mail.imap.host", "imap." + emailRequest.getEmailHost());
-        props.put("mail.imap.port", "143");
+    public static Session getAuthSession(Properties props, EmailRequest emailRequest) {
         props.put("mail.user", emailRequest.getFromEmail());
         props.put("mail.password", emailRequest.getFromPassword());
         Authenticator authenticator = new Authenticator() {
@@ -89,7 +70,16 @@ public class EmailUtil {
                 return new PasswordAuthentication(userName, password);
             }
         };
-        Session session = Session.getInstance(props, authenticator);
+        return Session.getInstance(props, authenticator);
+    }
+
+    public static Store getImapStore(EmailRequest emailRequest) throws Exception {
+        Properties props = new Properties();
+        props.put("mail.store.protocol", "imap");
+        props.put("mail.imap.auth", "true");
+        props.put("mail.imap.host", "imap." + emailRequest.getEmailHost());
+        props.put("mail.imap.port", "143");
+        Session session = getAuthSession(props, emailRequest);
         // 创建IMAP协议的Store对象
         Store store = session.getStore("imap");
         // 连接邮件服务器
@@ -151,7 +141,7 @@ public class EmailUtil {
         email.setFromEmail(fromEmail);
         email.setFromName(fromName);
         //收件人
-        List<String> toList = new ArrayList<String>();
+        List<String> toList = new ArrayList<>();
         Address[] addresses = msg.getAllRecipients();
         for (Address add : addresses) {
             InternetAddress internetAddress = (InternetAddress) add;
@@ -170,13 +160,15 @@ public class EmailUtil {
         String priorityDesc = "普通";
         String[] headers = msg.getHeader("X-Priority");
         if (headers != null) {
-            String headerPriority = headers[0];
-            if (headerPriority.contains("1") || headerPriority.contains("High")) {
-                priority = "High";
-                priorityDesc = "普通";
-            } else if (headerPriority.contains("5") || headerPriority.contains("Low")) {
-                priority = "Low";
-                priorityDesc = "低";
+            String headerPriority = headers[0].toLowerCase();
+            if (headerPriority.contains(EmailPriority.HIGH.getLevel()) || headerPriority.contains(
+                    EmailPriority.HIGH.getCode().toLowerCase())) {
+                priority = EmailPriority.HIGH.getCode();
+                priorityDesc = EmailPriority.HIGH.getDescription();
+            } else if (headerPriority.contains(EmailPriority.LOW.getLevel()) || headerPriority.contains(
+                    EmailPriority.LOW.getCode().toLowerCase())) {
+                priority = EmailPriority.LOW.getCode();
+                priorityDesc = EmailPriority.LOW.getDescription();
             }
         }
         email.setPriority(priority);
@@ -199,29 +191,33 @@ public class EmailUtil {
         return email;
     }
 
+    private static final String EMAIL_HTML = "text/html";
+    private static final String EMAIL_TEXT = "text/plain";
+    private static final String EMAIL_MESSAGE = "message/rfc822";
+    private static final String EMAIL_MULTIPART = "multipart/*";
 
     /**
      * 获得邮件文本内容
      *
-     * @param part
-     * @param contentHtml
-     * @param contentText
-     * @throws Exception
+     * @param part        邮件模块
+     * @param contentHtml 富文本
+     * @param contentText 纯文本
+     * @throws Exception 解析异常
      */
     public static void getMailTextContent(Part part, StringBuilder contentHtml, StringBuilder contentText)
             throws Exception {
         //如果是文本类型的附件，通过getContent方法可以取到文本内容，但这不是我们需要的结果，所以在这里要做判断
         boolean isContainTextAttach = part.getContentType()
                                           .indexOf("name") > 0;
-        if (part.isMimeType("text/plain") && !isContainTextAttach) {
+        if (part.isMimeType(EMAIL_TEXT) && !isContainTextAttach) {
             contentText.append(part.getContent()
                                    .toString());
-        } else if (part.isMimeType("text/html") && !isContainTextAttach) {
+        } else if (part.isMimeType(EMAIL_HTML) && !isContainTextAttach) {
             contentHtml.append(part.getContent()
                                    .toString());
-        } else if (part.isMimeType("message/rfc822")) {
+        } else if (part.isMimeType(EMAIL_MESSAGE)) {
             getMailTextContent((Part) part.getContent(), contentHtml, contentText);
-        } else if (part.isMimeType("multipart/*")) {
+        } else if (part.isMimeType(EMAIL_MULTIPART)) {
             Multipart multipart = (Multipart) part.getContent();
             int partCount = multipart.getCount();
             for (int i = 0; i < partCount; i++) {
@@ -232,7 +228,7 @@ public class EmailUtil {
     }
 
     public static void listAttachment(Part part, String pos, JSONArray files) throws Exception {
-        if (part.isMimeType("multipart/*")) {
+        if (part.isMimeType(EMAIL_MULTIPART)) {
             //复杂体邮件
             Multipart multipart = (Multipart) part.getContent();
             //复杂体邮件包含多个邮件体
@@ -240,11 +236,11 @@ public class EmailUtil {
             for (int i = 0; i < partCount; i++) {
                 BodyPart bodyPart = multipart.getBodyPart(i);
                 //某一个邮件体也有可能是由多个邮件体组成的复杂体
-                String disp = bodyPart.getDisposition();
+                String disposition = bodyPart.getDisposition();
                 String filePos = pos + "," + i;
-                if (disp.equalsIgnoreCase(Part.ATTACHMENT) || disp.equalsIgnoreCase(Part.INLINE)) {
+                if (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE)) {
                     files.add(getAttachment(bodyPart, filePos));
-                } else if (bodyPart.isMimeType("multipart/*")) {
+                } else if (bodyPart.isMimeType(EMAIL_MULTIPART)) {
                     listAttachment(bodyPart, filePos, files);
                 } else {
                     String contentType = bodyPart.getContentType();
@@ -253,16 +249,24 @@ public class EmailUtil {
                     }
                 }
             }
-        } else if (part.isMimeType("message/rfc822")) {
+        } else if (part.isMimeType(EMAIL_MULTIPART)) {
             listAttachment((Part) part.getContent(), pos + ",0", files);
         }
     }
 
+    /**
+     * 获取邮箱附件
+     *
+     * @param bodyPart 主体
+     * @param filePos  文件位置
+     * @return 文件主体
+     * @throws Exception 解析异常
+     */
     private static JSONObject getAttachment(BodyPart bodyPart, String filePos) throws Exception {
         JSONObject file = new JSONObject();
         String fileName = decodeText(bodyPart.getFileName());
         if (StringUtil.isEmpty(fileName)) {
-            fileName = "unknow" + System.currentTimeMillis();
+            fileName = "unknown" + System.currentTimeMillis();
         }
         file.put("pos", filePos);
         file.put("fileName", fileName);
@@ -270,64 +274,12 @@ public class EmailUtil {
         return file;
     }
 
-    public static void downloadAttachment(EmailRequest emailRequest, JSONObject file, OutputStream out)
-            throws Exception {
-        downloadAttachment(emailRequest, file, out, null);
-    }
-
-    public static void downloadAttachment(EmailRequest emailRequest, JSONObject file, OutputStream out,
-            HttpServletResponse response) throws Exception {
-        try {
-            // 创建IMAP协议的Store对象
-            Store store = getImapStore(emailRequest);
-            // 获得收件箱
-            Folder folder = store.getFolder("INBOX");
-            // 以读写模式打开收件箱
-            folder.open(Folder.READ_WRITE);
-            // 获得收件箱的邮件列表
-            MessageIDTerm term = new MessageIDTerm(file.getString("messageId"));
-            Message msg = folder.search(term)[0];
-            String[] pos = file.getString("pos")
-                               .replace("root,", "")
-                               .split(",");
-
-            Part part = msg;
-            for (String p : pos) {
-                if (part.isMimeType("multipart/*")) {
-                    //复杂体邮件
-                    Multipart multipart = (Multipart) part.getContent();
-                    part = multipart.getBodyPart(Integer.parseInt(p));
-                } else if (part.isMimeType("message/rfc822")) {
-                    part = (Part) part.getContent();
-                }
-            }
-            BufferedInputStream bis = new BufferedInputStream(part.getInputStream());
-            if (response != null) {
-                response.addHeader("Content-Length", "" + bis.available());
-            }
-            BufferedOutputStream bos = new BufferedOutputStream(out);
-            byte[] bytes = new byte[2048];
-            int len = 0;
-            while ((len = bis.read(bytes)) > 0) {
-                bos.write(bytes, 0, len);
-            }
-            bis.close();
-            bos.flush();
-            bos.close();
-            // 关闭资源
-            folder.close(false);
-            store.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 文本解码
      *
      * @param encodeText 解码MimeUtility.encodeText(String text)方法编码后的文本
      * @return 解码后的文本
-     * @throws UnsupportedEncodingException
+     * @throws UnsupportedEncodingException 不支持的编码
      */
     public static String decodeText(String encodeText) throws UnsupportedEncodingException {
         if (encodeText == null || "".equals(encodeText)) {

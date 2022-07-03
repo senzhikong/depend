@@ -78,13 +78,17 @@ public class FileToBrowserUtil {
         }
     }
 
+    private static final String MS = "MSIE";
+    private static final String GECKO = "GECKO";
+    private static final String RV = "RV";
+
     public static String getFileName(String filename, HttpServletRequest request) {
         // 获得浏览器信息并转换为大写
         String agent = request.getHeader("User-Agent").toUpperCase();
         // IE浏览器和Edge浏览器
-        if (agent.indexOf("MSIE") > 0) {
+        if (agent.contains(MS)) {
             filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
-        } else if (agent.indexOf("GECKO") > 0 && agent.indexOf("RV:11") > 0) {
+        } else if (agent.contains(GECKO) && agent.contains(RV)) {
             filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         } else { // 其他浏览器
             filename = new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);

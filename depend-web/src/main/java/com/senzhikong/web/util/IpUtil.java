@@ -10,6 +10,7 @@ public class IpUtil {
     private static final String UNKNOWN = "unknown";
     private static final String LOCAL1 = "0:0:0:0:0:0:0:1";
     private static final String LOCAL2 = "127.0.0.1";
+    private static final String MULTIPLE_IP_SPLIT = ",";
 
     /**
      * @param request
@@ -39,10 +40,8 @@ public class IpUtil {
             }
         }
         // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if (ip != null && ip.length() > 15) {
-            if (ip.contains(",")) {
-                ip = ip.substring(0, ip.indexOf(","));
-            }
+        if (ip != null && ip.contains(MULTIPLE_IP_SPLIT)) {
+            ip = ip.substring(0, ip.indexOf(MULTIPLE_IP_SPLIT));
         }
         return ip;
     }

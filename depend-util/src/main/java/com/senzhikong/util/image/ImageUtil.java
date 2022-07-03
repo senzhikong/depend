@@ -21,96 +21,84 @@ public class ImageUtil {
     /**
      * 读取图标
      *
-     * @param file
-     * @return
+     * @param file 图标文件路径
+     * @return 图标
      */
     public static ImageIcon readImageIcon(String file) {
-        ImageIcon icon = new ImageIcon(readImage(file));
-        return icon;
+        return new ImageIcon(readImage(file));
     }
 
     /**
      * 读取图标
      *
-     * @param file
-     * @return
+     * @param file 图标文件
+     * @return 图标
      */
     public static ImageIcon readImageIcon(File file) {
-        ImageIcon icon = new ImageIcon(readImage(file));
-        return icon;
+        return new ImageIcon(readImage(file));
     }
 
     /**
      * 读取图标
      *
-     * @param in
-     * @return
+     * @param in 图标文件输入流
+     * @return 图标
      */
     public static ImageIcon readImageIcon(InputStream in) {
-        ImageIcon icon = new ImageIcon(readImage(in));
-        return icon;
+        return new ImageIcon(readImage(in));
     }
 
     /**
      * 读取图标
      *
-     * @param file
-     * @param width
-     * @param height
-     * @return
+     * @param file   图标文件路径
+     * @param width  宽度
+     * @param height 高度
+     * @return 图标
      */
     public static ImageIcon readImageIcon(String file, int width, int height) {
-        ImageIcon icon = new ImageIcon(readImage(file, width, height));
-        return icon;
+        return new ImageIcon(readImage(file, width, height));
     }
 
     /**
      * 读取图标
      *
-     * @param file
-     * @param width
-     * @param height
-     * @return
+     * @param file   图标文件
+     * @param width  宽度
+     * @param height 高度
+     * @return 图标
      */
     public static ImageIcon readImageIcon(File file, int width, int height) {
-        ImageIcon icon = new ImageIcon(readImage(file, width, height));
-        return icon;
+        return new ImageIcon(readImage(file, width, height));
     }
 
     /**
      * 读取图标
      *
-     * @param in
-     * @param width
-     * @param height
-     * @return
+     * @param in     图片输入流
+     * @param width  宽度
+     * @param height 高度
+     * @return 图标
      */
     public static ImageIcon readImageIcon(InputStream in, int width, int height) {
-        ImageIcon icon = new ImageIcon(readImage(in, width, height));
-        return icon;
+        return new ImageIcon(readImage(in, width, height));
     }
 
     /**
      * 读取图片
      *
-     * @param file
-     * @return
+     * @param file 图片路径
+     * @return 图片
      */
     public static BufferedImage readImage(String file) {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(file);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return readImage(in);
+        return readImage(new File(file));
     }
 
     /**
      * 读取图片
      *
-     * @param file
-     * @return
+     * @param file 文件
+     * @return 图片
      */
     public static BufferedImage readImage(File file) {
         InputStream in = null;
@@ -133,11 +121,11 @@ public class ImageUtil {
     /**
      * 读取图片
      *
-     * @param in
-     * @return
+     * @param in 输入流
+     * @return 图片
      */
     public static BufferedImage readImage(InputStream in) {
-        BufferedImage image = null;
+        BufferedImage image;
         try {
             image = ImageIO.read(in);
             in.close();
@@ -150,65 +138,68 @@ public class ImageUtil {
     /**
      * 读取图片
      *
-     * @param file
-     * @param width
-     * @param height
-     * @return
+     * @param file   图片文件
+     * @param width  宽度
+     * @param height 高度
+     * @return 图片
      */
     public static BufferedImage readImage(String file, int width, int height) {
-        return resize((BufferedImage) readImage(file), width, height);
+        return resize(readImage(file), width, height);
     }
 
     /**
      * 读取图片
      *
-     * @param file
-     * @param width
-     * @param height
-     * @return
+     * @param file   图片文件
+     * @param width  宽度
+     * @param height 高度
+     * @return 图片
      */
     public static BufferedImage readImage(File file, int width, int height) {
-        return resize((BufferedImage) readImage(file), width, height);
+        return resize(readImage(file), width, height);
     }
 
     /**
      * 读取图片
      *
-     * @param in
-     * @param width
-     * @param height
-     * @return
+     * @param in     图片输入流
+     * @param width  宽度
+     * @param height 高度
+     * @return 图片
      */
     public static BufferedImage readImage(InputStream in, int width, int height) {
-        return resize((BufferedImage) readImage(in), width, height);
+        return resize(readImage(in), width, height);
     }
 
     /**
      * 图片转输入流
      *
-     * @param image
-     * @return
-     * @throws Exception
+     * @param image 图片
+     * @return 输入流
+     * @throws Exception 异常
      */
     public static InputStream bufferedImageToInputStream(BufferedImage image) throws Exception {
         return bufferedImageToInputStream(image, "png");
     }
 
+    private static final String JPG = "jpg";
+    private static final String JPEG = "jpeg";
+
     /**
      * 图片转输入流
      *
-     * @param image
-     * @param format
-     * @return
-     * @throws Exception
+     * @param image  图片
+     * @param format 图片格式
+     * @return 输入流
+     * @throws Exception 异常
      */
     public static InputStream bufferedImageToInputStream(BufferedImage image, String format) throws Exception {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        if ("jpg".equalsIgnoreCase(format) || "jpeg".equalsIgnoreCase(format)) {
+        if (JPG.equalsIgnoreCase(format) || JPEG.equalsIgnoreCase(format)) {
             BufferedImage tag = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_BGR);
             Graphics2D g = tag.createGraphics();
             tag = g.getDeviceConfiguration()
-                    .createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
+                   .createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
             g.fillRect(0, 0, tag.getWidth(null), tag.getHeight(null));
             // 绘制缩小后的图
             g.drawImage(image, 0, 0, null);
@@ -224,10 +215,10 @@ public class ImageUtil {
     /**
      * 压缩图片大小
      *
-     * @param image
-     * @param targetW
-     * @param targetH
-     * @return
+     * @param image   图片输入流
+     * @param targetW 宽度
+     * @param targetH 高度
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(InputStream image, int targetW, int targetH) {
         return resize(image, targetW, targetH, false);
@@ -236,23 +227,23 @@ public class ImageUtil {
     /**
      * 压缩图片大小
      *
-     * @param image
-     * @param targetW
-     * @param targetH
-     * @param isProportion
-     * @return
+     * @param image        图片输入流
+     * @param targetW      宽度
+     * @param targetH      高度
+     * @param isProportion 是否等比例缩放
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(InputStream image, int targetW, int targetH, boolean isProportion) {
-        BufferedImage bi = (BufferedImage) readImage(image);
+        BufferedImage bi = readImage(image);
         return resize(bi, targetW, targetH, isProportion);
     }
 
     /**
      * 压缩图片大小
      *
-     * @param image
-     * @param targetW
-     * @return
+     * @param image   图片输入流
+     * @param targetW 宽度
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(InputStream image, int targetW) {
         BufferedImage bi = (BufferedImage) readImage(image);
@@ -262,10 +253,10 @@ public class ImageUtil {
     /**
      * 压缩图片大小
      *
-     * @param source
-     * @param targetW
-     * @param targetH
-     * @return
+     * @param source  需要压缩的图片
+     * @param targetW 宽度
+     * @param targetH 高度
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(BufferedImage source, int targetW, int targetH) {
         return resize(source, targetW, targetH, false);
@@ -274,47 +265,27 @@ public class ImageUtil {
     /**
      * 压缩图片大小,等比缩放
      *
-     * @param source
-     * @param targetW
-     * @return
+     * @param source  需要压缩的图片
+     * @param targetW 宽度
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(BufferedImage source, int targetW) {
-        // targetW，targetH分别表示目标长和宽
-        int type = source.getType();
-        BufferedImage target = null;
-        if (targetW == source.getWidth()) {
-            return source;
-        }
-        int targetH = targetW * source.getHeight() / source.getWidth();
-        double sx = (double) targetW / source.getWidth();
-        double sy = (double) targetH / source.getHeight();
-        if (type == BufferedImage.TYPE_CUSTOM) {
-            ColorModel cm = source.getColorModel();
-            WritableRaster raster = cm.createCompatibleWritableRaster(targetW, targetH);
-            boolean alphaPremultiplied = cm.isAlphaPremultiplied();
-            target = new BufferedImage(cm, raster, alphaPremultiplied, null);
-        } else {
-            target = new BufferedImage(targetW, targetH, type);
-        }
-        Graphics2D g = target.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g.drawRenderedImage(source, AffineTransform.getScaleInstance(sx, sy));
-        g.dispose();
-        return target;
+        return resize(source, targetW, source.getHeight(), true);
     }
 
     /**
      * 压缩图片大小
      *
-     * @param source
-     * @param targetW
-     * @param targetH
-     * @return
+     * @param source       需要压缩的图片
+     * @param targetW      宽度
+     * @param targetH      高度
+     * @param isProportion 是否等比例缩放
+     * @return 压缩后的图片
      */
     public static BufferedImage resize(BufferedImage source, int targetW, int targetH, boolean isProportion) {
         // targetW，targetH分别表示目标长和宽
         int type = source.getType();
-        BufferedImage target = null;
+        BufferedImage target;
         if (targetW == source.getWidth() && targetH == source.getHeight()) {
             return source;
         }
@@ -345,63 +316,115 @@ public class ImageUtil {
         return target;
     }
 
-    public static void saveImage(BufferedImage image, String filePath) throws Exception {
-        saveImage(image, null, new FileOutputStream(filePath));
+    /**
+     * 图片保存到文件
+     *
+     * @param image    图片
+     * @param filePath 保存路径
+     */
+    public static void saveImage(BufferedImage image, String filePath) {
+        saveImage(image, null, new File(filePath));
     }
 
-    public static void saveImage(BufferedImage image, File file) throws Exception {
-        saveImage(image, null, new FileOutputStream(file));
+    /**
+     * 图片保存到文件
+     *
+     * @param image 图片
+     * @param file  保存文件
+     */
+    public static void saveImage(BufferedImage image, File file) {
+        saveImage(image, null, file);
     }
 
-    public static void saveImage(BufferedImage image, OutputStream os) throws Exception {
+    /**
+     * 图片保存到文件
+     *
+     * @param image 图片
+     * @param os    输出流
+     */
+    public static void saveImage(BufferedImage image, OutputStream os) {
         saveImage(image, null, os);
     }
 
-    public static void saveImage(BufferedImage image, String formatName, String filePath) throws Exception {
-        saveImage(image, formatName, new FileOutputStream(filePath));
+    /**
+     * 图片保存到文件
+     *
+     * @param image      图片
+     * @param formatName 图片格式
+     * @param filePath   图片路径
+     */
+    public static void saveImage(BufferedImage image, String formatName, String filePath) {
+        saveImage(image, formatName, new File(filePath));
     }
 
-    public static void saveImage(BufferedImage image, String formatName, File file) throws Exception {
-        saveImage(image, formatName, new FileOutputStream(file));
+    /**
+     * 图片保存到文件
+     *
+     * @param image      图片
+     * @param formatName 图片格式
+     * @param file       图片
+     */
+    public static void saveImage(BufferedImage image, String formatName, File file) {
+        try {
+            saveImage(image, formatName, new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void saveImage(BufferedImage image, String formatName, OutputStream os) throws Exception {
+    /**
+     * 图片保存到文件
+     *
+     * @param image      图片
+     * @param formatName 图片格式
+     * @param os         输出流
+     */
+    public static void saveImage(BufferedImage image, String formatName, OutputStream os) {
         if (formatName == null || "".equals(formatName.trim())) {
             formatName = "jpg";
         }
-        ImageIO.write(image, formatName, os);
+        try {
+            ImageIO.write(image, formatName, os);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    /**
+     * 判断文件是否图片
+     *
+     * @param file 文件
+     * @return 是否图片
+     */
     public static boolean isImage(File file) {
-        boolean flag = false;
+        ImageInputStream is = null;
         try {
-            ImageInputStream is = ImageIO.createImageInputStream(file);
+            is = ImageIO.createImageInputStream(file);
             if (null == is) {
-                return flag;
+                return false;
             }
             is.close();
-            flag = true;
+            return true;
         } catch (Exception e) {
+            return false;
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return flag;
     }
 
     /**
-     * 获取大图标
-     * @param f
-     * @return
-     */
-    /*
-     * public static ImageIcon getBigIcon(File f) { if (f != null && f.exists()) { try { ShellFolder sf = ShellFolder.getShellFolder(f); return (new ImageIcon(sf.getIcon(true))); } catch (Exception e) { e.printStackTrace(); } } return (null); }
-     */
-
-    /**
-     * 获取小图标
+     * 获取文件图标
      *
-     * @param f
-     * @return
+     * @param f 文件
+     * @return 文件图片
      */
-    public static Icon getSmallIcon(File f) {
+    public static Icon getFileIcon(File f) {
         if (f != null && f.exists()) {
             FileSystemView fsv = FileSystemView.getFileSystemView();
             return fsv.getSystemIcon(f);

@@ -150,91 +150,53 @@ public class DateUtils {
     /**
      * 计算两个时间的相隔天数
      *
-     * @param smdate 较小的时间
-     * @param bdate  较大的时间
+     * @param date1 较小的时间
+     * @param date2 较大的时间
+     * @return 相隔分钟数
      */
-    public static int daysBetween(Date smdate, Date bdate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
-            smdate = sdf.parse(sdf.format(smdate));
-            bdate = sdf.parse(sdf.format(bdate));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(smdate);
-            long time1 = cal.getTimeInMillis();
-            cal.setTime(bdate);
-            long time2 = cal.getTimeInMillis();
-            long betweenDays = (time2 - time1) / (1000 * 3600 * 24);
-            return Integer.parseInt(String.valueOf(betweenDays));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public static int daysBetween(Date date1, Date date2) {
+        long time1 = date1.getTime();
+        long time2 = date2.getTime();
+        return Integer.parseInt(String.valueOf((time2 - time1) / (1000 * 60 * 60 * 24)));
     }
 
     /**
      * 计算两个时间的相隔小时数
      *
-     * @param smdate 较小的时间
-     * @param bdate  较大的时间
+     * @param date1 较小的时间
+     * @param date2 较大的时间
+     * @return 相隔小时数
      */
-    public static long hoursBetween(Date smdate, Date bdate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-            smdate = sdf.parse(sdf.format(smdate));
-            bdate = sdf.parse(sdf.format(bdate));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(smdate);
-            long time1 = cal.getTimeInMillis();
-            cal.setTime(bdate);
-            long time2 = cal.getTimeInMillis();
-            return (time2 - time1) / (1000 * 60 * 60);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public static long hoursBetween(Date date1, Date date2) {
+        long time1 = date1.getTime();
+        long time2 = date2.getTime();
+        return (time2 - time1) / (1000 * 60 * 60);
     }
 
     /**
      * 计算两个时间的相隔分钟数
      *
-     * @param smdate 较小的时间
-     * @param bdate  较大的时间
+     * @param date1 较小的时间
+     * @param date2 较大的时间
+     * @return 相隔分钟数
      */
-    public static long minutesBetween(Date smdate, Date bdate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-            smdate = sdf.parse(sdf.format(smdate));
-            bdate = sdf.parse(sdf.format(bdate));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(smdate);
-            long time1 = cal.getTimeInMillis();
-            cal.setTime(bdate);
-            long time2 = cal.getTimeInMillis();
-            return (time2 - time1) / (1000 * 60);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public static long minutesBetween(Date date1, Date date2) {
+        long time1 = date1.getTime();
+        long time2 = date2.getTime();
+        return (time2 - time1) / (1000 * 60);
     }
 
     /**
      * 计算两个时间的相隔秒数
      *
-     * @param smdate 较小的时间
-     * @param bdate  较大的时间
-     * @return
+     * @param date1 较小的时间
+     * @param date2 较大的时间
+     * @return 相隔秒数
      */
-    public static long secondsBetween(Date smdate, Date bdate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-            smdate = sdf.parse(sdf.format(smdate));
-            bdate = sdf.parse(sdf.format(bdate));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(smdate);
-            long time1 = cal.getTimeInMillis();
-            cal.setTime(bdate);
-            long time2 = cal.getTimeInMillis();
-            return (time2 - time1) / (1000);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    public static long secondsBetween(Date date1, Date date2) {
+        long time1 = date1.getTime();
+        long time2 = date2.getTime();
+        return (time2 - time1) / (1000);
     }
 
     /**
@@ -249,31 +211,11 @@ public class DateUtils {
     }
 
     /**
-     * 获取时间描述
-     */
-    public static String getDateSpoken() {
-        Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        if (hour >= 6 && hour < 8) {
-            return "早上";
-        } else if (hour >= 8 && hour < 11) {
-            return "上午";
-        } else if (hour >= 11 && hour < 13) {
-            return "中午";
-        } else if (hour >= 13 && hour < 18) {
-            return "下午";
-        } else {
-            return "晚上";
-        }
-    }
-
-    /**
      * 获取当前月天数
      **/
     public static int getDayOfMonth() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        int day = calendar.getActualMaximum(Calendar.DATE);
-        return day;
+        return calendar.getActualMaximum(Calendar.DATE);
     }
 
     /**
@@ -300,8 +242,7 @@ public class DateUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
-        Date currYearFirst = calendar.getTime();
-        return currYearFirst;
+        return calendar.getTime();
     }
 
     /**
@@ -315,13 +256,11 @@ public class DateUtils {
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
         calendar.roll(Calendar.DAY_OF_YEAR, -1);
-        Date currYearLast = calendar.getTime();
-        return currYearLast;
+        return calendar.getTime();
     }
 
     /**
      * 获取本周第一天
-     *
      */
     public static Date getWeekFirstDay() {
 
@@ -337,7 +276,7 @@ public class DateUtils {
     /**
      * 获取本月第一天
      *
-     * @return
+     * @return 日期
      */
     public static Date getMonthFirstDay() {
         Calendar calendar = Calendar.getInstance();
@@ -355,8 +294,7 @@ public class DateUtils {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        Date res = calendar.getTime();
-        return res;
+        return calendar.getTime();
     }
 
     /**
@@ -436,6 +374,7 @@ public class DateUtils {
 
     /**
      * 获得当前日期与本周一相差的天数
+     *
      * @return 天数
      */
     public static int getMondayPlus() {
@@ -451,6 +390,7 @@ public class DateUtils {
 
     /**
      * 获得当前周- 周一的日期
+     *
      * @return 周一日期
      */
     public static String getCurrentMonday() {
@@ -464,6 +404,7 @@ public class DateUtils {
 
     /**
      * 获得当前周- 周日 的日期
+     *
      * @return 周日 的日期
      */
     public static String getPreviousSunday() {
@@ -472,14 +413,14 @@ public class DateUtils {
         currentDate.add(GregorianCalendar.DATE, mondayPlus + 6);
         Date monday = currentDate.getTime();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String preMonday = df.format(monday);
-        return preMonday;
+        return df.format(monday);
     }
 
     /**
      * 获得当前月--开始日期
+     *
      * @param date 日期
-     * @return  月开始日期
+     * @return 月开始日期
      */
     public static String getMinMonthDate(String date) {
         Calendar calendar = Calendar.getInstance();
@@ -494,7 +435,8 @@ public class DateUtils {
     }
 
     /**
-     *  获得当前月--结束日期
+     * 获得当前月--结束日期
+     *
      * @param date 日期
      * @return 月结束日期
      */
@@ -514,8 +456,7 @@ public class DateUtils {
     /**
      * 获取当前时间的时间戳
      *
-     * @param
-     * @return
+     * @return 时间戳
      */
     public static long getTimestamp() {
         Date dNow = new Date();
@@ -524,11 +465,23 @@ public class DateUtils {
         return calendar.getTimeInMillis() / 1000;
     }
 
+    /**
+     * 时间戳转时间
+     *
+     * @param time 时间戳
+     * @return 时间
+     */
     public static Date timestampToDate(long time) {
         Timestamp timestamp = new Timestamp(time * 1000);
         return new Date(timestamp.getTime());
     }
 
+    /**
+     * 时间戳转时间字符串
+     *
+     * @param time 时间戳
+     * @return 时间字符串
+     */
     public static String timestampToString(Long time) {
         if (null == time) {
             return null;

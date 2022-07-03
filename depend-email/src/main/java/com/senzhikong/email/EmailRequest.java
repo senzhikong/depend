@@ -46,23 +46,30 @@ public class EmailRequest {
         toList.add(toEmail);
     }
 
+    private static final String EMAIL_DOMAIN_QQ = "@exmail.qq.com";
+    private static final String EMAIL_DOMAIN_SINA_COM = "@sina.com";
+    private static final String EMAIL_DOMAIN_SINA_CN = "@sina.cn";
+    private static final String EMAIL_DOMAIN_SINA_VIP = "@vip.sina.com";
+    private static final String EMAIL_DOMAIN_YAHOO_COM = "@yahoo.com";
+    private static final String EMAIL_DOMAIN_YAHOO_COM_CN = "@yahoo.com.cn";
+
     public void setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
         if (StringUtil.isEmpty(fromEmail)) {
             return;
         }
-        if (fromEmail.endsWith("@exmail.qq.com")) {
+        if (fromEmail.endsWith(EMAIL_DOMAIN_QQ)) {
             emailHost = "exmail.qq.com";
             isSsl = true;
-        } else if (fromEmail.endsWith("@sina.com")) {
+        } else if (fromEmail.endsWith(EMAIL_DOMAIN_SINA_COM)) {
             emailHost = "sina.com.cn";
-        } else if (fromEmail.endsWith("@sina.cn")) {
+        } else if (fromEmail.endsWith(EMAIL_DOMAIN_SINA_CN)) {
             emailHost = "sina.com";
-        } else if (fromEmail.endsWith("@vip.sina.com")) {
+        } else if (fromEmail.endsWith(EMAIL_DOMAIN_SINA_VIP)) {
             emailHost = "vip.sina.com";
-        } else if (fromEmail.endsWith("@yahoo.com")) {
+        } else if (fromEmail.endsWith(EMAIL_DOMAIN_YAHOO_COM)) {
             emailHost = "mail.yahoo.com";
-        } else if (fromEmail.endsWith("@yahoo.com.cn")) {
+        } else if (fromEmail.endsWith(EMAIL_DOMAIN_YAHOO_COM_CN)) {
             emailHost = "mail.yahoo.com.cn";
             sendPort = 587;
         } else {
