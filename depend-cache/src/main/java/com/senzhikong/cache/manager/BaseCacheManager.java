@@ -1,7 +1,6 @@
 package com.senzhikong.cache.manager;
 
 import com.senzhikong.cache.cache.IBaseCache;
-import com.senzhikong.cache.config.NacosRedisConfig;
 import com.senzhikong.module.Module;
 import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
-import org.springframework.lang.NonNullApi;
+import org.springframework.cache.support.AbstractCacheManager;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -21,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 @Getter
 @Setter
-public abstract class BaseCacheManager extends org.springframework.cache.support.AbstractCacheManager {
+public abstract class BaseCacheManager extends AbstractCacheManager {
 
     protected Log log = LogFactory.getLog(getClass());
     protected ConcurrentMap<String, IBaseCache> cacheMap = new ConcurrentHashMap<>(16);
@@ -59,6 +58,7 @@ public abstract class BaseCacheManager extends org.springframework.cache.support
 
     /**
      * 创建缓存
+     *
      * @param cacheName 缓存名称
      * @return 创建好的缓存
      */

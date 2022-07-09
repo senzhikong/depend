@@ -5,6 +5,7 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.senzhikong.cache.manager.RedisCacheManager;
 import com.senzhikong.cache.redis.MyRedisTemplate;
 import com.senzhikong.spring.SpringContextHolder;
 import lombok.Getter;
@@ -97,6 +98,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration,
                 jedisClientConfiguration);
         jedisConnectionFactory.afterPropertiesSet();
+        jedisConnectionFactory.getConnection();
         return jedisConnectionFactory;
     }
 
@@ -153,6 +155,10 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
             SpringContextHolder.removeBean(key + "RedisTemplate");
             SpringContextHolder.registerBean(key + "RedisTemplate", MyRedisTemplate.class, connectionFactory);
             log.info("声明redis缓存：" + key);
+            RedisCacheManager redisCacheManager = SpringContextHolder.getBean(RedisCacheManager.class);
+            if (redisCacheManager != null) {
+                redisCacheManager.initCache();
+            }
         }
     }
 }
