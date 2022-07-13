@@ -98,7 +98,6 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration,
                 jedisClientConfiguration);
         jedisConnectionFactory.afterPropertiesSet();
-        jedisConnectionFactory.getConnection();
         return jedisConnectionFactory;
     }
 

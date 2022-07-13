@@ -30,6 +30,7 @@ public class ConfigItemDTO implements Serializable {
         this.type = constants.getType();
         this.secret = constants.isSecret();
         this.data = constants.getData();
+        this.value = "";
         if (secret) {
             return;
         }
