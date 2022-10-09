@@ -3,6 +3,8 @@ package com.senzhikong.task;
 import com.senzhikong.module.InitializeBean;
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.*;
@@ -16,9 +18,11 @@ import java.util.*;
 /**
  * @author Shu.zhou
  */
+@Getter
+@Setter
 public class TaskManager implements InitializeBean {
     private static final Log logger = LogFactory.getLog(TaskManager.class);
-    private static Map<String, JobDetail> taskMap = new HashMap<>();
+    private Map<String, JobDetail> taskMap;
     @Resource
     ApplicationContext applicationContext;
     private String initClz;
@@ -28,12 +32,12 @@ public class TaskManager implements InitializeBean {
     private TaskClassUtil classUtil;
 
     public TaskManager() {
-
+        taskMap = new HashMap<>();
     }
 
     @SuppressWarnings("unchecked")
     public Class<? extends Job> getTaskClass(BaseTask task) {
-        Class<?> taskClass = null;
+        Class<?> taskClass;
         try {
             if (StringUtil.isNotEmpty(task.getJavaFile())) {
                 return (Class<? extends Job>) classUtil.getClassFromJavaFile(task);
@@ -86,6 +90,7 @@ public class TaskManager implements InitializeBean {
         scheduler.unscheduleJob(triggerKey);
         // 删除任务
         scheduler.deleteJob(jobKey);
+        taskMap.remove(task.getTaskCode());
     }
 
     public void pauseJob(BaseTask task) throws Exception {
@@ -232,22 +237,6 @@ public class TaskManager implements InitializeBean {
         }
         startJobs();
         logger.debug("-------------------定时任务初始化完成-------------------");
-    }
-
-    public String getInitClz() {
-        return initClz;
-    }
-
-    public void setInitClz(String initClz) {
-        this.initClz = initClz;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
     }
 
 }
