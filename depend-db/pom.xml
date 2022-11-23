@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.senzhikong</groupId>
         <artifactId>depend-parent</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>depend-db</artifactId>
