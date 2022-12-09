@@ -24,6 +24,8 @@
         <module>depend-module</module>
         <module>depend-config</module>
         <module>depend-mq</module>
+        <module>depend-cloud</module>
+        <module>depend-cloud/depend-cloud-client-nacos</module>
     </modules>
     <properties>
         <java.version>11</java.version>
