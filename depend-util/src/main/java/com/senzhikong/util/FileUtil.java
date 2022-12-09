@@ -18,8 +18,10 @@ public class FileUtil {
             byte[] bs = new byte[1024];
             int len;
             File tempFile = new File(filePath);
-            tempFile.getParentFile()
-                    .mkdirs();
+            boolean flg = tempFile.getParentFile().mkdirs();
+            if (!flg) {
+                throw new RuntimeException("文件夹【" + tempFile.getParentFile() + "】创建失败");
+            }
             os = new FileOutputStream(tempFile);
             while ((len = is.read(bs)) != -1) {
                 os.write(bs, 0, len);
@@ -29,8 +31,16 @@ public class FileUtil {
             throw new RuntimeException(e);
         } finally {
             try {
-                os.close();
-                is.close();
+                if (os != null) {
+                    os.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

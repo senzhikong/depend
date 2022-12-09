@@ -12,12 +12,9 @@ import org.quartz.JobExecutionContext;
  */
 public abstract class BaseJob implements Job {
 
-    protected Log logger = LogFactory.getLog(this.getClass());
-
     public JSONObject getJobParam(JobExecutionContext context) {
-        JobDataMap paremMap = context.getJobDetail()
+        JobDataMap paramMap = context.getJobDetail()
                 .getJobDataMap();
-        JSONObject param = JSONObject.parseObject(paremMap.getString("data"));
-        return param;
+        return JSONObject.parseObject(paramMap.getString("data"));
     }
 }

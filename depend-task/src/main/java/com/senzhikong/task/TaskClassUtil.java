@@ -102,23 +102,24 @@ public class TaskClassUtil {
             throw e;
         }
     }
-    private static final String JAR=".jar";
+
+    private static final String JAR = ".jar";
+
     /**
      * 查找该目录下的所有的jar文件
      */
     private String getJarFiles(String jarPath) {
         File sourceFile = new File(jarPath);
-        sourceFile.listFiles(pathname -> {
-            if (pathname.isDirectory()) {
+        File[] files = sourceFile.listFiles(f -> {
+            if (f.isDirectory()) {
                 return true;
             } else {
-                String name = pathname.getName();
-                if (name.endsWith(JAR)) {
-                    jars = jars + pathname.getPath() + ";";
-                    return true;
-                }
-                return false;
+                return f.getName().endsWith(JAR);
             }
+        });
+        assert files != null;
+        Arrays.stream(files).forEach((f) -> {
+            jars = jars + f.getPath() + ";";
         });
         return jars;
     }

@@ -10,12 +10,10 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
+ * 鉴权工具
  * @author shu
  */
 public class AuthUtil {
-    public static final String ADMIN_MODEL = "auth-admin-model";
-    public static final String PARTNER_MODEL = "auth-partner-model";
-    public static final String MEMBER_MODEL = "auth-member-model";
 
     public static HttpServletRequest getRequest() {
         return ((ServletRequestAttributes) Objects.requireNonNull(
@@ -39,11 +37,11 @@ public class AuthUtil {
 
     public static String generateToken() {
         return Md5Util.getInstance()
-                      .encode(getSession().getId() + System.currentTimeMillis(), "UTF-8", "admin-login-token");
+                      .encode(getSession().getId() + System.currentTimeMillis(), "UTF-8", "szk-login-token");
     }
 
     public static String encryptPwd(String pwd) {
-        return SignUtil.getShaUtil().encode(pwd, "UTF-8", "senzhikong");
+        return SignUtil.getShaUtil().encode(pwd, "UTF-8", "szk");
     }
 
 
