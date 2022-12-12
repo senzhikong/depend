@@ -13,5 +13,6 @@
 
     <modules>
         <module>depend-cloud-client-nacos</module>
+        <module>depend-cloud-monitor</module>
     </modules>
 </project>

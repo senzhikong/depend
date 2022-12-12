@@ -6,6 +6,9 @@ import lombok.NonNull;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author shu.zhou
+ */
 public class JsonObj extends JSONObject {
     public @NonNull JsonObj put(String key, Object value) {
         super.put(key, value);
@@ -22,16 +25,5 @@ public class JsonObj extends JSONObject {
         JsonArr arr = new JsonArr();
         this.put(key, arr);
         return arr;
-    }
-
-    public static void main(String[] args) {
-        JsonObj json = new JsonObj()
-                .put("test1", "dafasdfasdf")
-                .put("dasfasdf", "大发送到发");
-        json.putObj("child")
-                .put("hhad", "大大")
-                .putObj("asdfasd")
-                .put("oooo", "312312");
-        System.out.println(json.toString());
     }
 }

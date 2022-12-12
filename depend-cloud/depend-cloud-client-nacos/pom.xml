@@ -9,10 +9,10 @@
         <version>1.0.7</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
+    <packaging>pom</packaging>
 
     <artifactId>depend-cloud-client-nacos</artifactId>
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
