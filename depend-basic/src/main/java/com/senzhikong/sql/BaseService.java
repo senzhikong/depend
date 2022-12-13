@@ -1,13 +1,16 @@
 package com.senzhikong.sql;
 
 import com.senzhikong.db.repository.BaseJpaRepository;
+import com.senzhikong.db.sql.wrapper.OrderByType;
 import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
 import com.senzhikong.db.sql.wrapper.WrapperService;
+import com.senzhikong.db.sql.wrapper.WrapperValue;
 import com.senzhikong.dto.PagerRequestDTO;
 import com.senzhikong.entity.BaseEntity;
 import com.senzhikong.enums.CommonStatus;
 import com.senzhikong.exception.DataException;
 import com.senzhikong.spring.SpringContextHolder;
+import com.senzhikong.util.string.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -90,5 +93,12 @@ public class BaseService extends WrapperService implements IBaseService {
         wrapper.setPageNumber(requestDTO.getPageNumber());
         wrapper.setPageSize(requestDTO.getPageSize());
         wrapper.setPage(requestDTO.getPage());
+        if (StringUtils.isNotEmpty(requestDTO.getOrderBy())) {
+            if (StringUtil.equalsIgnoreCase(OrderByType.DESC.toString(), requestDTO.getOrderType())) {
+                wrapper.orderBy(WrapperValue.col(requestDTO.getOrderBy()), OrderByType.DESC);
+            } else {
+                wrapper.orderBy(WrapperValue.col(requestDTO.getOrderBy()), OrderByType.ASC);
+            }
+        }
     }
 }

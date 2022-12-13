@@ -14,7 +14,7 @@ public class JsonArr extends JSONArray {
         return this;
     }
 
-    public @NotNull JsonObj addObj(String key) {
+    public @NotNull JsonObj addObj() {
         JsonObj obj = new JsonObj();
         this.add(obj);
         return obj;
