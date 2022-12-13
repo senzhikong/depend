@@ -117,7 +117,10 @@ public class TaskClassUtil {
                 return f.getName().endsWith(JAR);
             }
         });
-        assert files != null;
+        if(files==null){
+            return "";
+        }
+        jars="";
         Arrays.stream(files).forEach((f) -> {
             jars = jars + f.getPath() + ";";
         });
