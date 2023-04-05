@@ -15,6 +15,7 @@ public class TaskFactory extends AdaptableJobFactory {
     @Autowired
     private AutowireCapableBeanFactory capableBeanFactory;
 
+    @Override
     protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
         // 调用父类的方法
         Object jobInstance = super.createJobInstance(bundle);

@@ -77,13 +77,6 @@ public interface BaseJpaRepository<T extends Serializable, ID extends Serializab
     /**
      * 通过逐渐删除
      *
-     * @param id 主键
-     */
-    void deleteById(ID id);
-
-    /**
-     * 通过逐渐删除
-     *
      * @param ids 主键数组
      */
     void deleteByIdIn(ID[] ids);

@@ -31,6 +31,7 @@ public class BaseEntityDTO implements Serializable {
     @Schema(description = "备注")
     protected String remark;
 
+    @Override
     public String toString() {
         return JSON.toJSONString(this);
     }

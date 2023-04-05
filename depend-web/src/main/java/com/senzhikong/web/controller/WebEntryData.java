@@ -125,6 +125,7 @@ public class WebEntryData {
         detail.put(code, s);
     }
 
+    @Override
     public String toString() {
         return JSON.toJSONString(this);
     }

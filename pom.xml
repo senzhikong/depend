@@ -37,7 +37,7 @@
         <skip.source>false</skip.source>
         <lombok.version>1.18.24</lombok.version>
         <!--senzhikong插件-->
-        <szk.jpa-plus.version>1.0.4</szk.jpa-plus.version>
+        <szk.jpa-plus.version>1.0.5</szk.jpa-plus.version>
 
         <!-- Spring -->
         <spring.boot.version>2.7.0</spring.boot.version>

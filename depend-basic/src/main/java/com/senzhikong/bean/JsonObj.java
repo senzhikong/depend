@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author shu.zhou
  */
 public class JsonObj extends JSONObject {
+    @Override
     public @NonNull JsonObj put(String key, Object value) {
         super.put(key, value);
         return this;
