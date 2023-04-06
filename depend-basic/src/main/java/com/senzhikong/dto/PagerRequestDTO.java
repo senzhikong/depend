@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel("基础分页请求参数")
-public class PagerRequestDTO implements Serializable {
+public class PagerRequestDTO extends BaseDTO implements Serializable {
 
     @Schema(description = "页码", example = "1")
     private Integer pageNumber;
@@ -33,10 +33,5 @@ public class PagerRequestDTO implements Serializable {
         this.pageNumber = 1;
         this.pageSize = 10;
         this.page = true;
-    }
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
     }
 }
