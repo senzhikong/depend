@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @author shu
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel("基础分页请求参数")
 public class PagerRequestDTO extends BaseDTO implements Serializable {
 

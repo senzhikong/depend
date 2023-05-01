@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.senzhikong</groupId>
     <packaging>pom</packaging>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <name>depend-parent</name>
     <url>https://github.com/senzhikong/depend</url>
     <artifactId>depend-parent</artifactId>
@@ -583,6 +583,7 @@
                 </executions>
             </plugin>
             <!-- 子模块版本同步插件 -->
+            <!--mvn -N versions:update-child-modules-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
