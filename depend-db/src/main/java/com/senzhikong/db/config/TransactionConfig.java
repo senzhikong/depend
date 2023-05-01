@@ -20,7 +20,7 @@ import java.util.Map;
  * @author shu
  */
 public class TransactionConfig {
-    public String expression="execution(* com.senzhikong..*.service.impl..*.*(..))";
+    public String expression = "execution(* com.senzhikong..*.service.impl..*.*(..))";
     @Resource
     EntityManagerFactory entityManagerFactory;
 

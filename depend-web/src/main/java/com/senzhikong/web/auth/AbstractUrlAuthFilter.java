@@ -53,7 +53,7 @@ public abstract class AbstractUrlAuthFilter extends BaseFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+                         FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         HttpServletResponse servletResponse = (HttpServletResponse) response;
         String reqUrl = servletRequest.getRequestURI().toLowerCase().trim();

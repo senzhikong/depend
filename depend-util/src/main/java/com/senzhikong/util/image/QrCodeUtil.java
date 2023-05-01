@@ -172,7 +172,6 @@ public class QrCodeUtil {
     }
 
 
-
     private static final int BAR_CODE_MIN_WIDTH = 50;
     private static final int BAR_CODE_MIN_HEIGHT = 20;
     private static final int BAR_CODE_MIN_MARGIN = 0;
@@ -214,6 +213,7 @@ public class QrCodeUtil {
         }
         return null;
     }
+
     /**
      * 解码
      *

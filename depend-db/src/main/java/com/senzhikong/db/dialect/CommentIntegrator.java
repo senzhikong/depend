@@ -31,7 +31,7 @@ public class CommentIntegrator implements Integrator {
      */
     @Override
     public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory,
-            SessionFactoryServiceRegistry serviceRegistry) {
+                          SessionFactoryServiceRegistry serviceRegistry) {
         processComment(metadata);
     }
 
@@ -43,7 +43,7 @@ public class CommentIntegrator implements Integrator {
      */
     @Override
     public void disintegrate(SessionFactoryImplementor sessionFactoryImplementor,
-            SessionFactoryServiceRegistry sessionFactoryServiceRegistry) {
+                             SessionFactoryServiceRegistry sessionFactoryServiceRegistry) {
     }
 
     /**

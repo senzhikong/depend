@@ -67,7 +67,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
      * 连接池配置
      */
     public JedisPoolConfig poolConfig(int minIdle, int maxIdle, int maxTotal, long maxWaitMillis,
-            boolean testOnBorrow) {
+                                      boolean testOnBorrow) {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMinIdle(minIdle);
         poolConfig.setMaxIdle(maxIdle);
@@ -81,7 +81,7 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
      * 配置工厂
      */
     public RedisConnectionFactory connectionFactory(String host, int port, String password, int minIdle, int maxIdle,
-            int maxTotal, long maxWaitMillis, int index) {
+                                                    int maxTotal, long maxWaitMillis, int index) {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(host);
         redisStandaloneConfiguration.setPort(port);

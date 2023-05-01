@@ -1,6 +1,5 @@
 package com.senzhikong.web.annotation;
 
-import com.senzhikong.web.util.WebConstants;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;

@@ -15,6 +15,7 @@ public abstract class BaseModuleCache {
 
     /**
      * 获取模块名称
+     *
      * @return 模块名称
      */
     public abstract String getCacheName();

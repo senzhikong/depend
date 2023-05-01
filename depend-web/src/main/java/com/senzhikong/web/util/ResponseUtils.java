@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.senzhikong.web.ajax.ApiStatus;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +35,7 @@ public class ResponseUtils {
      */
     public static void render(HttpServletResponse response, String contentType, Object text) {
         if (null == text) {
-            text =  ApiStatus.ERROR.message();
+            text = ApiStatus.ERROR.message();
         }
         response.setContentType(contentType);
         try {

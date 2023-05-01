@@ -5,7 +5,8 @@ package com.senzhikong.module;
  */
 public interface InitializeBean {
     /**
-     *  初始化方法
+     * 初始化方法
+     *
      * @throws Exception 异常
      */
     void init() throws Exception;

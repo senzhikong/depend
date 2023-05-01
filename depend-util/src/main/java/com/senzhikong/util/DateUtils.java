@@ -311,7 +311,7 @@ public class DateUtils {
      **/
     public static int getCurrentMonth() {
         return Calendar.getInstance()
-                       .get(Calendar.MONTH) + 1;
+                .get(Calendar.MONTH) + 1;
     }
 
     /**
@@ -319,7 +319,7 @@ public class DateUtils {
      **/
     public static int getCurrentYear() {
         return Calendar.getInstance()
-                       .get(Calendar.YEAR);
+                .get(Calendar.YEAR);
     }
 
     /**
@@ -327,7 +327,7 @@ public class DateUtils {
      **/
     public static int getCurrentDate() {
         return Calendar.getInstance()
-                       .get(Calendar.DATE);
+                .get(Calendar.DATE);
     }
 
     public static Date addYear(Date date, int years) {

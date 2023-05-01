@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     public ApiResponse<Object> authError(HttpServletResponse response, Exception error) {
-        log.error("系统异常",error);
+        log.error("系统异常", error);
         return ApiResponse.dataError("系统异常");
     }
 }

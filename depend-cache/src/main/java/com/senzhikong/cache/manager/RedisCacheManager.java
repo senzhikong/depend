@@ -19,8 +19,8 @@ import javax.annotation.Resource;
 public class RedisCacheManager extends BaseCacheManager {
     @Resource
     NacosRedisConfig nacosRedisConfig;
-    private static final String DEFAULT_REDIS_TEMPLATE ="defaultRedisTemplate";
-    private static final String  REDIS_TEMPLATE ="RedisTemplate";
+    private static final String DEFAULT_REDIS_TEMPLATE = "defaultRedisTemplate";
+    private static final String REDIS_TEMPLATE = "RedisTemplate";
 
     @Override
     public IBaseCache createCache(String cacheName) {

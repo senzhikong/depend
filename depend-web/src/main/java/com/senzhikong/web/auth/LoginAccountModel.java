@@ -12,10 +12,10 @@ import java.util.List;
 @Data
 public class LoginAccountModel implements Serializable {
     /**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	private Long accountId;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private Long accountId;
     private List<Long> roleIds;
     private List<String> roles;
     private List<Long> permissionIds;

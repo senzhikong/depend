@@ -94,7 +94,7 @@ public class BasicAspect {
         normalMsg.append("\n---------------------------------- RequestStart ----------------------------------");
         normalMsg.append("\nRequest Name:\t").append(apiName);
         normalMsg.append("\nRequest Method:\t").append("class=").append(targetName).append(",method=")
-                 .append(methodName);
+                .append(methodName);
         normalMsg.append("\nRequest Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nRequest Params:\t").append(JSON.toJSONString(pjp.getArgs()));
         normalMsg.append("\nRequest Host:\t").append(ip).append("  ").append(request.getMethod());
@@ -114,7 +114,7 @@ public class BasicAspect {
         normalMsg.append("\n---------------------------------- FeignStart ----------------------------------");
         normalMsg.append("\nFeign Name:\t").append(apiName);
         normalMsg.append("\nFeign Method:\t").append("class=").append(targetName).append(",method=")
-                 .append(methodName);
+                .append(methodName);
         normalMsg.append("\nFeign Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nFeign Params:\t");
         normalMsg.append(JSON.toJSONString(pjp.getArgs()));

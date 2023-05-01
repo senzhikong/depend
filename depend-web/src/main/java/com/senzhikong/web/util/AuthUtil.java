@@ -11,6 +11,7 @@ import java.util.Objects;
 
 /**
  * 鉴权工具
+ *
  * @author shu
  */
 public class AuthUtil {
@@ -23,7 +24,7 @@ public class AuthUtil {
     public static HttpSession getSession() {
         return ((ServletRequestAttributes) Objects.requireNonNull(
                 RequestContextHolder.getRequestAttributes())).getRequest()
-                                                             .getSession();
+                .getSession();
     }
 
     public static Long getUserId() {
@@ -37,7 +38,7 @@ public class AuthUtil {
 
     public static String generateToken() {
         return Md5Util.getInstance()
-                      .encode(getSession().getId() + System.currentTimeMillis(), "UTF-8", "szk-login-token");
+                .encode(getSession().getId() + System.currentTimeMillis(), "UTF-8", "szk-login-token");
     }
 
     public static String encryptPwd(String pwd) {

@@ -4,11 +4,10 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.senzhikong.spring.SpringContextHolder;
-import com.senzhikong.util.string.StringUtil;
 import com.senzhikong.module.InitializeBean;
 import com.senzhikong.module.Module;
-
+import com.senzhikong.spring.SpringContextHolder;
+import com.senzhikong.util.string.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +49,7 @@ public class NacosConfig extends AbstractConfigInterface implements InitializeBe
 
     void initConfig() {
         Map<String, Module> moduleBeanMap = SpringContextHolder.getApplicationContext().getBeansOfType(
-                 Module.class);
+                Module.class);
         List<BaseConfigConstants> configConstantsList = new ArrayList<>();
         for (Module module : moduleBeanMap.values()) {
             configConstantsList.addAll(Arrays.asList(module.getConfigConstants()));

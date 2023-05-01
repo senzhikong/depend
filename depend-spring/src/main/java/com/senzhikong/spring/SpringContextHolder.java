@@ -106,7 +106,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * @return 返回注册到容器中的bean对象
      */
     public static <T> T registerBean(String name, Class<T> clazz,
-            Object... args) {
+                                     Object... args) {
         if (containsBean(name)) {
             Object bean = applicationContext.getBean(name);
             if (bean.getClass().isAssignableFrom(clazz)) {

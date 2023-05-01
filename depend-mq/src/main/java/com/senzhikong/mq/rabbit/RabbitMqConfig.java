@@ -4,7 +4,6 @@ import com.senzhikong.mq.MqConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -54,6 +53,7 @@ public class RabbitMqConfig implements MqConfig {
 
     /**
      * 配置消费者监听的容器
+     *
      * @return 消费者监听的容器
      */
     @Bean
@@ -65,6 +65,7 @@ public class RabbitMqConfig implements MqConfig {
         //factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);//设置确认模式手工确认
         return factory;
     }
+
     @Bean
     public Queue myQueue() {
         Queue queue = new Queue("myqueue");

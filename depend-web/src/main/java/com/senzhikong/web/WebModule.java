@@ -8,6 +8,7 @@ import com.senzhikong.module.Module;
 public interface WebModule {
     /**
      * 获取模块
+     *
      * @return 模块信息
      */
     Module getModule();

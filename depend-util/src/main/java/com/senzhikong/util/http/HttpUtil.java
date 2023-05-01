@@ -27,7 +27,7 @@ public class HttpUtil {
     public static final String GET = "GET";
     public static final String HTTPS = "https";
     private static final String BOUNDARY = "ZS--------HV2ymHFg03ehbqgZCaKO6jyH";
-    private static final Integer CODE_200=200;
+    private static final Integer CODE_200 = 200;
 
     public static String getStringByUrl(String url) {
         String result;
@@ -122,7 +122,7 @@ public class HttpUtil {
             OutputStream outputStream = httpConnection.getOutputStream();
             if (entity.getParam() != null) {
                 outputStream.write(entity.getParam()
-                                         .getBytes(charset));
+                        .getBytes(charset));
             }
             outputStream.flush();
 
@@ -179,12 +179,12 @@ public class HttpUtil {
             Map<String, Object> params = entity.getFormFields();
             for (Entry<String, Object> param : params.entrySet()) {
                 contentBody.append("\r\n--" + BOUNDARY).append("\r\n")
-                           .append("Content-Disposition: form-data; name=\"").append(param.getKey()).append("\"")
-                           .append("\r\n\r\n").append(param.getValue());
+                        .append("Content-Disposition: form-data; name=\"").append(param.getKey()).append("\"")
+                        .append("\r\n\r\n").append(param.getValue());
             }
             out.write(contentBody.toString().getBytes(charset));
             // 2. 处理文件上传
-            appendFormFiles(entity, out,charset);
+            appendFormFiles(entity, out, charset);
             // 3. 写结尾
             String endBoundary = "\r\n--" + BOUNDARY + "--\r\n";
             out.write(endBoundary.getBytes(charset));
@@ -207,7 +207,7 @@ public class HttpUtil {
         }
     }
 
-    private static void appendFormFiles(RequestEntity entity, OutputStream out,String charset) throws IOException {
+    private static void appendFormFiles(RequestEntity entity, OutputStream out, String charset) throws IOException {
         for (UploadFile file : entity.getFiles()) {
             byte[] bufferOut = null;
             int bytes = 0;
@@ -270,7 +270,7 @@ public class HttpUtil {
         StringEntity params = new StringEntity(jsonObject.toString(), "UTF-8");
         httpPost.setEntity(params);
         try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            if (response.getStatusLine() .getStatusCode() != CODE_200) {
+            if (response.getStatusLine().getStatusCode() != CODE_200) {
                 httpPost.abort();
                 return null;
             }

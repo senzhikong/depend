@@ -11,8 +11,9 @@ import java.time.Duration;
 public interface IBaseCache extends Cache {
     /**
      * 添加缓存
-     * @param key 缓存键
-     * @param value 缓存值
+     *
+     * @param key      缓存键
+     * @param value    缓存值
      * @param duration 超时时间
      */
     void put(Object key, @Nullable Object value, Duration duration);

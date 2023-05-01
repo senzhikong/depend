@@ -39,7 +39,6 @@ public class AesUtil {
 
     /**
      * 加密
-     *
      */
     public String encode(String content, String encrypt) {
         try {
@@ -58,7 +57,6 @@ public class AesUtil {
 
     /**
      * 解密
-     *
      */
     public String decode(String content, String encrypt) {
         try {

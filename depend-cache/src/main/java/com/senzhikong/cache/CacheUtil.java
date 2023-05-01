@@ -4,7 +4,6 @@ import com.senzhikong.cache.cache.IBaseCache;
 import com.senzhikong.cache.manager.BaseCacheManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
-import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -55,10 +54,10 @@ public class CacheUtil {
     }
 
     public void saveCache(String cacheName, String key, Object value) {
-        saveCache(cacheName,key,value,null);
+        saveCache(cacheName, key, value, null);
     }
 
-    public void saveCache(String cacheName,String key, Object value, Duration duration) {
+    public void saveCache(String cacheName, String key, Object value, Duration duration) {
         IBaseCache cache = getCache(cacheName);
         log.debug(String.format("Save Cache：%s:::%s", cacheName, key));
         log.debug(String.format("Save Cache Content：%s", value));
@@ -71,6 +70,7 @@ public class CacheUtil {
             cache.put(key, value, duration);
         }
     }
+
     public void removeCache(String cacheName, String... keys) {
         IBaseCache cache = getCache(cacheName);
         if (cache == null) {

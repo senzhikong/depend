@@ -18,6 +18,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取配置值
+     *
      * @param key 配置编码
      * @return 配置值
      */
@@ -25,7 +26,8 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取配置值
-     * @param key 配置编码
+     *
+     * @param key          配置编码
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -33,19 +35,22 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 更新配置
-     * @param key 配置编码
+     *
+     * @param key   配置编码
      * @param value 配置值
      */
     public abstract void updateConfig(String key, Object value);
 
     /**
-     *  发布配置
+     * 发布配置
+     *
      * @param configMap 发布配置
      */
     public abstract void publishConfig(Map<String, String> configMap);
 
     /**
      * 获取整型配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -57,6 +62,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取浮点配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -68,6 +74,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取布尔配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -78,6 +85,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取JSON对象配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -89,6 +97,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取JSON数组配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -100,6 +109,7 @@ public abstract class AbstractConfigInterface {
 
     /**
      * 获取长整型配置
+     *
      * @param key 配置编号
      * @return 配置值
      */
@@ -110,9 +120,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取布尔配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -123,9 +133,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取整型配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -136,9 +146,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取浮点配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -149,9 +159,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取长整型配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -162,9 +172,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取JSON对象配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */
@@ -175,9 +185,9 @@ public abstract class AbstractConfigInterface {
 
 
     /**
-     *
      * 获取JOSN数组配置
-     * @param key 配置编号
+     *
+     * @param key          配置编号
      * @param defaultValue 默认值
      * @return 配置值
      */

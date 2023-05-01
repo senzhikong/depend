@@ -11,7 +11,7 @@ import org.hibernate.tool.schema.spi.Exporter;
  */
 public class MySqlDialect extends MySQL8Dialect {
 
-    private final Exporter<ForeignKey> foreignKeyExporter =  new ForeignKeyExporter();
+    private final Exporter<ForeignKey> foreignKeyExporter = new ForeignKeyExporter();
 
     @Override
     protected MySQLStorageEngine getDefaultMySQLStorageEngine() {

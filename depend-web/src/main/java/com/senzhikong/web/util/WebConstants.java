@@ -5,7 +5,7 @@ package com.senzhikong.web.util;
  */
 public class WebConstants {
     public static final String WEB_AUTH_TOKEN = "Authorization";
-    public static final String USER_AUTH_CACHE= "user-auth";
+    public static final String USER_AUTH_CACHE = "user-auth";
     public static final String LOGIN_MODEL = "login-model-";
     public static final String LOGIN_USER_ID = "login-user-id";
     public static final String LOGIN_ACCOUNT_TOKEN = "login-account-token-";

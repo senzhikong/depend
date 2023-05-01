@@ -52,8 +52,10 @@ public class BaseController {
         }
         return null;
     }
-    public static Integer HTTP_PORT=80;
-    public static Integer HTTPS_PORT=80;
+
+    public static Integer HTTP_PORT = 80;
+    public static Integer HTTPS_PORT = 80;
+
     public String getBaseUrl() {
         String path = request.getContextPath();
         String scheme = request.getScheme();

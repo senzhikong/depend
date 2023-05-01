@@ -1,16 +1,11 @@
 package com.senzhikong.util.http;
 
-import com.senzhikong.util.ZipCompress;
 import com.senzhikong.util.string.StringUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +80,7 @@ public class DownloadUtil {
             if ("Location".equals(key)) {
                 // 获取新地址
                 return map.get(key)
-                          .get(0);
+                        .get(0);
             }
         }
         return null;
