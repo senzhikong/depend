@@ -3,7 +3,6 @@ package com.senzhikong.bean;
 import com.alibaba.fastjson.JSONArray;
 import lombok.NonNull;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * @author shu
@@ -14,13 +13,13 @@ public class JsonArr extends JSONArray {
         return this;
     }
 
-    public @NotNull JsonObj addObj() {
+    public @NonNull JsonObj addObj() {
         JsonObj obj = new JsonObj();
         this.add(obj);
         return obj;
     }
 
-    public @NotNull JsonArr addArr(String key) {
+    public @NonNull JsonArr addArr(String key) {
         JsonArr arr = new JsonArr();
         this.add(arr);
         return arr;

@@ -4,7 +4,6 @@ package com.senzhikong.bean;
 import com.alibaba.fastjson.JSONObject;
 import lombok.NonNull;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * @author shu.zhou
@@ -16,13 +15,13 @@ public class JsonObj extends JSONObject {
         return this;
     }
 
-    public @NotNull JsonObj putObj(String key) {
+    public @NonNull JsonObj putObj(String key) {
         JsonObj obj = new JsonObj();
         this.put(key, obj);
         return obj;
     }
 
-    public @NotNull JsonArr putArr(String key) {
+    public @NonNull JsonArr putArr(String key) {
         JsonArr arr = new JsonArr();
         this.put(key, arr);
         return arr;

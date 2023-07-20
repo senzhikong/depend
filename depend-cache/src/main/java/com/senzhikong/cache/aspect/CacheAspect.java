@@ -18,7 +18,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.time.Duration;
 

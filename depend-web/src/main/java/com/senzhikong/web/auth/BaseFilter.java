@@ -1,7 +1,7 @@
 package com.senzhikong.web.auth;
 
-import javax.servlet.Filter;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

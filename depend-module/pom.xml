@@ -5,18 +5,13 @@
     <parent>
         <artifactId>depend-parent</artifactId>
         <groupId>com.senzhikong</groupId>
-        <version>1.0.8</version>
+        <version>1.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>depend-module</artifactId>
     <name>depend-module</name>
     <url>https://maven.apache.org</url>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.senzhikong</groupId>

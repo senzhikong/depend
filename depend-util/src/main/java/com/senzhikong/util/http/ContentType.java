@@ -1,6 +1,5 @@
 package com.senzhikong.util.http;
 
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 
 /**

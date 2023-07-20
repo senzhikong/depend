@@ -7,7 +7,7 @@ import org.hibernate.mapping.*;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 

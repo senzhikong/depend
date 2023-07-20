@@ -1,12 +1,12 @@
 package com.senzhikong.db.repository;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import javax.persistence.LockModeType;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;

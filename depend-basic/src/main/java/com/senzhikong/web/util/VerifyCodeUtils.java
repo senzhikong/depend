@@ -3,7 +3,7 @@ package com.senzhikong.web.util;
 import org.springframework.http.MediaType;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;

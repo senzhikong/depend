@@ -11,7 +11,7 @@ import org.quartz.*;
 import org.quartz.Trigger.TriggerState;
 import org.springframework.context.ApplicationContext;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.*;
 

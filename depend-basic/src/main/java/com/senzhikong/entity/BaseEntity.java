@@ -2,9 +2,9 @@ package com.senzhikong.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.senzhikong.enums.CommonStatus;
+import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.domain.Example;
 
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 

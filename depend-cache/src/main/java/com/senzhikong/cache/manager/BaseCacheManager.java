@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

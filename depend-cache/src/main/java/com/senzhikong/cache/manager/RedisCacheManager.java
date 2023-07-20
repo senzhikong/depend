@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author Shu.Zhou
