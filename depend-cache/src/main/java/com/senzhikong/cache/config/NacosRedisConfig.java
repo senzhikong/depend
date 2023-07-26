@@ -2,6 +2,7 @@ package com.senzhikong.cache.config;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -37,6 +38,10 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     private String serverAddress;
     @Value("${spring.cloud.nacos.discovery.namespace}")
     private String namespace;
+    @Value("${spring.cloud.nacos.discovery.username}")
+    private String username;
+    @Value("${spring.cloud.nacos.discovery.password}")
+    private String password;
     private JSONObject config;
 
 
@@ -105,8 +110,10 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     @Override
     public void afterPropertiesSet() throws Exception {
         Properties properties = new Properties();
-        properties.setProperty("serverAddr", serverAddress);
-        properties.setProperty("namespace", namespace);
+        properties.setProperty(PropertyKeyConst.SERVER_ADDR, serverAddress);
+        properties.setProperty(PropertyKeyConst.NAMESPACE, namespace);
+        properties.setProperty(PropertyKeyConst.USERNAME, username);
+        properties.setProperty(PropertyKeyConst.PASSWORD, password);
         this.configService = NacosFactory.createConfigService(properties);
         listenCrossConfig("database.redis", "database");
     }

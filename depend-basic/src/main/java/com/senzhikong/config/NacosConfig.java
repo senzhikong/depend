@@ -1,6 +1,7 @@
 package com.senzhikong.config;
 
 import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.PropertyKeyConst;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -28,6 +29,10 @@ public class NacosConfig extends AbstractConfigInterface implements InitializeBe
     private String nacosServerAddress;
     @Value("${spring.cloud.nacos.discovery.namespace}")
     private String nacosNamespace;
+    @Value("${spring.cloud.nacos.discovery.username}")
+    private String username;
+    @Value("${spring.cloud.nacos.discovery.password}")
+    private String password;
     @Value("${szk.config.publish}")
     private Boolean publish;
     private static final Map<String, String> CONFIG_MAP = new HashMap<>();
@@ -36,8 +41,10 @@ public class NacosConfig extends AbstractConfigInterface implements InitializeBe
     @Override
     public void init() {
         Properties properties = new Properties();
-        properties.setProperty("serverAddr", nacosServerAddress);
-        properties.setProperty("namespace", nacosNamespace);
+        properties.setProperty(PropertyKeyConst.SERVER_ADDR, nacosServerAddress);
+        properties.setProperty(PropertyKeyConst.NAMESPACE, nacosNamespace);
+        properties.setProperty(PropertyKeyConst.USERNAME, username);
+        properties.setProperty(PropertyKeyConst.PASSWORD, password);
         try {
             configService = NacosFactory.createConfigService(properties);
         } catch (NacosException e) {

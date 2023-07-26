@@ -42,7 +42,7 @@
         <!-- Spring -->
         <spring.boot.version>3.1.1</spring.boot.version>
         <spring.cloud.version>2022.0.3</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
+        <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
         <spring.cloud.admin.version>3.1.1</spring.cloud.admin.version>
 
         <mybatis.spring.boot.version>2.2.0</mybatis.spring.boot.version>
