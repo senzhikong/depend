@@ -1,10 +1,10 @@
 package com.senzhikong.mq.rabbit;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import jakarta.annotation.Resource;
 import java.util.UUID;
 
 /**

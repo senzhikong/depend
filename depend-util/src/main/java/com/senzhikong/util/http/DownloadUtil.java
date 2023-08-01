@@ -80,7 +80,7 @@ public class DownloadUtil {
             if ("Location".equals(key)) {
                 // 获取新地址
                 return map.get(key)
-                        .get(0);
+                          .get(0);
             }
         }
         return null;

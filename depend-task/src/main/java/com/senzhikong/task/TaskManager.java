@@ -3,6 +3,7 @@ package com.senzhikong.task;
 import com.senzhikong.module.InitializeBean;
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
+import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.logging.Log;
@@ -11,7 +12,6 @@ import org.quartz.*;
 import org.quartz.Trigger.TriggerState;
 import org.springframework.context.ApplicationContext;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -62,16 +62,16 @@ public class TaskManager implements InitializeBean {
         dataMap.put("data", data);
         try {
             JobDetail jobDetail = JobBuilder.newJob(cls)
-                    .withIdentity(taskCode, groupCode)
-                    .storeDurably()
-                    .usingJobData(dataMap)
-                    .build();
+                                            .withIdentity(taskCode, groupCode)
+                                            .storeDurably()
+                                            .usingJobData(dataMap)
+                                            .build();
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
             CronTrigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(taskCode, groupCode)
-                    .withSchedule(scheduleBuilder)
-                    .forJob(jobDetail)
-                    .build();
+                                                .withIdentity(taskCode, groupCode)
+                                                .withSchedule(scheduleBuilder)
+                                                .forJob(jobDetail)
+                                                .build();
             scheduler.addJob(jobDetail, true);
             // 启动
             scheduler.scheduleJob(trigger);
@@ -113,22 +113,22 @@ public class TaskManager implements InitializeBean {
         if (jobDetail == null) {
             Class<? extends Job> taskClass = getTaskClass(task);
             jobDetail = JobBuilder.newJob(taskClass)
-                    .withIdentity(task.getTaskCode(), task.getGroupCode())
-                    .storeDurably()
-                    .usingJobData(dataMap)
-                    .build();
+                                  .withIdentity(task.getTaskCode(), task.getGroupCode())
+                                  .storeDurably()
+                                  .usingJobData(dataMap)
+                                  .build();
             scheduler.addJob(jobDetail, true);
         }
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), "run-one-time");
         Trigger trigger = scheduler.getTrigger(triggerKey);
         if (trigger == null) {
             trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
-                            "run-one-time" + System.currentTimeMillis()))
-                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
-                    .forJob(jobDetail)
-                    .startAt(new Date())
-                    .build();
+                                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
+                                            "run-one-time" + System.currentTimeMillis()))
+                                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
+                                    .forJob(jobDetail)
+                                    .startAt(new Date())
+                                    .build();
             // 启动
             scheduler.scheduleJob(trigger);
         } else {
@@ -218,7 +218,7 @@ public class TaskManager implements InitializeBean {
         try {
             Object clz = SpringContextHolder.getBeanByClassName(initClz);
             Method method = clz.getClass()
-                    .getMethod("listAutoStartTask", String[].class);
+                               .getMethod("listAutoStartTask", String[].class);
             @SuppressWarnings("unchecked") List<BaseTask> list = (List<BaseTask>) method.invoke(clz,
                     new Object[]{groups});
             if (list != null && list.size() > 0) {

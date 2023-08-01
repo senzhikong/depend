@@ -9,18 +9,17 @@ import com.senzhikong.web.annotation.ApiController;
 import com.senzhikong.web.annotation.ApiMethod;
 import com.senzhikong.web.annotation.PartnerApi;
 import com.senzhikong.web.util.IpUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.reflect.MethodSignature;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
+
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -37,9 +36,9 @@ public class BasicAspect {
 
     protected String getClassName(ProceedingJoinPoint pjp) {
         String controllerName = null;
-        Api api = pjp.getTarget().getClass().getAnnotation(Api.class);
-        if (api != null && api.tags() != null && api.tags().length > 0) {
-            controllerName = Arrays.toString(api.tags());
+        Tag api = pjp.getTarget().getClass().getAnnotation(Tag.class);
+        if (api != null && api.name() != null) {
+            controllerName = api.name();
         }
         if (StringUtil.isEmpty(controllerName)) {
             ApiController apiController = pjp.getTarget().getClass().getAnnotation(ApiController.class);
@@ -53,9 +52,9 @@ public class BasicAspect {
     protected String getMethodName(ProceedingJoinPoint pjp) {
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
         String methodName = null;
-        ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-        if (apiOperation != null && apiOperation.value() != null) {
-            methodName = apiOperation.value();
+        Operation apiOperation = method.getAnnotation(Operation.class);
+        if (apiOperation != null && apiOperation.summary() != null) {
+            methodName = apiOperation.summary();
         }
         if (StringUtil.isEmpty(methodName)) {
             ApiMethod apiMethod = pjp.getTarget().getClass().getAnnotation(ApiMethod.class);
@@ -94,7 +93,7 @@ public class BasicAspect {
         normalMsg.append("\n---------------------------------- RequestStart ----------------------------------");
         normalMsg.append("\nRequest Name:\t").append(apiName);
         normalMsg.append("\nRequest Method:\t").append("class=").append(targetName).append(",method=")
-                .append(methodName);
+                 .append(methodName);
         normalMsg.append("\nRequest Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nRequest Params:\t").append(JSON.toJSONString(pjp.getArgs()));
         normalMsg.append("\nRequest Host:\t").append(ip).append("  ").append(request.getMethod());
@@ -114,7 +113,7 @@ public class BasicAspect {
         normalMsg.append("\n---------------------------------- FeignStart ----------------------------------");
         normalMsg.append("\nFeign Name:\t").append(apiName);
         normalMsg.append("\nFeign Method:\t").append("class=").append(targetName).append(",method=")
-                .append(methodName);
+                 .append(methodName);
         normalMsg.append("\nFeign Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
         normalMsg.append("\nFeign Params:\t");
         normalMsg.append(JSON.toJSONString(pjp.getArgs()));

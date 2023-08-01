@@ -44,6 +44,9 @@
         <spring.cloud.version>2022.0.3</spring.cloud.version>
         <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
         <spring.cloud.admin.version>3.1.1</spring.cloud.admin.version>
+        <springdoc.version>2.1.0</springdoc.version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
 
         <mybatis.spring.boot.version>2.2.0</mybatis.spring.boot.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
@@ -104,9 +107,6 @@
         <!--腾讯云-->
         <qcloud.version>5.6.35</qcloud.version>
         <cos.sts.version>3.0.6</cos.sts.version>
-        <!--swagger接口文档-->
-        <swagger.version>3.0.0</swagger.version>
-        <knife4j.version>3.0.3</knife4j.version>
         <!--钉钉-->
         <dingtalk.version>1.0.1</dingtalk.version>
         <tomcat.version>10.0.12</tomcat.version>
@@ -132,14 +132,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>6.0.0</version>
+                <version>${jakarta.servlet.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.annotation</groupId>
                 <artifactId>jakarta.annotation-api</artifactId>
-                <version>2.1.1</version>
+                <version>${jakarta.annotation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.senzhikong</groupId>
@@ -429,27 +434,6 @@
                 <groupId>com.tencent.cloud</groupId>
                 <artifactId>cos-sts-java</artifactId>
                 <version>${cos.sts.version}</version>
-            </dependency>
-            <!--文档生成-->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-common</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
             </dependency>
             <!--钉钉-->
             <dependency>

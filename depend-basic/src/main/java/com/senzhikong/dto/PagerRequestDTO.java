@@ -1,6 +1,5 @@
 package com.senzhikong.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +11,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("基础分页请求参数")
+@Schema(name = "基础分页请求参数")
 public class PagerRequestDTO extends BaseDTO implements Serializable {
 
     @Schema(description = "页码", example = "1")

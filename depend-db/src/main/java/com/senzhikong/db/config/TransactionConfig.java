@@ -1,5 +1,6 @@
 package com.senzhikong.db.config;
 
+import jakarta.annotation.Resource;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -12,7 +13,6 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

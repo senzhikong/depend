@@ -20,7 +20,7 @@ public class SmsUtil {
 
     public static String sendAli(SmsConfig config, JSONObject smsParam, String mobilePhone) {
         JSONObject msgConfig = config.getAliyunConfig()
-                .getJSONObject(smsParam.getString("type"));
+                                     .getJSONObject(smsParam.getString("type"));
         if (msgConfig == null) {
             return "不支持该类型短信发送";
         }

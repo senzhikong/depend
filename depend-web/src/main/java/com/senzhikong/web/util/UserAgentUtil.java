@@ -1,6 +1,7 @@
 package com.senzhikong.web.util;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class UserAgentUtil {
         List<String> mobileAgents =
                 Arrays.asList("ipad", "iphone os", "rv:1.2.3.4", "ucweb", "android", "windows ce", "windows mobile");
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
+                           .toLowerCase();
         for (String sua : mobileAgents) {
             // 手机端
             if (ua.contains(sua)) {
@@ -44,13 +45,13 @@ public class UserAgentUtil {
      */
     public static boolean isWechat(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
+                           .toLowerCase();
         return ua.contains("micromessenger");
     }
 
     public static boolean isAlipay(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent")
-                .toLowerCase();
+                           .toLowerCase();
         return ua.contains("alipayclient");
     }
 }

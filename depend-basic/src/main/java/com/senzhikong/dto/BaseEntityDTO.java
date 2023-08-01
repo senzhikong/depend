@@ -1,6 +1,5 @@
 package com.senzhikong.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("基础对象模型")
+@Schema(name = "基础对象模型")
 public class BaseEntityDTO extends BaseDTO implements Serializable {
     @Schema(description = "ID")
     protected Long id;

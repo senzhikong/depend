@@ -2,7 +2,7 @@ package com.senzhikong.dto;
 
 import com.senzhikong.config.AbstractConfigInterface;
 import com.senzhikong.config.BaseConfigConstants;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author shu
  */
 @Data
-@ApiModel("配置列表")
+@Schema(name = "配置列表")
 public class ConfigListResult implements Serializable {
     private String title;
     private List<ConfigListResult> children;

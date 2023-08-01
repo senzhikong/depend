@@ -26,13 +26,13 @@ public class SimpleKeyGenerator implements KeyGenerator {
     public Object generate(Object target, Method method, Object... params) {
         StringBuilder key = new StringBuilder();
         key.append(target.getClass()
-                        .getSimpleName())
-                .append(".")
-                .append(method.getName())
-                .append(".");
+                         .getSimpleName())
+           .append(".")
+           .append(method.getName())
+           .append(".");
         if (params.length == 0) {
             return key.append(NO_PARAM_KEY)
-                    .toString();
+                      .toString();
         }
         key.append(paramKey(params));
         return key.toString();

@@ -12,7 +12,7 @@ public abstract class BaseJob implements Job {
 
     public JSONObject getJobParam(JobExecutionContext context) {
         JobDataMap paramMap = context.getJobDetail()
-                .getJobDataMap();
+                                     .getJobDataMap();
         return JSONObject.parseObject(paramMap.getString("data"));
     }
 }

@@ -100,7 +100,8 @@ public class FtpUtil {
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             createDirectory(pathname);
             ftpClient.changeWorkingDirectory(pathname);
-            logger.debug("ftp upload file:" + pathname + File.separator + fileName + ",size:" + inputStream.available());
+            logger.debug(
+                    "ftp upload file:" + pathname + File.separator + fileName + ",size:" + inputStream.available());
             boolean isSuccess = ftpClient.storeFile(fileName, inputStream);
             ftpClient.logout();
             logger.debug("ftp upload res：" + isSuccess);

@@ -34,7 +34,7 @@ public class DesUtil {
              * 创建一个DESKeySpec对象
              */
             DESKeySpec desKey = new DESKeySpec(SignUtil.getPassword()
-                    .getBytes());
+                                                       .getBytes());
             // 创建一个密匙工厂，然后用它把DESKeySpec转换成
             /**
              * 创建一个密匙工厂

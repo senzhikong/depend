@@ -199,7 +199,7 @@ public class ImageUtil {
             BufferedImage tag = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_BGR);
             Graphics2D g = tag.createGraphics();
             tag = g.getDeviceConfiguration()
-                    .createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
+                   .createCompatibleImage(image.getWidth(), image.getHeight(), Transparency.TRANSLUCENT);
             g.fillRect(0, 0, tag.getWidth(null), tag.getHeight(null));
             // 绘制缩小后的图
             g.drawImage(image, 0, 0, null);

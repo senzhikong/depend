@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class TreeUtil {
 
     public static <T> JSONArray buildTreeList(List<T> fromList, String id, String pid, Object firstLevel,
-                                              String children) {
+            String children) {
         if (StringUtil.isEmpty(children)) {
             children = "children";
         }
@@ -79,7 +79,7 @@ public class TreeUtil {
     }
 
     public static <T> List<T> buildTree(List<T> fromList, String idKey, String pidKey, String childrenKey,
-                                        Object firstLevel) {
+            Object firstLevel) {
         List<T> rootArray = findChildrenObj(fromList, pidKey, firstLevel);
         fromList.removeAll(rootArray);
         List<T> eachList;

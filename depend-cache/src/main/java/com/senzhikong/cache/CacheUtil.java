@@ -2,11 +2,11 @@ package com.senzhikong.cache;
 
 import com.senzhikong.cache.cache.IBaseCache;
 import com.senzhikong.cache.manager.BaseCacheManager;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -22,7 +22,7 @@ public class CacheUtil {
     public void cleanCache(String cacheName) {
         log.debug("Ready To Clean Cache：" + cacheName);
         Objects.requireNonNull(cacheManager.getCache(cacheName))
-                .clear();
+               .clear();
         log.debug("Clean Cache Success：" + cacheName);
     }
 

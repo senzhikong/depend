@@ -5,6 +5,7 @@ import com.senzhikong.cache.SimpleKeyGenerator;
 import com.senzhikong.cache.annotation.CacheRemove;
 import com.senzhikong.cache.annotation.Cacheable;
 import com.senzhikong.spring.SpringContextHolder;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.time.Duration;
 

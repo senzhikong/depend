@@ -2,7 +2,7 @@ package com.senzhikong.dto;
 
 import com.senzhikong.config.AbstractConfigInterface;
 import com.senzhikong.config.BaseConfigConstants;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  */
 @Data
 @NoArgsConstructor
-@ApiModel("配置节点")
+@Schema(name = "配置节点")
 public class ConfigItemDTO implements Serializable {
     private String code;
     private String description;

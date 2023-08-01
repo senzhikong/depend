@@ -2,15 +2,15 @@ package com.senzhikong.web.auth;
 
 import com.senzhikong.web.ajax.ApiResponse;
 import com.senzhikong.web.ajax.ApiStatus;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 
-import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,11 +36,11 @@ public class ExecutiveFilter extends BaseFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+            FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         String reqUrl = servletRequest.getRequestURI()
-                .toLowerCase()
-                .trim();
+                                      .toLowerCase()
+                                      .trim();
         for (String pattern : blackUrlPathPattern) {
             if (PatternMatchUtils.simpleMatch(pattern, reqUrl)) {
                 log.error("unsafe request >>> " +
@@ -50,7 +50,8 @@ public class ExecutiveFilter extends BaseFilter {
                         request.getRemoteAddr() +
                         "; request url: " +
                         reqUrl);
-                reject((HttpServletResponse) response, new ApiResponse<>(ApiStatus.FORBIDDEN, "不安全的请求，禁止访问！"));
+                reject((HttpServletResponse) response,
+                        new ApiResponse<>(ApiStatus.FORBIDDEN, "不安全的请求，禁止访问！"));
                 return;
             }
         }

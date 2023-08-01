@@ -3,10 +3,10 @@ package com.senzhikong.web.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.senzhikong.web.ajax.ApiStatus;
-import org.springframework.util.ObjectUtils;
-
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.util.ObjectUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -52,8 +52,8 @@ public class ResponseUtils {
             response.reset();
             response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment;filename=" + new String(file.getName()
-                    .getBytes(
-                            StandardCharsets.UTF_8),
+                                                                                              .getBytes(
+                                                                                                      StandardCharsets.UTF_8),
                     "ISO8859-1"));
             int temp;
             while ((temp = fileInputStream.read()) != -1) {

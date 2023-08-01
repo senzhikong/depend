@@ -1,9 +1,9 @@
 package com.senzhikong.web.util;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 
 import javax.imageio.ImageIO;
-import jakarta.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;

@@ -3,12 +3,11 @@ package com.senzhikong.web.excepition;
 import com.senzhikong.exception.AuthException;
 import com.senzhikong.exception.DataException;
 import com.senzhikong.web.ajax.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author shu

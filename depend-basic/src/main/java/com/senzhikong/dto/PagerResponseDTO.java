@@ -1,7 +1,6 @@
 package com.senzhikong.dto;
 
 import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,7 @@ import java.util.List;
  * @author shu
  */
 @Data
-@ApiModel("基础分页返回参数")
+@Schema(name = "基础分页返回参数")
 public class PagerResponseDTO<T> implements Serializable {
     @Schema(description = "页码", example = "1")
     private Integer pageNumber;

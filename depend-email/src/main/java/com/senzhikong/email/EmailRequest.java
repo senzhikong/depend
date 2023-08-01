@@ -30,7 +30,7 @@ public class EmailRequest {
     }
 
     public EmailRequest(String fromEmail, String fromName, String fromPassword, String toEmail, String subject,
-                        String htmlMsg) {
+            String htmlMsg) {
         this.fromName = fromName;
         this.fromPassword = fromPassword;
         this.subject = subject;

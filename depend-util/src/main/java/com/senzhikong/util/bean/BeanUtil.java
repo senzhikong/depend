@@ -22,9 +22,9 @@ public class BeanUtil {
         for (T obj : list) {
             try {
                 String methodName = "get" + column.substring(0, 1)
-                        .toUpperCase() + column.substring(1);
+                                                  .toUpperCase() + column.substring(1);
                 Method method = obj.getClass()
-                        .getMethod(methodName);
+                                   .getMethod(methodName);
                 String id = (String) method.invoke(obj);
                 result.add(id);
             } catch (Exception e) {
@@ -39,9 +39,9 @@ public class BeanUtil {
         for (T obj : list) {
             try {
                 String methodName = "get" + column.substring(0, 1)
-                        .toUpperCase() + column.substring(1);
+                                                  .toUpperCase() + column.substring(1);
                 Method method = obj.getClass()
-                        .getMethod(methodName);
+                                   .getMethod(methodName);
                 Long id = (Long) method.invoke(obj);
                 result.add(id);
             } catch (Exception e) {
@@ -56,9 +56,9 @@ public class BeanUtil {
         for (T obj : list) {
             try {
                 String methodName = "get" + column.substring(0, 1)
-                        .toUpperCase() + column.substring(1);
+                                                  .toUpperCase() + column.substring(1);
                 Method method = obj.getClass()
-                        .getMethod(methodName);
+                                   .getMethod(methodName);
                 @SuppressWarnings("unchecked") K val = (K) method.invoke(obj);
                 result.add(val);
             } catch (Exception e) {
@@ -86,7 +86,7 @@ public class BeanUtil {
         T obj = null;
         try {
             obj = cls.getDeclaredConstructor()
-                    .newInstance();
+                     .newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,9 +102,9 @@ public class BeanUtil {
         for (T obj : list) {
             try {
                 String methodName = "get" + column.substring(0, 1)
-                        .toUpperCase() + column.substring(1);
+                                                  .toUpperCase() + column.substring(1);
                 Method method = obj.getClass()
-                        .getMethod(methodName);
+                                   .getMethod(methodName);
                 @SuppressWarnings("unchecked") K id = (K) method.invoke(obj);
                 map.put(id, obj);
             } catch (Exception e) {
@@ -119,18 +119,18 @@ public class BeanUtil {
             Map<Object, K> map = BeanUtil.listToMap(list2, key2);
             for (T item : list1) {
                 String methodNameGet = "get" + key1.substring(0, 1)
-                        .toUpperCase() + key1.substring(1);
+                                                   .toUpperCase() + key1.substring(1);
                 Method methodGet = item.getClass()
-                        .getMethod(methodNameGet);
+                                       .getMethod(methodNameGet);
                 Object keyValue = methodGet.invoke(item);
                 K val = map.get(keyValue);
                 if (val == null) {
                     continue;
                 }
                 String methodNameSet = "set" + prop.substring(0, 1)
-                        .toUpperCase() + prop.substring(1);
+                                                   .toUpperCase() + prop.substring(1);
                 Method methodSet = item.getClass()
-                        .getMethod(methodNameSet, val.getClass());
+                                       .getMethod(methodNameSet, val.getClass());
                 methodSet.invoke(item, val);
             }
         } catch (Exception e) {
@@ -139,7 +139,7 @@ public class BeanUtil {
     }
 
     public static <T, K, H> void setListPropFromList(List<T> target, String prop1, String key1, List<K> source,
-                                                     String prop2, String key2) {
+            String prop2, String key2) {
         try {
             Map<Object, K> map = BeanUtil.listToMap(source, key2);
             for (T item : target) {

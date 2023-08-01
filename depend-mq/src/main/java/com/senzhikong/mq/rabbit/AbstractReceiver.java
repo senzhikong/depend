@@ -1,6 +1,7 @@
 package com.senzhikong.mq.rabbit;
 
 import com.rabbitmq.client.*;
+import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,6 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import jakarta.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -48,7 +48,7 @@ public abstract class AbstractReceiver implements InitializingBean {
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope,
-                                       AMQP.BasicProperties properties, byte[] body) throws IOException {
+                    AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String msg = new String(body);
                 log.info("收到消息：" + msg);
                 process(msg);

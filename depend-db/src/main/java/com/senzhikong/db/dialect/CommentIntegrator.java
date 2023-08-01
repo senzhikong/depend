@@ -1,5 +1,6 @@
 package com.senzhikong.db.dialect;
 
+import jakarta.persistence.Column;
 import org.hibernate.boot.Metadata;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.integrator.spi.Integrator;
@@ -7,7 +8,6 @@ import org.hibernate.mapping.*;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
@@ -31,7 +31,7 @@ public class CommentIntegrator implements Integrator {
      */
     @Override
     public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory,
-                          SessionFactoryServiceRegistry serviceRegistry) {
+            SessionFactoryServiceRegistry serviceRegistry) {
         processComment(metadata);
     }
 
@@ -43,7 +43,7 @@ public class CommentIntegrator implements Integrator {
      */
     @Override
     public void disintegrate(SessionFactoryImplementor sessionFactoryImplementor,
-                             SessionFactoryServiceRegistry sessionFactoryServiceRegistry) {
+            SessionFactoryServiceRegistry sessionFactoryServiceRegistry) {
     }
 
     /**

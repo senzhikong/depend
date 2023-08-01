@@ -33,15 +33,15 @@ public class CleanLocalMavenRepository {
             // 判断是否有*jar 是否是有文件夹
             for (File f : files) {
                 if (f.getName()
-                        .endsWith(".jar")) {
+                     .endsWith(".jar")) {
                     isHaveJar = true;
                 }
                 if (f.getName()
-                        .endsWith(".pom")) {
+                     .endsWith(".pom")) {
                     isHaveJar = true;
                 }
                 if (f.getName()
-                        .endsWith(".war")) {
+                     .endsWith(".war")) {
                     isHaveJar = true;
                 }
                 if (f.isDirectory()) {

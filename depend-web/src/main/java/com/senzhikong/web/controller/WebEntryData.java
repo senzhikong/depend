@@ -75,7 +75,8 @@ public class WebEntryData {
         search.add(s);
     }
 
-    public void addTreeSearch(String name, String code, String nameCol, String codeCol, String children, Collection<?> data) {
+    public void addTreeSearch(String name, String code, String nameCol, String codeCol, String children,
+            Collection<?> data) {
         JSONObject s = new JSONObject();
         s.put("type", "tree");
         s.put("name", name);
@@ -114,7 +115,8 @@ public class WebEntryData {
         detail.put(code, s);
     }
 
-    public void addTreeDetail(String name, String code, String nameCol, String codeCol, String children, Collection<?> data) {
+    public void addTreeDetail(String name, String code, String nameCol, String codeCol, String children,
+            Collection<?> data) {
         JSONObject s = new JSONObject();
         s.put("type", "tree");
         s.put("name", name);

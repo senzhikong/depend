@@ -5,11 +5,10 @@ import com.senzhikong.cache.cache.RedisCache;
 import com.senzhikong.cache.config.NacosRedisConfig;
 import com.senzhikong.spring.SpringContextHolder;
 import com.senzhikong.util.string.StringUtil;
+import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
-
-import jakarta.annotation.Resource;
 
 /**
  * @author Shu.Zhou

@@ -42,9 +42,9 @@ public class HttpConnectionManager {
 
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create().register("https", sslsf)
-                        .register("http",
-                                PlainConnectionSocketFactory.getSocketFactory())
-                        .build();
+                               .register("http",
+                                       PlainConnectionSocketFactory.getSocketFactory())
+                               .build();
         clientConnectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         clientConnectionManager.setMaxTotal(400);
         clientConnectionManager.setDefaultMaxPerRoute(200);
@@ -55,8 +55,8 @@ public class HttpConnectionManager {
             synchronized (syncLock) {
                 if (httpClient == null) {
                     httpClient = HttpClients.custom()
-                            .setConnectionManager(clientConnectionManager)
-                            .build();
+                                            .setConnectionManager(clientConnectionManager)
+                                            .build();
                 }
             }
         }

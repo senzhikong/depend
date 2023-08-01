@@ -1,8 +1,8 @@
 package com.senzhikong.cache;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
-import jakarta.annotation.Resource;
 import java.time.Duration;
 
 /**

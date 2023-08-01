@@ -2,10 +2,10 @@ package com.senzhikong.web.auth;
 
 import com.senzhikong.web.ajax.ApiResponse;
 import com.senzhikong.web.ajax.ApiStatus;
-
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +53,7 @@ public abstract class AbstractUrlAuthFilter extends BaseFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain chain) throws IOException, ServletException {
+            FilterChain chain) throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         HttpServletResponse servletResponse = (HttpServletResponse) response;
         String reqUrl = servletRequest.getRequestURI().toLowerCase().trim();

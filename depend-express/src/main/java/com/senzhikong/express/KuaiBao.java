@@ -33,7 +33,7 @@ public class KuaiBao {
             String timestamp = String.valueOf(System.currentTimeMillis());
             String signStr = config.getAppid() + KuaiBaoConfig.QUERY_API_NAME + timestamp + config.getAppsecret();
             String sign = Md5Util.getInstance()
-                    .encode(signStr, null, null);
+                                 .encode(signStr, null, null);
             String param = "app_id=" + config.getAppid() + "&method=" + KuaiBaoConfig.QUERY_API_NAME;
             param += "&ts=" + timestamp;
             param += "&sign=" + sign;
@@ -46,7 +46,7 @@ public class KuaiBao {
                 return response;
             }
             json = json.getJSONArray("data")
-                    .getJSONObject(0);
+                       .getJSONObject(0);
             response.setSuccess(true);
             response.setSerialNumber(no);
             switch (json.getString("status")) {
