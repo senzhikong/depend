@@ -48,22 +48,22 @@ public class NacosRedisConfig extends CachingConfigurerSupport implements Initia
     /**
      * 最小空闲连接数
      */
-    @Value("${spring.redis.jedis.pool.minIdle}")
+    @Value("${spring.data.redis.jedis.pool.min-idle}")
     private int minIdle = 1;
     /**
      * 最大空闲连接数
      */
-    @Value("${spring.redis.jedis.pool.maxIdle}")
+    @Value("${spring.data.redis.jedis.pool.max-idle}")
     private int maxIdle = 5;
     /**
      * 最大连接数
      */
-    @Value("${spring.redis.jedis.pool.maxActive}")
+    @Value("${spring.data.redis.jedis.pool.max-active}")
     private int maxActive = 10;
     /**
      * 建立连接最长等待时间
      */
-    @Value("${spring.redis.jedis.pool.maxWait}")
+    @Value("${spring.data.redis.jedis.pool.max-wait}")
     private long maxWait = 1000;
 
     private ConfigService configService;
