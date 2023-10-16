@@ -1,6 +1,7 @@
 package com.senzhikong.mq.rabbit;
 
 import com.rabbitmq.client.*;
+import com.senzhikong.mq.AbstractMsgReceiver;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,10 @@ import java.io.IOException;
 /**
  * @author shu
  */
+@Getter
+@Setter
 @Slf4j
-public abstract class AbstractReceiver implements InitializingBean {
-    @Getter
-    @Setter
-    private String queue;
+public abstract class RabbitMsgReceiver extends AbstractMsgReceiver implements InitializingBean {
     @Resource
     ConnectionFactory factory;
     private Connection connection;
@@ -27,9 +27,11 @@ public abstract class AbstractReceiver implements InitializingBean {
     /**
      * 具体业务
      *
-     * @param content
+     * @param content 消息内容
      */
     public abstract void process(String content);
+
+    public abstract String getQueue();
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -55,7 +57,7 @@ public abstract class AbstractReceiver implements InitializingBean {
                 channel.basicAck(envelope.getDeliveryTag(), false);
             }
         };
-        channel.basicConsume(queue, consumer);
+        channel.basicConsume(getQueue(), consumer);
     }
 
     public void close() {
