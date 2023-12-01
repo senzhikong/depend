@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import org.springframework.cache.support.SimpleValueWrapper;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.Duration;
@@ -44,7 +43,7 @@ public class RedisCache implements IBaseCache {
     @Override
     public void evict(@NonNull Object key) {
         final String keyStr = prefix + name + "-" + key;
-        redisTemplate.execute((RedisCallback<Long>) connection -> connection.del(keyStr.getBytes()));
+        redisTemplate.delete(keyStr);
     }
 
     @Override
@@ -54,12 +53,7 @@ public class RedisCache implements IBaseCache {
         if (keys == null) {
             return;
         }
-        redisTemplate.execute((RedisCallback<String>) connection -> {
-            for (String key : keys) {
-                connection.del(key.getBytes());
-            }
-            return "ok";
-        });
+        redisTemplate.delete(keys);
     }
 
     @SuppressWarnings("unchecked")

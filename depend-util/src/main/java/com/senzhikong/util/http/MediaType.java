@@ -1,5 +1,8 @@
 package com.senzhikong.util.http;
 
+/**
+ * @author shu.zhou
+ */
 public class MediaType {
 
     public static final String CHARSET_PARAMETER = "charset";

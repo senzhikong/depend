@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -33,7 +33,7 @@ import java.util.concurrent.Executor;
 @Getter
 @Setter
 @Slf4j
-public class NacosRedisConfig extends CachingConfigurerSupport implements InitializingBean {
+public class NacosRedisConfig implements CachingConfigurer,InitializingBean {
     @Value("${spring.cloud.nacos.discovery.server-addr}")
     private String serverAddress;
     @Value("${spring.cloud.nacos.discovery.namespace}")

@@ -1,7 +1,7 @@
 package com.senzhikong.db.dialect;
 
 import org.hibernate.dialect.InnoDBStorageEngine;
-import org.hibernate.dialect.MySQL8Dialect;
+import org.hibernate.dialect.MySQLDialect;
 import org.hibernate.dialect.MySQLStorageEngine;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.tool.schema.spi.Exporter;
@@ -9,7 +9,7 @@ import org.hibernate.tool.schema.spi.Exporter;
 /**
  * @author shu
  */
-public class MySqlDialect extends MySQL8Dialect {
+public class MySqlDialect extends MySQLDialect {
 
     private final Exporter<ForeignKey> foreignKeyExporter = new ForeignKeyExporter();
 

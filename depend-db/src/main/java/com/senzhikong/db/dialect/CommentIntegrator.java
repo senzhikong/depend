@@ -2,6 +2,7 @@ package com.senzhikong.db.dialect;
 
 import jakarta.persistence.Column;
 import org.hibernate.boot.Metadata;
+import org.hibernate.boot.spi.BootstrapContext;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.integrator.spi.Integrator;
 import org.hibernate.mapping.*;
@@ -9,7 +10,6 @@ import org.hibernate.service.spi.SessionFactoryServiceRegistry;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 
 /**
  * @author shu
@@ -22,16 +22,9 @@ public class CommentIntegrator implements Integrator {
         super();
     }
 
-    /**
-     * Perform comment integration.
-     *
-     * @param metadata        The "compiled" representation of the mapping information
-     * @param sessionFactory  The session factory being created
-     * @param serviceRegistry The session factory's service registry
-     */
     @Override
-    public void integrate(Metadata metadata, SessionFactoryImplementor sessionFactory,
-            SessionFactoryServiceRegistry serviceRegistry) {
+    public void integrate(Metadata metadata, BootstrapContext bootstrapContext,
+            SessionFactoryImplementor sessionFactory) {
         processComment(metadata);
     }
 
@@ -64,15 +57,12 @@ public class CommentIntegrator implements Integrator {
             } else {
                 org.hibernate.mapping.Component component = persistentClass.getIdentifierMapper();
                 if (component != null) {
-                    Iterator<Property> iterator = component.getPropertyIterator();
-                    while (iterator.hasNext()) {
-                        fieldComment(persistentClass, iterator.next().getName());
+                    for (Property property : component.getProperties()) {
+                        fieldComment(persistentClass, property.getName());
                     }
                 }
             }
-            Iterator<Property> iterator = persistentClass.getPropertyIterator();
-            while (iterator.hasNext()) {
-                Property property = iterator.next();
+            for (Property property : persistentClass.getProperties()) {
                 String columnName = property.getName();
                 fieldComment(persistentClass, columnName);
                 Value val = property.getValue();
@@ -85,9 +75,7 @@ public class CommentIntegrator implements Integrator {
 
     private void joinFieldComment(Property property, PersistentClass persistentClass) {
         Value val = property.getValue();
-        Iterator<Selectable> columnIterator = val.getColumnIterator();
-        while (columnIterator.hasNext()) {
-            Selectable selectable = columnIterator.next();
+        for (Selectable selectable : val.getSelectables()) {
             String name = selectable.getText();
             String comment = getColumnComment(persistentClass, property.getName());
             setFieldComment(name, comment, persistentClass);
@@ -118,9 +106,7 @@ public class CommentIntegrator implements Integrator {
     }
 
     private void setFieldComment(String columnName, String comment, PersistentClass persistentClass) {
-        Iterator<org.hibernate.mapping.Column> columnIterator = persistentClass.getTable().getColumnIterator();
-        while (columnIterator.hasNext()) {
-            org.hibernate.mapping.Column column = columnIterator.next();
+        for (org.hibernate.mapping.Column column : persistentClass.getTable().getColumns()) {
             if (columnName.equalsIgnoreCase(column.getName().replace("_", ""))) {
                 column.setComment(comment);
                 break;

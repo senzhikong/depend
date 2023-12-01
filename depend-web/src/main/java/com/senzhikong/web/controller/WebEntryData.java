@@ -8,6 +8,9 @@ import com.senzhikong.util.EnumUtil;
 import java.util.Arrays;
 import java.util.Collection;
 
+/**
+ * @author shu.zhou
+ */
 public class WebEntryData {
     public JSONArray search = new JSONArray();
     public JSONObject detail = new JSONObject();

@@ -31,6 +31,11 @@ public abstract class RabbitMsgReceiver extends AbstractMsgReceiver implements I
      */
     public abstract void process(String content);
 
+
+    /**
+     * 获取队列名称
+     * @return 队列名称
+     */
     public abstract String getQueue();
 
     @Override
