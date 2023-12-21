@@ -57,7 +57,7 @@ public class BasicAspect {
             methodName = apiOperation.summary();
         }
         if (StringUtil.isEmpty(methodName)) {
-            ApiMethod apiMethod = pjp.getTarget().getClass().getAnnotation(ApiMethod.class);
+            ApiMethod apiMethod = method.getAnnotation(ApiMethod.class);
             if (apiMethod != null) {
                 methodName = apiMethod.log();
             }
@@ -91,13 +91,14 @@ public class BasicAspect {
         String methodName = pjp.getSignature().getName();
         final StringBuilder normalMsg = new StringBuilder();
         normalMsg.append("\n---------------------------------- RequestStart ----------------------------------");
-        normalMsg.append("\nRequest Name:\t").append(apiName);
-        normalMsg.append("\nRequest Method:\t").append("class=").append(targetName).append(",method=")
+        normalMsg.append("\nApi Name:\t").append(apiName);
+        normalMsg.append("\nApi Url:\t").append(request.getRequestURI());
+        normalMsg.append("\nApi Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
+        normalMsg.append("\nApi Host:\t").append(ip).append("  ").append(request.getMethod());
+        normalMsg.append("\nApi Method:\t").append("class=").append(targetName).append(",method=")
                  .append(methodName);
-        normalMsg.append("\nRequest Time:\t").append(DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS));
-        normalMsg.append("\nRequest Params:\t").append(JSON.toJSONString(pjp.getArgs()));
-        normalMsg.append("\nRequest Host:\t").append(ip).append("  ").append(request.getMethod());
-        normalMsg.append("\nResponse Result:\t");
+        normalMsg.append("\nApi Params:\t").append(JSON.toJSONString(pjp.getArgs()));
+        normalMsg.append("\nApi Result:\t");
         if (res != null) {
             normalMsg.append(res);
         }
