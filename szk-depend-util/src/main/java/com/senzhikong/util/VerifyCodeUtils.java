@@ -1,4 +1,4 @@
-package com.senzhikong.web.util;
+package com.senzhikong.util;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;

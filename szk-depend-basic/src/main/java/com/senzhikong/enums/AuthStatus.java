@@ -1,6 +1,9 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * 审核状态
@@ -8,7 +11,9 @@ import lombok.Getter;
  * @author Shu.Zhou
  */
 @Getter
-public enum AuthStatus {
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum AuthStatus implements BaseEnum {
     /**
      * 审核中
      */
@@ -27,10 +32,5 @@ public enum AuthStatus {
     UNKNOWN("unknown", "未知");
 
     private final String code;
-    private final String description;
-
-    AuthStatus(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+    private final String desc;
 }

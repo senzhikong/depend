@@ -3,7 +3,6 @@ package com.senzhikong.task;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.senzhikong.spring.SpringContextHolder;
-import com.senzhikong.util.string.StringUtil;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +41,7 @@ public class TaskManager implements InitializingBean {
     public Class<? extends Job> getTaskClass(BaseTaskInfo task) {
         Class<?> taskClass;
         try {
-            if (StringUtil.isNotEmpty(task.getJavaFile())) {
+            if (StringUtils.isNotBlank(task.getJavaFile())) {
                 return (Class<? extends Job>) classUtil.getClassFromJavaFile(task);
             }
             taskClass = Class.forName(task.getTaskClass());
@@ -192,6 +191,7 @@ public class TaskManager implements InitializingBean {
 
     /**
      * 获取任务下一次触发时间
+     *
      * @param task 任务
      * @return 下一次触发时间
      * @throws Exception 异常
@@ -247,7 +247,7 @@ public class TaskManager implements InitializingBean {
         if (groups.length == 0) {
             return;
         }
-        if (StringUtil.equal(NON_GROUP, group)) {
+        if (StringUtils.equals(NON_GROUP, group)) {
             groups = null;
         }
 

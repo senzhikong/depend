@@ -1,9 +1,17 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.Accessors;
+
 /**
  * @author shu
  */
-public enum ResourceStorageType {
+@Getter
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum ResourceStorageType implements BaseEnum {
     /**
      * 本地存储
      */
@@ -25,35 +33,6 @@ public enum ResourceStorageType {
      */
     KODO("kodo", "七牛云Kodo");
 
-    private String code;
-    private String description;
-
-    ResourceStorageType(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    public String code() {
-        return code;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    private final String code;
+    private final String desc;
 }

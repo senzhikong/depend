@@ -3,6 +3,7 @@ package com.senzhikong.dto;
 import com.alibaba.fastjson.JSON;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -10,8 +11,13 @@ import java.io.Serializable;
  * @author shu
  */
 @Data
-@Schema(name = "基础模型")
-public class BaseDTO implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+@Schema(name = "基础分页请求参数")
+public class PagerReq<T> extends PagerParam implements Serializable {
+
+    @Schema(description = "筛选字段")
+    private T query;
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);

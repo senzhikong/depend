@@ -159,14 +159,14 @@ public class EmailUtil {
         String[] headers = msg.getHeader("X-Priority");
         if (headers != null) {
             String headerPriority = headers[0].toLowerCase();
-            if (headerPriority.contains(EmailPriority.HIGH.getLevel()) || headerPriority.contains(
-                    EmailPriority.HIGH.getCode().toLowerCase())) {
-                priority = EmailPriority.HIGH.getCode();
-                priorityDesc = EmailPriority.HIGH.getDescription();
-            } else if (headerPriority.contains(EmailPriority.LOW.getLevel()) || headerPriority.contains(
-                    EmailPriority.LOW.getCode().toLowerCase())) {
-                priority = EmailPriority.LOW.getCode();
-                priorityDesc = EmailPriority.LOW.getDescription();
+            if (headerPriority.contains(EmailPriority.HIGH.level()) || headerPriority.contains(
+                    EmailPriority.HIGH.code().toLowerCase())) {
+                priority = EmailPriority.HIGH.code();
+                priorityDesc = EmailPriority.HIGH.desc();
+            } else if (headerPriority.contains(EmailPriority.LOW.level()) || headerPriority.contains(
+                    EmailPriority.LOW.code().toLowerCase())) {
+                priority = EmailPriority.LOW.code();
+                priorityDesc = EmailPriority.LOW.desc();
             }
         }
         email.setPriority(priority);

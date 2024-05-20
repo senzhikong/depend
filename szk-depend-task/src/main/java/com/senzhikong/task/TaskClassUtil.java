@@ -1,6 +1,5 @@
 package com.senzhikong.task;
 
-import com.senzhikong.util.string.sign.Base64Util;
 import org.springframework.context.ApplicationContext;
 
 import javax.tools.JavaCompiler;
@@ -39,7 +38,6 @@ public class TaskClassUtil {
             throw new RuntimeException("创建package文件夹失败");
         }
         String javaFile = task.getJavaFile();
-        javaFile = Base64Util.decode(javaFile);
         String className = task.getTaskClass();
         className = className.substring(className.lastIndexOf(".") + 1);
         File file = new File(targetDir + File.separator + className + ".java");

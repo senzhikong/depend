@@ -1,8 +1,8 @@
 package com.senzhikong.dto;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,9 +11,8 @@ import java.util.Date;
  * @author shu
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Schema(name = "基础对象模型")
-public class BaseEntityDTO extends BaseDTO implements Serializable {
+public class EntityDTO implements Serializable {
     @Schema(description = "ID")
     protected Long id;
     @Schema(description = "状态")
@@ -30,4 +29,9 @@ public class BaseEntityDTO extends BaseDTO implements Serializable {
     protected Long updateBy;
     @Schema(description = "备注")
     protected String remark;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

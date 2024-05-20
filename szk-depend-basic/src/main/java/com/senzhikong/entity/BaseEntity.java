@@ -16,8 +16,8 @@ public abstract class BaseEntity implements Serializable {
     protected static final long serialVersionUID = 1L;
 
     public void updateStatus(CommonStatus status) {
-        this.setStatus(status.getCode());
-        this.setStatusDesc(status.getDescription());
+        this.setStatus(status.code());
+        this.setStatusDesc(status.desc());
 
     }
 
@@ -37,8 +37,8 @@ public abstract class BaseEntity implements Serializable {
 
     public void initialize(Long accountId) {
         this.setId(null);
-        this.setStatus(CommonStatus.NORMAL.getCode());
-        this.setStatusDesc(CommonStatus.NORMAL.getDescription());
+        this.setStatus(CommonStatus.NORMAL.code());
+        this.setStatusDesc(CommonStatus.NORMAL.desc());
         this.setCreateBy(accountId);
         this.setCreateTime(new Date());
         this.setUpdateBy(accountId);

@@ -1,12 +1,17 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author Shu.Zhou
  */
 @Getter
-public enum ActionStatus {
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum ActionStatus implements BaseEnum {
     /**
      * 成功
      */
@@ -21,11 +26,6 @@ public enum ActionStatus {
     UNKNOWN("unknown", "未知");
 
     private final String code;
-    private final String description;
-
-    ActionStatus(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+    private final String desc;
 
 }

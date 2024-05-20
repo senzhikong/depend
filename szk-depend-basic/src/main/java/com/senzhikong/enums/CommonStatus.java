@@ -1,12 +1,17 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author Shu.Zhou
  */
 @Getter
-public enum CommonStatus {
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum CommonStatus implements BaseEnum {
     /**
      * 正常
      */
@@ -25,10 +30,5 @@ public enum CommonStatus {
     UNKNOWN("unknown", "未知");
 
     private final String code;
-    private final String description;
-
-    CommonStatus(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+    private final String desc;
 }

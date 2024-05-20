@@ -3,7 +3,6 @@ package com.senzhikong.web.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.senzhikong.util.string.StringUtil;
-import com.senzhikong.web.util.WebConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,8 +25,6 @@ public class BaseController {
     protected HttpServletResponse response;
     @Resource
     protected HttpSession session;
-    @Resource
-    protected AbstractConfigInterface config;
 
     public void setCookie(String key, Object value, Integer time) {
         if (time == null) {
@@ -78,9 +75,5 @@ public class BaseController {
             }
         }
         return param;
-    }
-
-    protected String getAuthorization() {
-        return request.getHeader(WebConstants.WEB_AUTH_TOKEN);
     }
 }

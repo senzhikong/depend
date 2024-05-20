@@ -1,12 +1,16 @@
 package com.senzhikong.email;
 
 import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author shu
  */
 @Getter
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
 public enum EmailPriority implements BaseEnum {
     /**
      * 缓慢
@@ -24,11 +28,5 @@ public enum EmailPriority implements BaseEnum {
 
     private final String level;
     private final String code;
-    private final String description;
-
-    EmailPriority(String level, String code, String description) {
-        this.level = level;
-        this.code = code;
-        this.description = description;
-    }
+    private final String desc;
 }

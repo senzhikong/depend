@@ -11,7 +11,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 

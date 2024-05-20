@@ -1,6 +1,9 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * 审核状态
@@ -8,7 +11,9 @@ import lombok.Getter;
  * @author Shu.Zhou
  */
 @Getter
-public enum OrderType {
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum OrderType implements BaseEnum {
     /**
      * 正序
      */
@@ -19,10 +24,5 @@ public enum OrderType {
     DESC("desc", "倒序");
 
     private final String code;
-    private final String description;
-
-    OrderType(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+    private final String desc;
 }

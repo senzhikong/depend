@@ -5,7 +5,7 @@ import com.senzhikong.db.sql.wrapper.OrderByType;
 import com.senzhikong.db.sql.wrapper.PagerQueryWrapper;
 import com.senzhikong.db.sql.wrapper.WrapperService;
 import com.senzhikong.db.sql.wrapper.WrapperValue;
-import com.senzhikong.dto.PagerRequestDTO;
+import com.senzhikong.dto.PagerParam;
 import com.senzhikong.entity.BaseEntity;
 import com.senzhikong.enums.CommonStatus;
 import com.senzhikong.exception.DataException;
@@ -29,7 +29,7 @@ import java.util.List;
 public class BaseServiceImpl extends WrapperService implements IBaseService {
     @Override
     public <T extends BaseEntity> void updateStatus(Class<T> clz, Long[] ids, CommonStatus status) {
-        updateStatus(clz, ids, status.getCode(), status.getDescription());
+        updateStatus(clz, ids, status.code(), status.desc());
     }
 
     @Override
@@ -89,10 +89,10 @@ public class BaseServiceImpl extends WrapperService implements IBaseService {
         }
     }
 
-    public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerRequestDTO requestDTO) {
+    public void setPageInfo(PagerQueryWrapper<?> wrapper, PagerParam requestDTO) {
         wrapper.setPageNumber(requestDTO.getPageNumber());
         wrapper.setPageSize(requestDTO.getPageSize());
-        wrapper.setPage(requestDTO.getPage());
+        wrapper.setPage(requestDTO.getPageable());
         if (StringUtils.isNotEmpty(requestDTO.getOrderBy())) {
             if (StringUtil.equalsIgnoreCase(OrderByType.DESC.toString(), requestDTO.getOrderType())) {
                 wrapper.orderBy(WrapperValue.col(requestDTO.getOrderBy()), OrderByType.DESC);

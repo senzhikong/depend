@@ -1,13 +1,17 @@
 package com.senzhikong.enums;
 
+import com.senzhikong.util.enums.BaseEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author shu
  */
-
 @Getter
-public enum AccountType {
+@AllArgsConstructor
+@Accessors(chain = true, fluent = true)
+public enum AccountType implements BaseEnum {
     /**
      * 会员
      */
@@ -26,11 +30,5 @@ public enum AccountType {
     UNKNOWN("unknown", "未知");
 
     private final String code;
-    private final String description;
-
-    AccountType(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
+    private final String desc;
 }

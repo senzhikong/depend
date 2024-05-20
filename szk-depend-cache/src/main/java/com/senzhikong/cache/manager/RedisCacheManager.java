@@ -3,9 +3,9 @@ package com.senzhikong.cache.manager;
 import com.senzhikong.cache.cache.IBaseCache;
 import com.senzhikong.cache.cache.RedisCache;
 import com.senzhikong.spring.SpringContextHolder;
-import com.senzhikong.util.string.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -30,7 +30,7 @@ public class RedisCacheManager extends BaseCacheManager {
         }
         cache.setName(cacheName);
         cache.setRedisTemplate(redisTemplate);
-        cache.setPrefix(StringUtil.isEmpty(prefix) ? "" : prefix + "-");
+        cache.setPrefix(StringUtils.isBlank(prefix) ? "" : prefix + "-");
         cacheMap.put(cacheName, cache);
         log.info("Create Redis Cache:" + cacheName);
         return cache;
