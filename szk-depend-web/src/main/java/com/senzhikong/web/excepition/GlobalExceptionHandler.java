@@ -1,8 +1,8 @@
 package com.senzhikong.web.excepition;
 
-import com.senzhikong.exception.AuthException;
-import com.senzhikong.exception.DataException;
-import com.senzhikong.web.ajax.ApiResponse;
+import com.senzhikong.basic.exception.AuthException;
+import com.senzhikong.basic.exception.DataException;
+import com.senzhikong.web.ajax.ApiResp;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(DataException.class)
-    public ApiResponse<Object> dataError(HttpServletResponse response, DataException error) {
-        return ApiResponse.dataError(error.getMessage());
+    public ApiResp<Object> dataError(HttpServletResponse response, DataException error) {
+        return ApiResp.dataError(error.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(AuthException.class)
-    public ApiResponse<Object> authError(HttpServletResponse response, AuthException error) {
-        return ApiResponse.dataError(error.getMessage());
+    public ApiResp<Object> authError(HttpServletResponse response, AuthException error) {
+        return ApiResp.dataError(error.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public ApiResponse<Object> authError(HttpServletResponse response, Exception error) {
+    public ApiResp<Object> authError(HttpServletResponse response, Exception error) {
         log.error("系统异常", error);
-        return ApiResponse.dataError("系统异常");
+        return ApiResp.dataError("系统异常");
     }
 }

@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>szk-depend-mq</artifactId>
-    <name>depend-mq</name>
     <url>https://maven.apache.org</url>
     <dependencyManagement>
         <dependencies>

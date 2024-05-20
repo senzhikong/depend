@@ -10,7 +10,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>szk-depend-config</artifactId>
-    <name>depend-config</name>
     <url>https://maven.apache.org</url>
 
     <dependencyManagement>

@@ -6,7 +6,6 @@
     <groupId>com.senzhikong</groupId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
-    <name>szk-depend-parent</name>
     <url>https://github.com/senzhikong/depend</url>
     <artifactId>szk-depend-parent</artifactId>
     <description>森之空基础依赖</description>

@@ -1,5 +1,6 @@
 package com.senzhikong.web.annotation;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +20,13 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @RequestMapping
 @ResponseBody
+@Operation
 public @interface ApiMethod {
     @AliasFor("path") String[] value() default {};
 
     @AliasFor("value") String[] path() default {};
 
-    boolean login() default true;
-
-    @AliasFor("name") String log() default "";
-
-    @AliasFor("log") String name() default "";
+    String summary() default "";
 
     RequestMethod[] method() default {RequestMethod.POST};
 

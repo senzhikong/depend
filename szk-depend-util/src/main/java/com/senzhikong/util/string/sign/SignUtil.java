@@ -1,6 +1,7 @@
 package com.senzhikong.util.string.sign;
 
-import com.senzhikong.util.string.StringUtil;
+import io.micrometer.common.util.StringUtils;
+import org.apache.catalina.util.StringUtil;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -36,7 +37,7 @@ public class SignUtil {
      * @return
      */
     public static String generateEncryptCode(int verifySize, String sources) {
-        if (StringUtil.isEmpty(sources)) {
+        if (StringUtils.isBlank(sources)) {
             sources = CODE;
         }
         int codesLen = sources.length();

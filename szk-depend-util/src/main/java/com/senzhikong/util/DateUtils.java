@@ -1,6 +1,7 @@
 package com.senzhikong.util;
 
-import com.senzhikong.util.string.StringUtil;
+import org.apache.catalina.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -62,12 +63,12 @@ public class DateUtils {
      * @return 时间
      */
     public static Date parseDate(String startDate, String pattern) {
-        if (StringUtil.isEmpty(startDate)) {
+        if (StringUtils.isBlank(startDate)) {
             return null;
         }
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern(pattern);
-        Date date = null;
+        Date date;
         try {
             date = format.parse(startDate);
         } catch (ParseException e) {
@@ -82,10 +83,10 @@ public class DateUtils {
      * @return 时间字符串
      */
     public static String formatDate() {
-        String datestr;
+        String dateStr;
         SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-        datestr = format.format(new Date());
-        return datestr;
+        dateStr = format.format(new Date());
+        return dateStr;
     }
 
     /**
@@ -98,10 +99,10 @@ public class DateUtils {
         if (null == date) {
             return null;
         }
-        String datestr = null;
+        String dateStr;
         SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-        datestr = format.format(date);
-        return datestr;
+        dateStr = format.format(date);
+        return dateStr;
     }
 
     /**
@@ -116,14 +117,14 @@ public class DateUtils {
         if (null == date) {
             return null;
         }
-        String datestr = null;
+        String dateStr = null;
         try {
             SimpleDateFormat format = new SimpleDateFormat(toPattern);
-            datestr = format.format(parseDate(date, fromPattern));
+            dateStr = format.format(parseDate(date, fromPattern));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return datestr;
+        return dateStr;
     }
 
     /**
@@ -137,10 +138,10 @@ public class DateUtils {
         if (date == null) {
             return null;
         }
-        String datestr;
+        String dateStr;
         SimpleDateFormat format = new SimpleDateFormat(pattern);
-        datestr = format.format(date);
-        return datestr;
+        dateStr = format.format(date);
+        return dateStr;
     }
 
     public static String formatNow(String pattern) {

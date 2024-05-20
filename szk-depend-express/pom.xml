@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>szk-depend-express</artifactId>
-    <name>depend-express</name>
     <url>https://maven.apache.org</url>
     <dependencyManagement>
         <dependencies>

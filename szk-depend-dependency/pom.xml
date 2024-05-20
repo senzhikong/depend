@@ -39,8 +39,7 @@
         <knife4j.version>4.4.0</knife4j.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
 
-        <mybatis.spring.boot.version>2.2.0</mybatis.spring.boot.version>
-        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mysql.version>8.0.29</mysql.version>
         <aspectjweaver.version>1.9.1</aspectjweaver.version>
         <fastjson.version>1.2.28</fastjson.version>
@@ -235,11 +234,6 @@
                 <version>${jakarta.annotation.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.senzhikong</groupId>
-                <artifactId>jpa-plus</artifactId>
-                <version>${szk.jpa-plus.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
@@ -339,13 +333,8 @@
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.spring.boot.version}</version>
             </dependency>
             <!-- 工具包 -->
             <dependency>

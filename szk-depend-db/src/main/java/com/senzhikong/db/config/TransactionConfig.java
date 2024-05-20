@@ -1,12 +1,11 @@
 package com.senzhikong.db.config;
 
 import jakarta.annotation.Resource;
-import jakarta.persistence.EntityManagerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
@@ -14,6 +13,7 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +21,8 @@ import java.util.Map;
  * @author shu
  */
 public class TransactionConfig {
+    @Resource
+    private DataSource dataSource;
     /**
      *
      */
@@ -33,12 +35,9 @@ public class TransactionConfig {
         this.expression = expression;
     }
 
-    @Resource
-    EntityManagerFactory entityManagerFactory;
-
     @Bean("transactionManager")
     public TransactionManager transactionManager() {
-        return new JpaTransactionManager(entityManagerFactory);
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean("jpaTxAdvice")

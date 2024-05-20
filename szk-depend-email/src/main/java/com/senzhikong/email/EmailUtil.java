@@ -2,8 +2,8 @@ package com.senzhikong.email;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.util.string.StringUtil;
 import com.sun.mail.imap.IMAPMessage;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -20,6 +20,11 @@ import java.util.Properties;
  * @author shu
  */
 public class EmailUtil {
+    /**
+     * 发送邮件
+     * @param emailRequest 邮件
+     * @return 发送结果
+     */
     public static String sendMail(EmailRequest emailRequest) {
         // 配置发送邮件的环境属性
         final Properties props = new Properties();
@@ -263,7 +268,7 @@ public class EmailUtil {
     private static JSONObject getAttachment(BodyPart bodyPart, String filePos) throws Exception {
         JSONObject file = new JSONObject();
         String fileName = decodeText(bodyPart.getFileName());
-        if (StringUtil.isEmpty(fileName)) {
+        if (StringUtils.isBlank(fileName)) {
             fileName = "unknown" + System.currentTimeMillis();
         }
         file.put("pos", filePos);

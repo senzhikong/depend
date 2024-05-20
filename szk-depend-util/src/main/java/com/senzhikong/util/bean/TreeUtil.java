@@ -3,7 +3,8 @@ package com.senzhikong.util.bean;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.util.string.StringUtil;
+import org.apache.catalina.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class TreeUtil {
 
     public static <T> JSONArray buildTreeList(List<T> fromList, String id, String pid, Object firstLevel,
             String children) {
-        if (StringUtil.isEmpty(children)) {
+        if (StringUtils.isBlank(children)) {
             children = "children";
         }
         JSONArray list = JSONArray.parseArray(JSON.toJSONString(fromList));

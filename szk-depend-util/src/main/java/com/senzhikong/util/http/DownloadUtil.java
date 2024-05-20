@@ -1,6 +1,6 @@
 package com.senzhikong.util.http;
-
-import com.senzhikong.util.string.StringUtil;
+import org.apache.catalina.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -93,7 +93,7 @@ public class DownloadUtil {
     public static HttpURLConnection getDownloadConnection(String url) throws Exception {
         URL httpUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
-        while (StringUtil.isNotEmpty(url = getRedirectUrl(connection))) {
+        while (StringUtils.isNotBlank(url = getRedirectUrl(connection))) {
             httpUrl = new URL(url);
             connection = (HttpURLConnection) httpUrl.openConnection();
         }
@@ -112,7 +112,7 @@ public class DownloadUtil {
             if (url.startsWith(HttpUtil.HTTPS)) {
                 HttpUtil.useHttps(connection);
             }
-            while (StringUtil.isNotEmpty(url = getRedirectUrl(connection))) {
+            while (StringUtils.isNotBlank(url = getRedirectUrl(connection))) {
 
                 httpUrl = new URL(url);
                 connection = (HttpURLConnection) httpUrl.openConnection();

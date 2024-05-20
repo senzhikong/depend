@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>szk-depend-sms</artifactId>
-    <name>depend-sms</name>
     <url>https://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -2,13 +2,13 @@ package com.senzhikong.web.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.senzhikong.util.string.StringUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -42,7 +42,7 @@ public class BaseController {
             return null;
         }
         for (Cookie cookie : cookies) {
-            if (StringUtil.equal(key, cookie.getName())) {
+            if (StringUtils.equals(key, cookie.getName())) {
                 return cookie.getValue();
             }
         }

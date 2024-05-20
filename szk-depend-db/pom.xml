@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>szk-depend-db</artifactId>
-    <name>depend-db</name>
     <url>https://maven.apache.org</url>
     <dependencyManagement>
         <dependencies>
@@ -25,8 +24,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>com.senzhikong</groupId>
-            <artifactId>jpa-plus</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -36,10 +35,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!-- 格式化对象，方便输出日志 -->
         <dependency>
@@ -58,6 +53,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
     </dependencies>
 </project>

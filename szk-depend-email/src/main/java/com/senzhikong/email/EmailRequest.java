@@ -1,9 +1,9 @@
 package com.senzhikong.email;
 
 import com.alibaba.fastjson.JSON;
-import com.senzhikong.util.string.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class EmailRequest {
 
     public void setFromEmail(String fromEmail) {
         this.fromEmail = fromEmail;
-        if (StringUtil.isEmpty(fromEmail)) {
+        if (StringUtils.isBlank(fromEmail)) {
             return;
         }
         if (fromEmail.endsWith(EMAIL_DOMAIN_QQ)) {

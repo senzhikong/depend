@@ -1,6 +1,7 @@
 package com.senzhikong.util.http;
 
-import com.senzhikong.util.string.StringUtil;
+import org.apache.catalina.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class RequestEntity {
     }
 
     public void addParam(String key, Object value) {
-        if (StringUtil.isEmpty(param)) {
+        if (StringUtils.isBlank(param)) {
             param = "";
         } else {
             param += "&";
