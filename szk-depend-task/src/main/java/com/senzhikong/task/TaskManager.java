@@ -64,16 +64,16 @@ public class TaskManager implements InitializingBean {
         dataMap.put("data", data);
         try {
             JobDetail jobDetail = JobBuilder.newJob(cls)
-                                            .withIdentity(taskCode, groupCode)
-                                            .storeDurably()
-                                            .usingJobData(dataMap)
-                                            .build();
+                    .withIdentity(taskCode, groupCode)
+                    .storeDurably()
+                    .usingJobData(dataMap)
+                    .build();
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
             CronTrigger trigger = TriggerBuilder.newTrigger()
-                                                .withIdentity(taskCode, groupCode)
-                                                .withSchedule(scheduleBuilder)
-                                                .forJob(jobDetail)
-                                                .build();
+                    .withIdentity(taskCode, groupCode)
+                    .withSchedule(scheduleBuilder)
+                    .forJob(jobDetail)
+                    .build();
             scheduler.addJob(jobDetail, true);
             // 启动
             scheduler.scheduleJob(trigger);
@@ -142,22 +142,22 @@ public class TaskManager implements InitializingBean {
         if (jobDetail == null) {
             Class<? extends Job> taskClass = getTaskClass(task);
             jobDetail = JobBuilder.newJob(taskClass)
-                                  .withIdentity(task.getTaskCode(), task.getGroupCode())
-                                  .storeDurably()
-                                  .usingJobData(dataMap)
-                                  .build();
+                    .withIdentity(task.getTaskCode(), task.getGroupCode())
+                    .storeDurably()
+                    .usingJobData(dataMap)
+                    .build();
             scheduler.addJob(jobDetail, true);
         }
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), "run-one-time");
         Trigger trigger = scheduler.getTrigger(triggerKey);
         if (trigger == null) {
             trigger = TriggerBuilder.newTrigger()
-                                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
-                                            "run-one-time" + System.currentTimeMillis()))
-                                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
-                                    .forJob(jobDetail)
-                                    .startAt(new Date())
-                                    .build();
+                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
+                            "run-one-time" + System.currentTimeMillis()))
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule())
+                    .forJob(jobDetail)
+                    .startAt(new Date())
+                    .build();
             // 启动
             scheduler.scheduleJob(trigger);
         } else {
@@ -255,7 +255,7 @@ public class TaskManager implements InitializingBean {
         try {
             Object clz = SpringContextHolder.getBeanByClassName(initClz);
             Method method = clz.getClass()
-                               .getMethod("listAutoStartTask", String[].class);
+                    .getMethod("listAutoStartTask", String[].class);
             Object res = method.invoke(clz, new Object[]{groups});
             List<BaseTaskInfo> list = JSONArray.parseArray(JSON.toJSONString(res), BaseTaskInfo.class);
             if (list != null && list.size() > 0) {

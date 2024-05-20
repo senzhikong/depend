@@ -56,7 +56,7 @@ public abstract class RabbitMsgReceiver extends AbstractMsgReceiver implements I
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope,
-                    AMQP.BasicProperties properties, byte[] body) throws IOException {
+                                       AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String msg = new String(body);
                 log.info("收到消息：" + msg);
                 process(msg);

@@ -1,5 +1,5 @@
 package com.senzhikong.util.http;
-import org.apache.catalina.util.StringUtil;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -80,7 +80,7 @@ public class DownloadUtil {
             if ("Location".equals(key)) {
                 // 获取新地址
                 return map.get(key)
-                          .get(0);
+                        .get(0);
             }
         }
         return null;

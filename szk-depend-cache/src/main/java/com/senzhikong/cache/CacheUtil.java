@@ -22,7 +22,7 @@ public class CacheUtil {
     public void cleanCache(String cacheName) {
         log.debug("Ready To Clean Cache：" + cacheName);
         Objects.requireNonNull(cacheManager.getCache(cacheName))
-               .clear();
+                .clear();
         log.debug("Clean Cache Success：" + cacheName);
     }
 

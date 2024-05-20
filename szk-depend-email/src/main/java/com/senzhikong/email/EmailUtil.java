@@ -22,6 +22,7 @@ import java.util.Properties;
 public class EmailUtil {
     /**
      * 发送邮件
+     *
      * @param emailRequest 邮件
      * @return 发送结果
      */
@@ -46,7 +47,7 @@ public class EmailUtil {
             InternetAddress from = new InternetAddress(nick + "<" + emailRequest.getFromEmail() + ">");
             message.setFrom(from);
             InternetAddress[] toUsers = new InternetAddress[emailRequest.getToList()
-                                                                        .size()];
+                    .size()];
             List<InternetAddress> tos = new ArrayList<>();
             for (String t : emailRequest.getToList()) {
                 tos.add(new InternetAddress(t));
@@ -155,7 +156,7 @@ public class EmailUtil {
         email.setSendTime(msg.getSentDate());
         //是否已读
         email.setRead(msg.getFlags()
-                         .contains(Flags.Flag.SEEN));
+                .contains(Flags.Flag.SEEN));
         //是否需要回执
         email.setReplySign(msg.getHeader("Disposition-Notification-To") != null);
         //优先级
@@ -211,13 +212,13 @@ public class EmailUtil {
             throws Exception {
         //如果是文本类型的附件，通过getContent方法可以取到文本内容，但这不是我们需要的结果，所以在这里要做判断
         boolean isContainTextAttach = part.getContentType()
-                                          .indexOf("name") > 0;
+                .indexOf("name") > 0;
         if (part.isMimeType(EMAIL_TEXT) && !isContainTextAttach) {
             contentText.append(part.getContent()
-                                   .toString());
+                    .toString());
         } else if (part.isMimeType(EMAIL_HTML) && !isContainTextAttach) {
             contentHtml.append(part.getContent()
-                                   .toString());
+                    .toString());
         } else if (part.isMimeType(EMAIL_MESSAGE)) {
             getMailTextContent((Part) part.getContent(), contentHtml, contentText);
         } else if (part.isMimeType(EMAIL_MULTIPART)) {

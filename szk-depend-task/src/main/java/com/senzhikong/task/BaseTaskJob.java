@@ -19,7 +19,7 @@ public abstract class BaseTaskJob implements Job {
      */
     public JSONObject getJobParam(JobExecutionContext context) {
         JobDataMap paramMap = context.getJobDetail()
-                                     .getJobDataMap();
+                .getJobDataMap();
         if (paramMap.getString(PARAM_KEY) == null) {
             return null;
         }

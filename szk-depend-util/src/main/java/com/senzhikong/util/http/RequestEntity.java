@@ -1,6 +1,5 @@
 package com.senzhikong.util.http;
 
-import org.apache.catalina.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

@@ -52,8 +52,8 @@ public class ResponseUtils {
             response.reset();
             response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment;filename=" + new String(file.getName()
-                                                                                              .getBytes(
-                                                                                                      StandardCharsets.UTF_8),
+                    .getBytes(
+                            StandardCharsets.UTF_8),
                     "ISO8859-1"));
             int temp;
             while ((temp = fileInputStream.read()) != -1) {

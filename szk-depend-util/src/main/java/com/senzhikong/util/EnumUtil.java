@@ -19,7 +19,7 @@ public class EnumUtil {
             Method codeMethod = clz.getMethod("code");
             for (T obj : clz.getEnumConstants()) {
                 String eCode = codeMethod.invoke(obj)
-                                         .toString();
+                        .toString();
                 if (eCode.equals(code)) {
                     return obj;
                 } else if ("unknown".equals(eCode)) {

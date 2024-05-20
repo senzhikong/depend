@@ -24,6 +24,7 @@ public class MyWebContextFlux implements MyWebContext {
         }
     }
 
+    @Override
     public Long getUserId() {
         Long userId = null;
         String str = getRequest().getHeaders().getFirst(WebConstants.X_HEADER_USER_ID);
@@ -33,6 +34,7 @@ public class MyWebContextFlux implements MyWebContext {
         return userId;
     }
 
+    @Override
     public String getToken() {
         return getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
     }

@@ -1,7 +1,6 @@
 package com.senzhikong.util.string.sign;
 
 import io.micrometer.common.util.StringUtils;
-import org.apache.catalina.util.StringUtil;
 
 import java.security.SecureRandom;
 import java.util.Random;

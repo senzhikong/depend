@@ -22,7 +22,7 @@ public class ReactiveContextFilter implements WebFilter {
         return Mono.deferContextual(contextView -> {
             ServerHttpRequest request = exchange.getRequest();
             return chain.filter(exchange)
-                        .contextWrite(context -> context.put(ReactiveHttpContextHolder.CONTEXT_KEY, request));
+                    .contextWrite(context -> context.put(ReactiveHttpContextHolder.CONTEXT_KEY, request));
         });
     }
 }

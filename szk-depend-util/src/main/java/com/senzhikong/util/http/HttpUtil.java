@@ -122,7 +122,7 @@ public class HttpUtil {
             OutputStream outputStream = httpConnection.getOutputStream();
             if (entity.getParam() != null) {
                 outputStream.write(entity.getParam()
-                                         .getBytes(charset));
+                        .getBytes(charset));
             }
             outputStream.flush();
 
@@ -179,8 +179,8 @@ public class HttpUtil {
             Map<String, Object> params = entity.getFormFields();
             for (Entry<String, Object> param : params.entrySet()) {
                 contentBody.append("\r\n--" + BOUNDARY).append("\r\n")
-                           .append("Content-Disposition: form-data; name=\"").append(param.getKey()).append("\"")
-                           .append("\r\n\r\n").append(param.getValue());
+                        .append("Content-Disposition: form-data; name=\"").append(param.getKey()).append("\"")
+                        .append("\r\n\r\n").append(param.getValue());
             }
             out.write(contentBody.toString().getBytes(charset));
             // 2. 处理文件上传

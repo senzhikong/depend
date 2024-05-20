@@ -4,14 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author shu
  */
 @Data
-@Schema(name = "基础ID数组")
-public class IdsDTO implements Serializable {
-    @Schema(description = "ID")
-    private List<Long> id;
+@Schema(name = "基础模型")
+public class BaseDTO implements Serializable {
 }

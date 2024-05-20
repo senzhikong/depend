@@ -3,7 +3,6 @@ package com.senzhikong.util.bean;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.catalina.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Method;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class TreeUtil {
 
     public static <T> JSONArray buildTreeList(List<T> fromList, String id, String pid, Object firstLevel,
-            String children) {
+                                              String children) {
         if (StringUtils.isBlank(children)) {
             children = "children";
         }
@@ -79,7 +78,7 @@ public class TreeUtil {
     }
 
     public static <T> List<T> buildTree(List<T> fromList, String idKey, String pidKey, String childrenKey,
-            Object firstLevel) {
+                                        Object firstLevel) {
         List<T> rootArray = findChildrenObj(fromList, pidKey, firstLevel);
         fromList.removeAll(rootArray);
         List<T> eachList;

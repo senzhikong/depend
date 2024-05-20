@@ -56,7 +56,7 @@ public class FileToBrowserUtil {
     }
 
     public static void download(Map<String, String> files, String name, HttpServletResponse response,
-            HttpServletRequest request) {
+                                HttpServletRequest request) {
         try {
             if (files == null || files.isEmpty()) {
                 String res = "<html><body><h2>文件未找到</h2></body></html>";
@@ -97,7 +97,7 @@ public class FileToBrowserUtil {
     }
 
     public static OutputStream getDownloadOutputStream(String filename, HttpServletResponse response,
-            HttpServletRequest request) throws Exception {
+                                                       HttpServletRequest request) throws Exception {
         filename = getFileName(filename, request);
         // 清空response
         response.reset();

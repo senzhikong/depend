@@ -1,6 +1,5 @@
 package com.senzhikong.web.context;
 
-import com.senzhikong.util.string.sign.Md5Util;
 import com.senzhikong.web.util.WebConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +10,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * 鉴权工具
@@ -27,6 +25,7 @@ public class MyWebContextMvc implements MyWebContext {
                 RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
+    @Override
     public Long getUserId() {
         Long userId = null;
         String str = getRequest().getHeader(WebConstants.X_HEADER_USER_ID);
@@ -36,6 +35,7 @@ public class MyWebContextMvc implements MyWebContext {
         return userId;
     }
 
+    @Override
     public String getToken() {
         return getRequest().getHeader(HttpHeaders.AUTHORIZATION);
     }

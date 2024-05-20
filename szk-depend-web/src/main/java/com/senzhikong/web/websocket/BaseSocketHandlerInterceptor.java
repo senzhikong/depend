@@ -19,7 +19,7 @@ public class BaseSocketHandlerInterceptor extends HttpSessionHandshakeIntercepto
 
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
-            Map<String, Object> attributes) throws Exception {
+                                   Map<String, Object> attributes) throws Exception {
         if (request instanceof ServletServerHttpRequest) {
             HttpServletRequest servletRequest = ((ServletServerHttpRequest) request).getServletRequest();
             HttpSession session = servletRequest.getSession();
@@ -30,7 +30,7 @@ public class BaseSocketHandlerInterceptor extends HttpSessionHandshakeIntercepto
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
-            Exception ex) {
+                               Exception ex) {
         super.afterHandshake(request, response, wsHandler, ex);
     }
 }

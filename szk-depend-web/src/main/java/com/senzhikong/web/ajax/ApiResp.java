@@ -1,10 +1,12 @@
 package com.senzhikong.web.ajax;
 
 import com.alibaba.fastjson.JSONObject;
+import com.senzhikong.basic.dto.PagerResp;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * json返回实体类
@@ -72,6 +74,16 @@ public class ApiResp<T> implements Serializable {
         return ApiResp.of(ApiStatus.OK, data);
     }
 
+    public static <T> ApiResp<PagerResp<T>> okPage(PagerResp<?> page, List<T> list) {
+        PagerResp<T> resp = new PagerResp<>();
+        resp.setDataList(list);
+        resp.setTotal(page.getTotal());
+        resp.setPageNumber(page.getPageNumber());
+        resp.setPageSize(page.getPageSize());
+        resp.setTotalPage(page.getTotalPage());
+        return ApiResp.of(ApiStatus.OK, resp);
+    }
+
     public static <T> ApiResp<T> ok(String message, T data) {
         return new ApiResp<>(ApiStatus.OK.value(), message, data);
     }
@@ -94,15 +106,6 @@ public class ApiResp<T> implements Serializable {
 
     public static ApiResp<Object> dataError(String message) {
         return new ApiResp<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(), message);
-    }
-
-    public static <T> ApiResp<T> dataError(String message, T data) {
-        return new ApiResp<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(), message, data);
-    }
-
-    public static ApiResp<Object> dataError() {
-        return new ApiResp<>(ApiStatus.PARAMS_VALIDATE_ERROR.value(),
-                ApiStatus.PARAMS_VALIDATE_ERROR.message());
     }
 
     public boolean isSuccess() {

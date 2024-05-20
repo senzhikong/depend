@@ -15,11 +15,11 @@ public interface MyWebContext {
      *
      * @return token
      */
-   default String generateToken(){
-       return Md5Util.getInstance()
-                     .encode(UUID.randomUUID().toString() + System.currentTimeMillis(), "UTF-8",
-                             "szk-login-token");
-   }
+    default String generateToken() {
+        return Md5Util.getInstance()
+                .encode(UUID.randomUUID().toString() + System.currentTimeMillis(), "UTF-8",
+                        "szk-login-token");
+    }
 
     /**
      * 获取用户ID

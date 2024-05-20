@@ -34,7 +34,7 @@ public class WebEntryData {
     }
 
     public void addTree(String label, String value, String labelCol, String valueCol, String children,
-            Collection<?> data) {
+                        Collection<?> data) {
         JSONObject s = new JSONObject();
         s.put("type", "tree");
         s.put("label", label);
