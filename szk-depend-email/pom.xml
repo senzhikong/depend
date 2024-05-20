@@ -11,9 +11,6 @@
     </parent>
     <artifactId>szk-depend-email</artifactId>
     <url>https://maven.apache.org</url>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>

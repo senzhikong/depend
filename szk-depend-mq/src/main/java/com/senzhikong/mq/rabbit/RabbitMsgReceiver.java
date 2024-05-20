@@ -24,21 +24,6 @@ public abstract class RabbitMsgReceiver extends AbstractMsgReceiver implements I
     private Connection connection;
     private Channel channel;
 
-    /**
-     * 具体业务
-     *
-     * @param content 消息内容
-     */
-    public abstract void process(String content);
-
-
-    /**
-     * 获取队列名称
-     *
-     * @return 队列名称
-     */
-    public abstract String getQueue();
-
     @Override
     public void afterPropertiesSet() throws Exception {
         this.open();

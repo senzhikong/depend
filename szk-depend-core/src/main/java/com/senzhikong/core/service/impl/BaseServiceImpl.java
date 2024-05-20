@@ -1,16 +1,16 @@
-package com.senzhikong.basic.service.impl;
+package com.senzhikong.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.senzhikong.basic.converter.BasePoConverter;
+import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
 import com.senzhikong.basic.entity.BaseEntityPO;
 import com.senzhikong.basic.enums.CommonStatus;
-import com.senzhikong.basic.service.IBaseService;
 import com.senzhikong.basic.util.CommonUtil;
-import com.senzhikong.basic.vo.BaseEntityVO;
+import com.senzhikong.core.converter.BasePoConverter;
+import com.senzhikong.core.service.IBaseService;
 import com.senzhikong.spring.SpringContextHolder;
 import org.mapstruct.factory.Mappers;
 

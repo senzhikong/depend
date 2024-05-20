@@ -1,10 +1,10 @@
-package com.senzhikong.basic.service;
+package com.senzhikong.core.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
 import com.senzhikong.basic.entity.BaseEntityPO;
-import com.senzhikong.basic.vo.BaseEntityVO;
 
 import java.util.List;
 

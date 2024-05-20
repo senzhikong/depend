@@ -133,6 +133,11 @@
             </dependency>
             <dependency>
                 <groupId>com.senzhikong</groupId>
+                <artifactId>szk-depend-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
                 <artifactId>szk-depend-db</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -144,6 +149,11 @@
             <dependency>
                 <groupId>com.senzhikong</groupId>
                 <artifactId>szk-depend-express</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
+                <artifactId>szk-depend-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

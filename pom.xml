@@ -24,6 +24,8 @@
         <module>szk-depend-mq</module>
         <module>szk-depend-cloud-client-nacos</module>
         <module>szk-depend-dependency</module>
+        <module>szk-depend-feign</module>
+        <module>szk-depend-core</module>
     </modules>
     <properties>
         <java.version>17</java.version>

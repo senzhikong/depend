@@ -1,4 +1,4 @@
-package com.senzhikong.basic.vo;
+package com.senzhikong.basic.domain;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;

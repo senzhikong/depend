@@ -1,7 +1,7 @@
-package com.senzhikong.basic.converter;
+package com.senzhikong.core.converter;
 
+import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.entity.BaseEntityPO;
-import com.senzhikong.basic.vo.BaseEntityVO;
 import org.mapstruct.MapperConfig;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
