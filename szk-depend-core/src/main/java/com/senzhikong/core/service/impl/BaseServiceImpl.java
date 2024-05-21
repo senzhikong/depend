@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
-import com.senzhikong.basic.entity.BaseEntityPO;
+import com.senzhikong.core.entity.BaseEntityPO;
 import com.senzhikong.basic.enums.CommonStatus;
 import com.senzhikong.basic.util.CommonUtil;
 import com.senzhikong.core.converter.BasePoConverter;

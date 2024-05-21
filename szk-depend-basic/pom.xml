@@ -22,16 +22,12 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.senzhikong</groupId>
             <artifactId>szk-depend-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.senzhikong</groupId>
-            <artifactId>szk-depend-db</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.senzhikong</groupId>
-            <artifactId>szk-depend-spring</artifactId>
         </dependency>
         <!-- 格式化对象，方便输出日志 -->
         <dependency>

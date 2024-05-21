@@ -2,7 +2,7 @@ package com.senzhikong.core.converter;
 
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.BaseEntityDTO;
-import com.senzhikong.basic.entity.BaseEntityPO;
+import com.senzhikong.core.entity.BaseEntityPO;
 
 /**
  * @author shu

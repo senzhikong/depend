@@ -1,4 +1,4 @@
-package com.senzhikong.basic.domain;
+package com.senzhikong.auth.domain;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -13,7 +13,6 @@ import java.util.List;
  * @author shu.zhou
  */
 @Data
-@Slf4j
 public class FilterRule implements Serializable {
     private String encType;
     private boolean anonymous = false;
@@ -28,8 +27,7 @@ public class FilterRule implements Serializable {
         try {
             json = JSONObject.parseObject(rule);
         } catch (Exception exception) {
-            log.error("拦截规则解析失败：" + rule);
-            return;
+            throw new RuntimeException("拦截规则解析失败：" + rule);
         }
         this.anonymous = json.getBooleanValue("anonymous");
         JSONArray permissions = json.getJSONArray("permission");

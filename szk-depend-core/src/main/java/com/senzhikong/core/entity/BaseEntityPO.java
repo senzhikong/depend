@@ -1,4 +1,4 @@
-package com.senzhikong.basic.entity;
+package com.senzhikong.core.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotation.FieldFill;

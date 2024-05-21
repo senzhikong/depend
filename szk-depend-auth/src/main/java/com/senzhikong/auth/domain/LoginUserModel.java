@@ -1,4 +1,5 @@
-package com.senzhikong.basic.domain;
+package com.senzhikong.auth.domain;
+
 
 import lombok.Data;
 

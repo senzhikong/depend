@@ -17,8 +17,6 @@ public class BaseEntityDTO implements Serializable {
     protected Long id;
     @Schema(description = "状态")
     protected String status;
-    @Schema(description = "状态")
-    protected String statusDesc;
     @Schema(description = "创建时间")
     protected Date createTime;
     @Schema(description = "创建人")
