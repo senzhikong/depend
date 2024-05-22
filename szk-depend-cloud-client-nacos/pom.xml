@@ -81,5 +81,9 @@
             <groupId>com.senzhikong</groupId>
             <artifactId>szk-depend-db</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.senzhikong</groupId>
+            <artifactId>szk-depend-config</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${NACOS_HOST:127.0.0.1:8848}
+        namespace: ${NACOS_NAMESPACE:dev}
+        metadata:
+          context-path: ${server.servlet.context-path:}
+          management:
+            context-path: ${server.servlet.context-path:}/actuator
+        username: ${NACOS_USER}
+        password: ${NACOS_PWD}
+      config:
+        # 配置中心地址
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        username: ${spring.cloud.nacos.discovery.username}
+        password: ${spring.cloud.nacos.discovery.password}
+        # 配置文件格式
+        file-extension: yaml
+        import-check:
+          enabled: false
+        extension-configs:
+          - data-id: service.yaml
+            refresh: true
