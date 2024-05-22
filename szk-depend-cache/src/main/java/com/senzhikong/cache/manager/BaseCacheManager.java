@@ -1,8 +1,6 @@
 package com.senzhikong.cache.manager;
 
 import com.senzhikong.cache.cache.IBaseCache;
-import com.senzhikong.spring.SpringContextHolder;
-import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -29,8 +27,6 @@ public abstract class BaseCacheManager extends AbstractCacheManager {
     protected Set<String> cacheNames;
     protected String prefix = "";
     protected int hitCount;
-    @Resource
-    SpringContextHolder springContextHolder;
 
     @Override
     public void afterPropertiesSet() {

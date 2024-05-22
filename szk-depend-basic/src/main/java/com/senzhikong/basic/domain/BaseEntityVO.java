@@ -14,7 +14,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class BaseEntityVO implements Serializable {
     protected Long id;
-    protected Integer status;
+    protected String status;
     protected Date createTime;
     protected Long createBy;
     protected Date updateTime;
