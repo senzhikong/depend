@@ -3,7 +3,6 @@ package com.senzhikong.auth.domain;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -19,9 +18,10 @@ public class FilterRule implements Serializable {
     private List<String> permissions;
     private List<String> roles;
 
-    public FilterRule(String rule, String encType) {
+    public static FilterRule from(String rule, String encType) {
+        FilterRule filterRule = new FilterRule();
         if (StringUtils.isBlank(rule)) {
-            return;
+            return filterRule;
         }
         JSONObject json;
         try {
@@ -29,7 +29,7 @@ public class FilterRule implements Serializable {
         } catch (Exception exception) {
             throw new RuntimeException("拦截规则解析失败：" + rule);
         }
-        this.anonymous = json.getBooleanValue("anonymous");
+        filterRule.setAnonymous(json.getBooleanValue("anonymous"));
         JSONArray permissions = json.getJSONArray("permission");
         JSONArray roles = json.getJSONArray("role");
         if (permissions == null) {
@@ -38,8 +38,9 @@ public class FilterRule implements Serializable {
         if (roles == null) {
             roles = new JSONArray();
         }
-        this.permissions = permissions.toJavaList(String.class);
-        this.roles = roles.toJavaList(String.class);
-        this.encType = encType;
+        filterRule.setPermissions(permissions.toJavaList(String.class));
+        filterRule.setRoles(roles.toJavaList(String.class));
+        filterRule.setEncType(encType);
+        return filterRule;
     }
 }
