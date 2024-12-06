@@ -3,7 +3,7 @@ package com.senzhikong.auth.domain;
 import java.util.HashMap;
 
 /**
- * @author Administrator
+ * @author shu.zhou
  */
 public class FilterMap extends HashMap<String, FilterRule> {
 }

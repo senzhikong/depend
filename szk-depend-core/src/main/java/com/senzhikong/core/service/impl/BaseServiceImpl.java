@@ -98,6 +98,24 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     }
 
     @Override
+    public List<VO> findList() {
+        QueryWrapper<PO> queryWrapper = this.generateWrapper(null, null);
+        return findList(queryWrapper);
+    }
+
+    @Override
+    public List<VO> findList(VO vo) {
+        QueryWrapper<PO> queryWrapper = this.generateWrapper(vo, null);
+        return findList(queryWrapper);
+    }
+
+    @Override
+    public List<VO> findList(VO vo, String keyword) {
+        QueryWrapper<PO> queryWrapper = this.generateWrapper(vo, keyword);
+        return findList(queryWrapper);
+    }
+
+    @Override
     public VO save(VO vo, String createBy) {
         try {
             PO data = getPoConverter().vo2Po(vo);

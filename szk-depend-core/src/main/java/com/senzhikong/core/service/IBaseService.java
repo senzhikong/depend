@@ -48,18 +48,44 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      * 通过逐渐批量查询
      *
      * @param ids 主键列表
-     * @return 查询结果数字
+     * @return 查询结果数组
      */
     List<VO> findList(List<String> ids);
 
     /**
-     * List
+     *
      * 通过逐渐批量查询
      *
      * @param ids 主键数组
-     * @return 查询结果数字
+     * @return 查询结果数组
      */
     List<VO> findList(String[] ids);
+
+    /**
+     *
+     * 通过条件批量查询
+     *
+     * @return 查询结果数组
+     */
+    List<VO> findList();
+    /**
+     *
+     * 通过条件批量查询
+     *
+     * @param vo 查询参数
+     * @return 查询结果数组
+     */
+    List<VO> findList(VO vo);
+
+    /**
+     *
+     * 通过条件批量查询
+     *
+     * @param vo 查询参数
+     * @param keyword 关键字
+     * @return 查询结果数组
+     */
+    List<VO> findList(VO vo,String keyword);
 
     /**
      * 新增
