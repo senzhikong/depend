@@ -2,8 +2,7 @@ package com.senzhikong.util.ftp;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -15,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author shu
  */
+@Slf4j
 @Getter
 @Setter
 public class FtpUtil {
@@ -35,7 +35,6 @@ public class FtpUtil {
      */
     public String password;
     public FTPClient ftpClient = null;
-    protected Log logger = LogFactory.getLog(this.getClass());
 
     public FtpUtil(String hostname, Integer port, String username, String password) {
         this.hostname = hostname;
@@ -58,12 +57,12 @@ public class FtpUtil {
             // 是否成功登录服务器
             int replyCode = ftpClient.getReplyCode();
             if (FTPReply.isPositiveCompletion(replyCode)) {
-                logger.debug("ftp connect success:" + hostname + ":" + port);
+                log.debug("ftp connect success:{}:{}", hostname, port);
             } else {
-                logger.debug("ftp connect fail:" + hostname + ":" + port);
+                log.debug("ftp connect fail:{}:{}", hostname, port);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -80,7 +79,7 @@ public class FtpUtil {
             inputStream = new FileInputStream(originFilename);
             return uploadFile(pathname, fileName, inputStream);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return true;
     }
@@ -100,28 +99,31 @@ public class FtpUtil {
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             createDirectory(pathname);
             ftpClient.changeWorkingDirectory(pathname);
-            logger.debug(
+            log.debug(
                     "ftp upload file:" + pathname + File.separator + fileName + ",size:" + inputStream.available());
             boolean isSuccess = ftpClient.storeFile(fileName, inputStream);
             ftpClient.logout();
-            logger.debug("ftp upload res：" + isSuccess);
+            log.debug("ftp upload res：" + isSuccess);
             return isSuccess;
         } catch (Exception e) {
-            e.printStackTrace();
+
+            log.error(e.getMessage(), e);
             return false;
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    log.error(e.getMessage(), e);
                 }
             }
             if (ftpClient.isConnected()) {
                 try {
                     ftpClient.disconnect();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    log.error(e.getMessage(), e);
                 }
             }
         }
@@ -135,7 +137,7 @@ public class FtpUtil {
         try {
             flag = ftpClient.changeWorkingDirectory(directory);
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            log.error(ioe.getMessage(), ioe);
         }
         return flag;
     }
@@ -197,7 +199,8 @@ public class FtpUtil {
         try {
             flag = ftpClient.makeDirectory(dir);
         } catch (Exception e) {
-            e.printStackTrace();
+
+            log.error(e.getMessage(), e);
         }
         return flag;
     }
@@ -228,20 +231,23 @@ public class FtpUtil {
             ftpClient.logout();
             flag = true;
         } catch (Exception e) {
-            e.printStackTrace();
+
+            log.error(e.getMessage(), e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
                     ftpClient.disconnect();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    log.error(e.getMessage(), e);
                 }
             }
             if (null != os) {
                 try {
                     os.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    log.error(e.getMessage(), e);
                 }
             }
         }
@@ -264,13 +270,15 @@ public class FtpUtil {
             ftpClient.logout();
             flag = true;
         } catch (Exception e) {
-            e.printStackTrace();
+
+            log.error(e.getMessage(), e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
                     ftpClient.disconnect();
                 } catch (IOException e) {
-                    e.printStackTrace();
+
+                    log.error(e.getMessage(), e);
                 }
             }
         }

@@ -4,6 +4,7 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,8 +19,8 @@ import java.util.Map;
  *
  * @author shu.zhou
  * @version 1.0.0
- * @time 2017年11月10日上午9:25:49
  */
+@Slf4j
 public class QrCodeUtil {
 
     private static final int WHITE = 0xFFFFFFFF;
@@ -36,10 +37,10 @@ public class QrCodeUtil {
      * @param margin   二维码图片边距
      * @param logo     二维码中心logo图片
      * @param logoSize 二维码logo图片大小
-     * @return
+     * @return 图片
      */
     public static BufferedImage encodeQrcode(String content, int size, int margin, Image logo, int logoSize) {
-        if (content == null || "".equals(content)) {
+        if (content == null || content.isEmpty()) {
             return null;
         }
         if (margin < MIN_MARGIN) {
@@ -63,7 +64,7 @@ public class QrCodeUtil {
             }
             return image;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -74,7 +75,7 @@ public class QrCodeUtil {
      * @param content 二维码内容
      * @param size    二维码图片大小
      * @param margin  二维码图片边距
-     * @return
+     * @return 图片
      */
     public static BufferedImage encodeQrcode(String content, int size, int margin) {
         return encodeQrcode(content, size, margin, null, 0);
@@ -122,26 +123,26 @@ public class QrCodeUtil {
     /**
      * 解码
      *
-     * @param file
-     * @return
+     * @param file 文件
+     * @return 二维码文本
      */
     public static String readQrCode(File file) {
         BufferedImage image;
         try {
             if (file == null || !file.exists()) {
-                throw new Exception(" File not found:" + file.getPath());
+                throw new Exception(" File not found");
             }
             image = ImageIO.read(file);
             LuminanceSource source = new BufferedImageLuminanceSource(image);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             Result result;
             // 解码设置编码方式为：utf-8，
-            Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
+            Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
             hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
             result = new MultiFormatReader().decode(bitmap, hints);
             return result.getText();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -149,8 +150,8 @@ public class QrCodeUtil {
     /**
      * 解码
      *
-     * @param image
-     * @return
+     * @param image 图片
+     * @return 文本
      */
     public static String readQrCode(BufferedImage image) {
         try {
@@ -166,7 +167,7 @@ public class QrCodeUtil {
             result = new MultiFormatReader().decode(bitmap, hints);
             return result.getText();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -183,10 +184,10 @@ public class QrCodeUtil {
      * @param width   条形码宽
      * @param height  条形码高
      * @param margin  条形码边距
-     * @return
+     * @return 图片
      */
     public static BufferedImage encodeQrcode(String content, int width, int height, int margin) {
-        if (content == null || "".equals(content)) {
+        if (content == null || content.isEmpty()) {
             return null;
         }
         if (margin < BAR_CODE_MIN_MARGIN) {
@@ -204,12 +205,12 @@ public class QrCodeUtil {
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         // 边距
         hints.put(EncodeHintType.MARGIN, margin);
-        BitMatrix bitMatrix = null;
+        BitMatrix bitMatrix;
         try {
             bitMatrix = multiFormatWriter.encode(content, BarcodeFormat.CODE_128, width, height, hints);
             return toBufferedImage(bitMatrix);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -217,26 +218,26 @@ public class QrCodeUtil {
     /**
      * 解码
      *
-     * @param file
-     * @return
+     * @param file 文件
+     * @return 文本
      */
     public static String readBarCode(File file) {
         BufferedImage image;
         try {
             if (file == null || !file.exists()) {
-                throw new Exception(" File not found:" + file.getPath());
+                throw new Exception(" File not found:");
             }
             image = ImageIO.read(file);
             LuminanceSource source = new BufferedImageLuminanceSource(image);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             Result result;
             // 解码设置编码方式为：utf-8，
-            Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
+            Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
             hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
             result = new MultiFormatReader().decode(bitmap, hints);
             return result.getText();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -244,25 +245,10 @@ public class QrCodeUtil {
     /**
      * 解码
      *
-     * @param image
-     * @return
+     * @param image 图片
+     * @return 文本
      */
     public static String readBarCode(BufferedImage image) {
-        try {
-            if (image == null) {
-                throw new Exception(" File is empty:");
-            }
-            LuminanceSource source = new BufferedImageLuminanceSource(image);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-            Result result;
-            // 解码设置编码方式为：utf-8，
-            Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
-            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
-            result = new MultiFormatReader().decode(bitmap, hints);
-            return result.getText();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return readQrCode(image);
     }
 }

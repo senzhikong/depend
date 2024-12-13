@@ -3,6 +3,7 @@ package com.senzhikong.cache.cache;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.SimpleValueWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -13,6 +14,7 @@ import java.util.concurrent.Callable;
 /**
  * @author shu
  */
+@Slf4j
 @Getter
 @Setter
 public class RedisCache implements IBaseCache {
@@ -50,9 +52,6 @@ public class RedisCache implements IBaseCache {
     public void clear() {
         final String keyStr = prefix + name + "-*";
         final Set<String> keys = redisTemplate.keys(keyStr);
-        if (keys == null) {
-            return;
-        }
         redisTemplate.delete(keys);
     }
 
@@ -63,7 +62,7 @@ public class RedisCache implements IBaseCache {
         try {
             return (T) redisTemplate.opsForValue().get(keyStr);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             return null;
         }
     }
@@ -79,15 +78,11 @@ public class RedisCache implements IBaseCache {
         try {
             return arg1.call();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
 
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
 
     @Override
     public void put(Object key, Object value, Duration duration) {

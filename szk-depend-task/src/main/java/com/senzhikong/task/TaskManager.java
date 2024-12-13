@@ -6,14 +6,15 @@ import com.senzhikong.spring.SpringContextHolder;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.quartz.*;
 import org.quartz.Trigger.TriggerState;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -21,16 +22,18 @@ import java.util.*;
 /**
  * @author Shu.zhou
  */
+@Slf4j
 @Getter
 @Setter
+@Component
+@ConditionalOnProperty(prefix = "szk.task", name = "enabled", havingValue = "true")
 public class TaskManager implements InitializingBean {
-    private static final Log logger = LogFactory.getLog(TaskManager.class);
     private Map<String, JobDetail> taskMap = new HashMap<>(16);
     @Resource
     ApplicationContext applicationContext;
-    @Value("szk.task.init-clz:")
+    @Value("${szk.task.init-clz}")
     private String initClz;
-    @Value("szk.task.group:none")
+    @Value("${szk.task.group}")
     private String group;
     @Resource
     private Scheduler scheduler;
@@ -47,39 +50,34 @@ public class TaskManager implements InitializingBean {
             taskClass = Class.forName(task.getTaskClass());
             return (Class<? extends Job>) taskClass;
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(e);
+            log.error(e.getMessage(), e);
         }
         return null;
     }
 
-    public void addTask(BaseTaskInfo task) throws Exception {
-        addTask(task.getTaskCode(), task.getGroupCode(), getTaskClass(task), task.getCronExpression(),
-                task.getTaskParam());
-    }
-
-    public void addTask(String taskCode, String groupCode, Class<? extends Job> cls, String cron, String data) {
-        logger.info("新增定时任务——" + groupCode + "" + taskCode + "" + cron + "" + cls.getName());
-        JobDataMap dataMap = new JobDataMap();
-        dataMap.put("data", data);
+    public void startJob(BaseTaskInfo task) {
+        log.info("新增定时任务【{}】【{}】【{}】【{}】",task.getTaskName(), task.getGroupCode(), task.getTaskCode(), task.getCronExpression());
         try {
-            JobDetail jobDetail = JobBuilder.newJob(cls)
-                    .withIdentity(taskCode, groupCode)
+            JobDataMap dataMap = new JobDataMap();
+            dataMap.put("data", task.getTaskParam());
+            JobDetail jobDetail = JobBuilder.newJob(getTaskClass(task))
+                    .withIdentity(task.getTaskCode(), task.getGroupCode())
                     .storeDurably()
                     .usingJobData(dataMap)
                     .build();
-            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(task.getCronExpression());
             CronTrigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(taskCode, groupCode)
+                    .withIdentity(task.getTaskCode(), task.getGroupCode())
                     .withSchedule(scheduleBuilder)
                     .forJob(jobDetail)
                     .build();
             scheduler.addJob(jobDetail, true);
             // 启动
             scheduler.scheduleJob(trigger);
-            taskMap.put(taskCode, jobDetail);
+            taskMap.put(task.getTaskCode(), jobDetail);
         } catch (Exception e) {
-            logger.error(e);
+            log.error("新增定时任务失败【{}】【{}】【{}】【{}】",task.getTaskName(), task.getGroupCode(), task.getTaskCode(), task.getTaskCode());
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -90,6 +88,7 @@ public class TaskManager implements InitializingBean {
      * @throws Exception 异常
      */
     public void removeJob(BaseTaskInfo task) throws Exception {
+        log.info("移除定时任务【{}】【{}】【{}】【{}】",task.getTaskName(), task.getGroupCode(), task.getTaskCode(), task.getTaskCode());
         // TriggerKey
         JobKey jobKey = new JobKey(task.getTaskCode(), task.getGroupCode());
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
@@ -99,32 +98,6 @@ public class TaskManager implements InitializingBean {
         // 删除任务
         scheduler.deleteJob(jobKey);
         taskMap.remove(task.getTaskCode());
-    }
-
-
-    /**
-     * 暂停任务
-     *
-     * @param task 任务
-     * @throws Exception 异常
-     */
-    public void pauseJob(BaseTaskInfo task) throws Exception {
-        // TriggerKey
-        TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
-        // 停止触发器
-        scheduler.pauseTrigger(triggerKey);
-    }
-
-
-    /**
-     * 启动任务
-     *
-     * @param task 任务
-     * @throws Exception 异常
-     */
-    public void startJob(BaseTaskInfo task) throws Exception {
-        addTask(task);
-        startJobs();
     }
 
 
@@ -215,27 +188,20 @@ public class TaskManager implements InitializingBean {
     public TaskStatus getTaskStatus(BaseTaskInfo task) throws Exception {
         TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), task.getGroupCode());
         TriggerState state = scheduler.getTriggerState(triggerKey);
-        switch (state) {
-            case BLOCKED:
-                return TaskStatus.BLOCKED;
-            case COMPLETE:
-                return TaskStatus.COMPLETE;
-            case ERROR:
-                return TaskStatus.ERROR;
-            case PAUSED:
-                return TaskStatus.PAUSED;
-            case NORMAL:
-                return TaskStatus.NORMAL;
-            case NONE:
-                return TaskStatus.NONE;
-            default:
-                return null;
-        }
+        return switch (state) {
+            case BLOCKED -> TaskStatus.BLOCKED;
+            case COMPLETE -> TaskStatus.COMPLETE;
+            case ERROR -> TaskStatus.ERROR;
+            case PAUSED -> TaskStatus.PAUSED;
+            case NORMAL -> TaskStatus.NORMAL;
+            case NONE -> TaskStatus.NONE;
+            default -> null;
+        };
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        logger.debug("-------------------初始化定时任务-------------------");
+        log.debug("-------------------初始化定时任务-------------------");
         classUtil = new TaskClassUtil(applicationContext);
         if (StringUtils.isBlank(initClz)) {
             return;
@@ -258,7 +224,7 @@ public class TaskManager implements InitializingBean {
                     .getMethod("listAutoStartTask", String[].class);
             Object res = method.invoke(clz, new Object[]{groups});
             List<BaseTaskInfo> list = JSONArray.parseArray(JSON.toJSONString(res), BaseTaskInfo.class);
-            if (list != null && list.size() > 0) {
+            if (list != null && !list.isEmpty()) {
                 initTaskList.addAll(list);
             }
         } catch (Exception e) {
@@ -266,12 +232,12 @@ public class TaskManager implements InitializingBean {
         }
         for (BaseTaskInfo task : initTaskList) {
             try {
-                addTask(task);
+                startJob(task);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
         startJobs();
-        logger.debug("-------------------定时任务初始化完成-------------------");
+        log.debug("-------------------定时任务初始化完成-------------------");
     }
 }

@@ -1,5 +1,6 @@
 package com.senzhikong.util.http;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -21,6 +22,7 @@ import java.util.Map.Entry;
 /**
  * @author shu
  */
+@Slf4j
 public class HttpUtil {
 
     public static final String POST = "POST";
@@ -198,11 +200,13 @@ public class HttpUtil {
                 if (in != null) {
                     in.close();
                 }
+            } catch (Exception ignored) {
+            }
+            try {
                 if (out != null) {
                     out.close();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
     }
@@ -281,7 +285,7 @@ public class HttpUtil {
             }
             return body;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
             return null;
         } finally {
             // 释放资源
@@ -289,14 +293,12 @@ public class HttpUtil {
                 if (null != entity) {
                     EntityUtils.consume(entity);
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
             // 释放链接
             try {
                 httpPost.releaseConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
     }

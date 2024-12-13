@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializeConfig;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 
@@ -11,6 +12,7 @@ import java.lang.reflect.Method;
  * @author Shu.zhou
  * @date 2019年2月25日下午4:45:24
  */
+@Slf4j
 public class EnumUtil {
 
     public static <T> T check(Class<T> clz, String code) {
@@ -30,7 +32,7 @@ public class EnumUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return unknown;
     }

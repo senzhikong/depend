@@ -16,6 +16,10 @@ public class BaseTaskInfo {
      */
     private String groupCode;
     /**
+     * 任务名称
+     */
+    private String taskName;
+    /**
      * 任务执行类
      */
     private String taskClass;

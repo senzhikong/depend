@@ -1,5 +1,6 @@
 package com.senzhikong.web.websocket;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author Shu.zhou
  * @date 2018年12月3日下午3:20:15
  */
+@Slf4j
 public class BaseTextSocketHandler extends TextWebSocketHandler {
 
     public BaseTextSocketHandler() {
@@ -22,7 +24,7 @@ public class BaseTextSocketHandler extends TextWebSocketHandler {
             try {
                 user.sendMessage(message);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
     }
@@ -39,14 +41,9 @@ public class BaseTextSocketHandler extends TextWebSocketHandler {
                     user.sendMessage(message);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
-    }
-
-    @Override
-    public boolean supportsPartialMessages() {
-        return false;
     }
 
 }

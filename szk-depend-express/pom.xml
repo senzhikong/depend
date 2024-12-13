@@ -24,6 +24,11 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.senzhikong</groupId>
             <artifactId>szk-depend-util</artifactId>
         </dependency>

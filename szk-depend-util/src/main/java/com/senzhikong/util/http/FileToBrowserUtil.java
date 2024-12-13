@@ -3,6 +3,7 @@ package com.senzhikong.util.http;
 import com.senzhikong.util.ZipCompress;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.URLEncoder;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @author shu
  */
+@Slf4j
 public class FileToBrowserUtil {
 
     public static void write(String str, HttpServletResponse response) throws Exception {
@@ -51,7 +53,7 @@ public class FileToBrowserUtil {
             toClient.flush();
             toClient.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 
@@ -74,7 +76,7 @@ public class FileToBrowserUtil {
             response.getOutputStream()
                     .close();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 

@@ -4,8 +4,7 @@ import com.senzhikong.cache.cache.IBaseCache;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
 
@@ -21,7 +20,6 @@ import java.util.concurrent.ConcurrentMap;
 @Getter
 @Setter
 public abstract class BaseCacheManager extends AbstractCacheManager {
-    protected Log log = LogFactory.getLog(getClass());
     protected ConcurrentMap<String, IBaseCache> cacheMap = new ConcurrentHashMap<>(16);
 
     protected Set<String> cacheNames;

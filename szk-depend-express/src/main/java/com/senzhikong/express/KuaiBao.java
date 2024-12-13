@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.senzhikong.util.http.HttpUtil;
 import com.senzhikong.util.http.RequestEntity;
 import com.senzhikong.util.string.sign.Md5Util;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +15,7 @@ import java.nio.charset.StandardCharsets;
  * @author Shu.zhou
  * @date 2018年12月12日上午10:31:11
  */
+@Slf4j
 public class KuaiBao {
     private static final String CODE = "code";
 
@@ -79,7 +81,7 @@ public class KuaiBao {
             response.setExpressList(array);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return response;
     }

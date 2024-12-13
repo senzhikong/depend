@@ -34,15 +34,13 @@ public class FileUtil {
                 if (os != null) {
                     os.close();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
             try {
                 if (is != null) {
                     is.close();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ignored) {
             }
         }
     }

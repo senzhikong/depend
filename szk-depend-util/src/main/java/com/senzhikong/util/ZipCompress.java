@@ -1,5 +1,7 @@
 package com.senzhikong.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.*;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -8,6 +10,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * @author shu
  */
+@Slf4j
 public class ZipCompress {
 
     /**
@@ -34,7 +37,7 @@ public class ZipCompress {
                     zos.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
         }
@@ -63,7 +66,7 @@ public class ZipCompress {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
         }

@@ -1,7 +1,6 @@
 package com.senzhikong.util.http;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -20,13 +19,12 @@ import javax.net.ssl.TrustManager;
  *
  * @author Shu.zhou
  */
+@Slf4j
 public class HttpConnectionManager {
-
-    private static Log logger = LogFactory.getLog(HttpConnectionManager.class);
 
     private static PoolingHttpClientConnectionManager clientConnectionManager = null;
     private static CloseableHttpClient httpClient = null;
-    private static Object syncLock = new Object();
+    private static final Object SYNC_LOCK = new Object();
 
     static {
         LayeredConnectionSocketFactory sslsf = null;
@@ -37,9 +35,10 @@ public class HttpConnectionManager {
             sslContext.init(null, tm, new java.security.SecureRandom());
             sslsf = new SSLConnectionSocketFactory(sslContext);
         } catch (Exception e) {
-            logger.error(e);
+            log.error(e.getMessage(), e);
         }
 
+        assert sslsf != null;
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create().register("https", sslsf)
                         .register("http",
@@ -51,13 +50,11 @@ public class HttpConnectionManager {
     }
 
     public static CloseableHttpClient getHttpClient() {
-        if (httpClient == null) {
-            synchronized (syncLock) {
-                if (httpClient == null) {
-                    httpClient = HttpClients.custom()
-                            .setConnectionManager(clientConnectionManager)
-                            .build();
-                }
+        synchronized (SYNC_LOCK) {
+            if (httpClient == null) {
+                httpClient = HttpClients.custom()
+                        .setConnectionManager(clientConnectionManager)
+                        .build();
             }
         }
         return httpClient;

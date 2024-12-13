@@ -3,6 +3,7 @@ package com.senzhikong.email;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sun.mail.imap.IMAPMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.mail.*;
@@ -19,6 +20,7 @@ import java.util.Properties;
 /**
  * @author shu
  */
+@Slf4j
 public class EmailUtil {
     /**
      * 发送邮件
@@ -28,17 +30,7 @@ public class EmailUtil {
      */
     public static String sendMail(EmailRequest emailRequest) {
         // 配置发送邮件的环境属性
-        final Properties props = new Properties();
-        // 表示SMTP发送邮件，需要进行身份验证
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "smtp." + emailRequest.getEmailHost());
-        props.put("mail.smtp.port", emailRequest.getSendPort());
-        if (emailRequest.isSsl()) {
-            props.put("mail.smtp.ssl.enable", "true");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.socketFactory.port", emailRequest.getSendSslPort());
-            props.put("mail.smtp.port", emailRequest.getSendSslPort());
-        }
+        final Properties props = getProperties(emailRequest);
         // 使用环境属性和授权信息，创建邮件会话
         Session mailSession = getAuthSession(props, emailRequest);
         MimeMessage message = new MimeMessage(mailSession);
@@ -59,10 +51,24 @@ public class EmailUtil {
             message.setContent(emailRequest.getHtmlMsg(), "text/html;charset=UTF-8");
             Transport.send(message);
         } catch (Exception e) {
-            e.printStackTrace();
             return "邮件发送失败：" + e.getMessage();
         }
         return null;
+    }
+
+    private static Properties getProperties(EmailRequest emailRequest) {
+        final Properties props = new Properties();
+        // 表示SMTP发送邮件，需要进行身份验证
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", "smtp." + emailRequest.getEmailHost());
+        props.put("mail.smtp.port", emailRequest.getSendPort());
+        if (emailRequest.isSsl()) {
+            props.put("mail.smtp.ssl.enable", "true");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.socketFactory.port", emailRequest.getSendSslPort());
+            props.put("mail.smtp.port", emailRequest.getSendSslPort());
+        }
+        return props;
     }
 
     public static Session getAuthSession(Properties props, EmailRequest emailRequest) {
@@ -121,7 +127,7 @@ public class EmailUtil {
             folder.close(false);
             store.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return emails;
     }
@@ -288,7 +294,7 @@ public class EmailUtil {
      * @throws UnsupportedEncodingException 不支持的编码
      */
     public static String decodeText(String encodeText) throws UnsupportedEncodingException {
-        if (encodeText == null || "".equals(encodeText)) {
+        if (encodeText == null || encodeText.isEmpty()) {
             return "";
         } else {
             return MimeUtility.decodeText(encodeText);

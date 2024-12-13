@@ -1,5 +1,6 @@
 package com.senzhikong.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
@@ -17,6 +18,7 @@ import java.util.Locale;
  *
  * @author Shu.zhou
  */
+@Slf4j
 public class DateUtils {
 
     public static final String YYYY = "yyyy";
@@ -121,7 +123,7 @@ public class DateUtils {
             SimpleDateFormat format = new SimpleDateFormat(toPattern);
             dateStr = format.format(parseDate(date, fromPattern));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return dateStr;
     }
@@ -429,7 +431,7 @@ public class DateUtils {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
             return new SimpleDateFormat(YYYY_MM_DD).format(calendar.getTime());
         } catch (java.text.ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }
@@ -448,7 +450,7 @@ public class DateUtils {
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             return dateFormat.format(calendar.getTime());
         } catch (java.text.ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return null;
     }

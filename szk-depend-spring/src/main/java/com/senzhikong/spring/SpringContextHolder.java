@@ -1,8 +1,8 @@
 package com.senzhikong.spring;
 
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 /**
  * @author shu
  */
+@Slf4j
 @Component
 public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
 
-    private static final Log logger = LogFactory.getLog(SpringContextHolder.class);
     private static ApplicationContext applicationContext = null;
 
     /**
@@ -33,10 +33,9 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * 实现ApplicationContextAware接口, 注入Context到静态变量中.
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         if (SpringContextHolder.applicationContext != null) {
-            logger.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:" +
-                    SpringContextHolder.applicationContext);
+            log.warn("SpringContextHolder中的ApplicationContext被覆盖, 原有ApplicationContext为:{}", SpringContextHolder.applicationContext);
         }
         SpringContextHolder.applicationContext = applicationContext;
     }
@@ -44,11 +43,13 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
     /**
      * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
      */
+    @SuppressWarnings("unchecked")
     public static <T> T getBean(String name) {
         assertContextInjected();
         return (T) applicationContext.getBean(name);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getBeanByClassName(String className) {
         assertContextInjected();
         Class<T> clz;
@@ -76,7 +77,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * 清除SpringContextHolder中的ApplicationContext为Null.
      */
     public static void clearHolder() {
-        logger.debug("清除SpringContextHolder中的ApplicationContext:" + applicationContext);
+        log.debug("清除SpringContextHolder中的ApplicationContext:{}", applicationContext);
         applicationContext = null;
     }
 
@@ -102,14 +103,15 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * @param name  BeanName
      * @param clazz 注册的bean的类性
      * @param args  构造方法的必要参数，顺序和类型要求和clazz中定义的一致
-     * @param <T>
      * @return 返回注册到容器中的bean对象
      */
+    @SuppressWarnings("unchecked")
     public static <T> T registerBean(String name, Class<T> clazz,
                                      Object... args) {
         if (containsBean(name)) {
             Object bean = applicationContext.getBean(name);
             if (bean.getClass().isAssignableFrom(clazz)) {
+
                 return (T) bean;
             } else {
                 throw new RuntimeException("BeanName 重复 " + name);

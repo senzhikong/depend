@@ -1,5 +1,6 @@
 package com.senzhikong.task;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 
 import javax.tools.JavaCompiler;
@@ -20,6 +21,7 @@ import java.util.List;
  * @author Shu.zhou
  * @date 2019年4月17日上午10:40:05
  */
+@Slf4j
 public class TaskClassUtil {
 
     private String jars;
@@ -64,7 +66,7 @@ public class TaskClassUtil {
             method.invoke(classLoader, newurl);
             resClass = classLoader.loadClass(task.getTaskClass());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         } finally {
             method.setAccessible(isAccessible);
             classLoader.close();
@@ -95,9 +97,6 @@ public class TaskClassUtil {
                     compiler.getTask(null, fileManager, null, options, null, compilationUnits);
             // 运行编译任务
             return compilationTask.call();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
         }
     }
 
@@ -119,9 +118,7 @@ public class TaskClassUtil {
             return "";
         }
         jars = "";
-        Arrays.stream(files).forEach((f) -> {
-            jars = jars + f.getPath() + ";";
-        });
+        Arrays.stream(files).forEach((f) -> jars = jars + f.getPath() + ";");
         return jars;
     }
 }

@@ -101,20 +101,10 @@ public class ImageUtil {
      * @return 图片
      */
     public static BufferedImage readImage(File file) {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(file);
+        try (InputStream in = new FileInputStream(file)) {
             return readImage(in);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -380,7 +370,7 @@ public class ImageUtil {
      * @param os         输出流
      */
     public static void saveImage(BufferedImage image, String formatName, OutputStream os) {
-        if (formatName == null || "".equals(formatName.trim())) {
+        if (formatName == null || formatName.trim().isEmpty()) {
             formatName = "jpg";
         }
         try {
@@ -397,9 +387,7 @@ public class ImageUtil {
      * @return 是否图片
      */
     public static boolean isImage(File file) {
-        ImageInputStream is = null;
-        try {
-            is = ImageIO.createImageInputStream(file);
+        try (ImageInputStream is = ImageIO.createImageInputStream(file)) {
             if (null == is) {
                 return false;
             }
@@ -407,14 +395,6 @@ public class ImageUtil {
             return true;
         } catch (Exception e) {
             return false;
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
