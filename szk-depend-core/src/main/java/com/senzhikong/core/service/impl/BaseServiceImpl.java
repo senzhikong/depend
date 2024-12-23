@@ -46,8 +46,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         }
         initClz();
         String clzName = outClz.getSimpleName();
-        String mapperName = clzName.substring(0, 1).toLowerCase() + clzName.substring(1,
-                clzName.length() - 2) + "Mapper";
+        String mapperName = clzName.substring(0, 1).toLowerCase() + clzName.substring(1, clzName.length() - 2) + "Mapper";
         mapperName = mapperName.substring(0, 1).toLowerCase() + mapperName.substring(1);
         return SpringContextHolder.getBean(mapperName);
     }
@@ -178,25 +177,41 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public void deleteByStatus(List<String> ids, String updateBy) {
-        List<PO> list = getMapper().selectBatchIds(ids);
-        for (PO data : list) {
-            data.setStatus(CommonStatus.DELETE.code());
+        updateStatus(ids, CommonStatus.DELETE.code(), updateBy);
+    }
+
+
+    @Override
+    public void deleteByStatus(String id, String updateBy) {
+        updateStatus(id, CommonStatus.DELETE.code(), updateBy);
+    }
+
+
+    @Override
+    public void updateStatus(String id, String status, String updateBy) {
+        PO data = getMapper().selectById(id);
+        if (data != null) {
+            data.setStatus(status);
             data.setUpdateTime(new Date());
             data.setUpdateBy(updateBy);
             getMapper().updateById(data);
         }
     }
 
-
     @Override
-    public void deleteByStatus(String id, String updateBy) {
-        PO data = getMapper().selectById(id);
-        if (data != null) {
-            data.setStatus(CommonStatus.DELETE.code());
+    public void updateStatus(List<String> ids, String status, String updateBy) {
+        List<PO> list = getMapper().selectBatchIds(ids);
+        for (PO data : list) {
+            data.setStatus(status);
             data.setUpdateTime(new Date());
             data.setUpdateBy(updateBy);
             getMapper().updateById(data);
         }
+    }
+
+    @Override
+    public void updateStatus(String[] ids, String status, String updateBy) {
+        updateStatus(Arrays.asList(ids), status, updateBy);
     }
 
     @Override

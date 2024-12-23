@@ -35,4 +35,6 @@ public class BaseTaskInfo {
      * java文件内容
      */
     private String javaFile;
+
+    private boolean isAutoRun;
 }

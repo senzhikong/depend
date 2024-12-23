@@ -53,7 +53,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     List<VO> findList(List<String> ids);
 
     /**
-     *
      * 通过逐渐批量查询
      *
      * @param ids 主键数组
@@ -62,14 +61,13 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     List<VO> findList(String[] ids);
 
     /**
-     *
      * 通过条件批量查询
      *
      * @return 查询结果数组
      */
     List<VO> findList();
+
     /**
-     *
      * 通过条件批量查询
      *
      * @param vo 查询参数
@@ -78,14 +76,13 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     List<VO> findList(VO vo);
 
     /**
-     *
      * 通过条件批量查询
      *
-     * @param vo 查询参数
+     * @param vo      查询参数
      * @param keyword 关键字
      * @return 查询结果数组
      */
-    List<VO> findList(VO vo,String keyword);
+    List<VO> findList(VO vo, String keyword);
 
     /**
      * 新增
@@ -145,6 +142,35 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      * @param updateBy 更新人
      */
     void deleteByStatus(String id, String updateBy);
+
+    /**
+     * 通过ID修改状态
+     *
+     * @param id       主键
+     * @param status   状态
+     * @param updateBy 更新人
+     */
+    void updateStatus(String id, String status, String updateBy);
+
+
+    /**
+     * 通过ID修改状态
+     *
+     * @param ids      主键
+     * @param status   状态s
+     * @param updateBy 更新人
+     */
+    void updateStatus(List<String> ids, String status, String updateBy);
+
+
+    /**
+     * 通过ID修改状态
+     *
+     * @param ids      主键
+     * @param status   状态s
+     * @param updateBy 更新人
+     */
+    void updateStatus(String[] ids, String status, String updateBy);
 
     /**
      * 分页查询

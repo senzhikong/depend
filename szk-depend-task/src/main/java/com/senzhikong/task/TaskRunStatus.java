@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Getter
 @AllArgsConstructor
 @Accessors(chain = true, fluent = true)
-public enum TaskStatus implements BaseEnum {
+public enum TaskRunStatus implements BaseEnum {
     /**
      * 阻塞
      */

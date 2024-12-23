@@ -10,6 +10,7 @@ import org.quartz.JobExecutionContext;
  */
 public abstract class BaseTaskJob implements Job {
     private static final String PARAM_KEY = "data";
+    private static final String AUTO_RUN_KEY = "autoRun";
 
     /**
      * 获取任务执行参数
@@ -24,5 +25,11 @@ public abstract class BaseTaskJob implements Job {
             return null;
         }
         return JSONObject.parseObject(paramMap.getString(PARAM_KEY));
+    }
+
+    public boolean autoRun(JobExecutionContext context) {
+        JobDataMap paramMap = context.getJobDetail()
+                .getJobDataMap();
+        return paramMap.getBoolean(AUTO_RUN_KEY);
     }
 }
