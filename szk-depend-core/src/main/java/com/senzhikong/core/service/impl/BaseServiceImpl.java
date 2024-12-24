@@ -12,6 +12,7 @@ import com.senzhikong.core.converter.BasePoConverter;
 import com.senzhikong.core.entity.BaseEntityPO;
 import com.senzhikong.core.service.IBaseService;
 import com.senzhikong.spring.SpringContextHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.lang.reflect.ParameterizedType;
@@ -19,6 +20,8 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import static com.baomidou.mybatisplus.core.toolkit.Constants.DESC;
 
 /**
  * @author shu.zhou
@@ -229,6 +232,8 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     @Override
     public PagerResp<VO> findByPage(PagerParam pager, QueryWrapper<PO> queryWrapper) {
         PagerResp<VO> response = new PagerResp<>();
+        queryWrapper.orderBy(StringUtils.isNotBlank(pager.getOrderBy()),
+                !StringUtils.equalsIgnoreCase(DESC, pager.getOrderType()), pager.getOrderBy());
         List<PO> dataList;
         if (pager.getPageable() != null && pager.getPageable()) {
             Page<PO> page = Page.of(pager.getPageNumber(), pager.getPageSize());
