@@ -112,12 +112,29 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     VO update(VO vo, String updateBy);
 
     /**
+     * 跳过空值更新
+     *
+     * @param vo       更新数据
+     * @param updateBy 更新人
+     * @return 返回数据
+     */
+    VO updateIgnoreNull(VO vo, String updateBy);
+
+    /**
      * 更新列表
      *
      * @param list     更新数据列表
      * @param updateBy 更新人
      */
     void updateList(List<VO> list, String updateBy);
+
+    /**
+     * 跳过空值更新列表
+     *
+     * @param list     更新数据列表
+     * @param updateBy 更新人
+     */
+    void updateListIgnoreNull(List<VO> list, String updateBy);
 
     /**
      * 通过ID修改为删除状态

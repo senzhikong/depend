@@ -2,11 +2,14 @@ package com.senzhikong.core.converter;
 
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.core.entity.BaseEntityPO;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.MapperConfig;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
+
+import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
 /**
  * @author shu
@@ -68,7 +71,30 @@ public interface BasePoConverter<PO extends BaseEntityPO, VO extends BaseEntityV
      * @param vo 业务对象
      * @param po 持久对象
      */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
+    @Mapping(target = "createBy", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "updateBy", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
+    void vo2PoUpdateIgnoreNull(VO vo, @MappingTarget PO po);
+
+    /**
+     * 业务对象转持久对象
+     *
+     * @param vo 业务对象
+     * @param po 持久对象
+     */
     void vo2Po(VO vo, @MappingTarget PO po);
+
+    /**
+     * 业务对象转持久对象
+     *
+     * @param vo 业务对象
+     * @param po 持久对象
+     */
+    @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)
+    void vo2PoIgnoreNull(VO vo, @MappingTarget PO po);
 
     /**
      * 持久对象转业务对象

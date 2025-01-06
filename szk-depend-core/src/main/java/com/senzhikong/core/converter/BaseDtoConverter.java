@@ -3,12 +3,14 @@ package com.senzhikong.core.converter;
 
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.BaseEntityDTO;
+import org.mapstruct.MapperConfig;
 
 import java.util.List;
 
 /**
  * @author shu
  */
+@MapperConfig
 public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntityDTO> {
 
     /**
@@ -43,4 +45,5 @@ public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntit
      * @return 传输对象列表
      */
     List<DTO> voList2DtoList(List<VO> voList);
+
 }

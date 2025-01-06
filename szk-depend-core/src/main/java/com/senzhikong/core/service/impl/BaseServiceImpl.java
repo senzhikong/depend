@@ -158,11 +158,41 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     }
 
     @Override
+    public VO updateIgnoreNull(VO vo, String updateBy) {
+        try {
+            PO data = getMapper().selectById(vo.getId());
+            getPoConverter().vo2PoUpdateIgnoreNull(vo, data);
+            data.setUpdateBy(updateBy);
+            data.setUpdateTime(new Date());
+            getMapper().updateById(data);
+            return getPoConverter().po2Vo(data);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void updateList(List<VO> list, String updateBy) {
         try {
             for (VO vo : list) {
                 PO data = getMapper().selectById(vo.getId());
                 getPoConverter().vo2PoUpdate(vo, data);
+                data.setUpdateBy(updateBy);
+                data.setUpdateTime(new Date());
+                getMapper().updateById(data);
+                getPoConverter().po2Vo(data, vo);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateListIgnoreNull(List<VO> list, String updateBy) {
+        try {
+            for (VO vo : list) {
+                PO data = getMapper().selectById(vo.getId());
+                getPoConverter().vo2PoUpdateIgnoreNull(vo, data);
                 data.setUpdateBy(updateBy);
                 data.setUpdateTime(new Date());
                 getMapper().updateById(data);
