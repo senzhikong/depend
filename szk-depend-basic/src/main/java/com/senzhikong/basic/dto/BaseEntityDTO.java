@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @author shu
  */
 @Data
+@FieldNameConstants
 @Schema(name = "基础对象模型")
 public class BaseEntityDTO implements Serializable {
     @Schema(description = "ID")

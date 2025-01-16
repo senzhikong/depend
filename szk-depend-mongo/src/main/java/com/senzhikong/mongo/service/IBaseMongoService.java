@@ -1,25 +1,26 @@
-package com.senzhikong.core.service;
+package com.senzhikong.mongo.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
-import com.senzhikong.core.entity.BaseEntityPO;
+import com.senzhikong.mongo.entity.BaseMongoPO;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
 
 /**
  * @author shu.zhou
  */
-public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> {
+public interface IBaseMongoService<PO extends BaseMongoPO, VO extends BaseEntityVO> {
     /**
-     * 生成基础查询queryWrapper
+     * 生成基础查询Criteria
      *
-     * @param query      查询参数
+     * @param vo      查询参数
      * @param searchWord 搜索关键字
      * @return wrapper
      */
-    QueryWrapper<PO> generateWrapper(VO query, String searchWord);
+    Query generateQuery(VO vo, String searchWord);
 
     /**
      * 通ID主键查询
@@ -37,14 +38,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     List<VO> findAll();
 
     /**
-     * 根据条件查询
-     *
-     * @param wrapper 查询条件
-     * @return 查询结果
-     */
-    VO findOne(QueryWrapper<PO> wrapper);
-
-    /**
      * 通过条件查询
      *
      * @param vo 查询参数
@@ -60,23 +53,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      * @return 查询结果
      */
     VO findOne(VO vo, String keyword);
-
-    /**
-     * 通过字段查询
-     *
-     * @param key      查询参数
-     * @param value 关键字
-     * @return 查询结果
-     */
-    VO findOneByKey(String key,Object value);
-
-    /**
-     * 根据条件查询列表
-     *
-     * @param wrapper 查询条件
-     * @return 查询结果
-     */
-    List<VO> findList(QueryWrapper<PO> wrapper);
 
     /**
      * 通过逐渐批量查询
@@ -110,16 +86,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      * @return 查询结果数组
      */
     List<VO> findList(VO vo, String keyword);
-
-    /**
-     * 通过字段查询
-     *
-     * @param key      查询参数
-     * @param value 关键字
-     * @return 查询结果
-     */
-    List<VO> findListByKey(String key,Object value);
-
     /**
      * 新增
      *
@@ -242,12 +208,4 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      */
     PagerResp<VO> findByPage(PagerParam pager, VO vo);
 
-    /**
-     * 根据条件分页查询
-     *
-     * @param pager   分页参数
-     * @param wrapper 查询条件
-     * @return 查询结果
-     */
-    PagerResp<VO> findByPage(PagerParam pager, QueryWrapper<PO> wrapper);
 }

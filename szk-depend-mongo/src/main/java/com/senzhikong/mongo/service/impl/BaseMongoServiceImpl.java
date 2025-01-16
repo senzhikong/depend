@@ -1,19 +1,23 @@
-package com.senzhikong.core.service.impl;
+package com.senzhikong.mongo.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
 import com.senzhikong.basic.enums.CommonStatus;
 import com.senzhikong.basic.util.CommonUtil;
-import com.senzhikong.core.converter.BasePoConverter;
-import com.senzhikong.core.entity.BaseEntityPO;
-import com.senzhikong.core.service.IBaseService;
+import com.senzhikong.mongo.converter.BaseMongoPoConverter;
+import com.senzhikong.mongo.entity.BaseMongoPO;
+import com.senzhikong.mongo.service.IBaseMongoService;
 import com.senzhikong.spring.SpringContextHolder;
-import org.apache.commons.lang3.StringUtils;
+import jakarta.annotation.Resource;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -21,16 +25,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.baomidou.mybatisplus.core.toolkit.Constants.DESC;
-
 /**
  * @author shu.zhou
  */
-public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEntityVO> implements IBaseService<PO, VO> {
-    protected BaseMapper<PO> baseMapper;
+public abstract class BaseMongoServiceImpl<PO extends BaseMongoPO, VO extends BaseEntityVO> implements IBaseMongoService<PO, VO> {
+    protected MongoRepository<PO, String> baseMongoRepository;
     protected Class<VO> outClz;
     protected Class<PO> entityClz;
-    protected BasePoConverter<PO, VO> poConverter;
+    protected BaseMongoPoConverter<PO, VO> poConverter;
+    @Resource
+    private MongoTemplate mongoTemplate;
+
 
     @SuppressWarnings("unchecked")
     public void initClz() {
@@ -43,19 +48,19 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         }
     }
 
-    public BaseMapper<PO> getMapper() {
-        if (baseMapper != null) {
-            return baseMapper;
+    public MongoRepository<PO, String> getRepository() {
+        if (baseMongoRepository != null) {
+            return baseMongoRepository;
         }
         initClz();
         String clzName = outClz.getSimpleName();
-        String mapperName = clzName.substring(0, 1).toLowerCase() + clzName.substring(1, clzName.length() - 2) + "Mapper";
+        String mapperName = clzName.substring(0, 1).toLowerCase() + clzName.substring(1, clzName.length() - 2) + "MongoRepository";
         mapperName = mapperName.substring(0, 1).toLowerCase() + mapperName.substring(1);
         return SpringContextHolder.getBean(mapperName);
     }
 
     @SuppressWarnings("unchecked")
-    public BasePoConverter<PO, VO> getPoConverter() {
+    public BaseMongoPoConverter<PO, VO> getPoConverter() {
         if (poConverter != null) {
             return poConverter;
         }
@@ -67,7 +72,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         clzName = CommonUtil.underlineToCamel(clzName.substring(clzName.indexOf("_", 1)));
         String converterName = packageName + clzName.substring(0, clzName.length() - 2) + "Converter";
         try {
-            poConverter = (BasePoConverter<PO, VO>) Mappers.getMapper(Class.forName(converterName));
+            poConverter = (BaseMongoPoConverter<PO, VO>) Mappers.getMapper(Class.forName(converterName));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -76,24 +81,13 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public VO findById(String id) {
-        return getPoConverter().po2Vo(getMapper().selectById(id));
+        return getPoConverter().po2Vo(getRepository().findById(id).orElse(null));
     }
 
     @Override
     public List<VO> findAll() {
-        return this.findList(new QueryWrapper<>());
+        return getPoConverter().poList2VoList(getRepository().findAll());
     }
-
-    @Override
-    public VO findOne(QueryWrapper<PO> wrapper) {
-        List<VO> list = findList(wrapper);
-        if (list != null && !list.isEmpty()) {
-            return list.get(0);
-        } else {
-            return null;
-        }
-    }
-
 
     @Override
     public VO findOne(VO vo) {
@@ -116,23 +110,8 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     }
 
     @Override
-    public VO findOneByKey(String key, Object value) {
-        List<VO> list = findListByKey(key, value);
-        if (list != null && !list.isEmpty()) {
-            return list.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public List<VO> findList(QueryWrapper<PO> wrapper) {
-        return getPoConverter().poList2VoList(getMapper().selectList(wrapper));
-    }
-
-    @Override
     public List<VO> findList(List<String> ids) {
-        return getPoConverter().poList2VoList(getMapper().selectBatchIds(ids));
+        return getPoConverter().poList2VoList(getRepository().findAllById(ids));
     }
 
     @Override
@@ -142,21 +121,15 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public List<VO> findList(VO vo) {
-        QueryWrapper<PO> queryWrapper = this.generateWrapper(vo, null);
-        return findList(queryWrapper);
+        return findList(vo, null);
     }
 
     @Override
     public List<VO> findList(VO vo, String keyword) {
-        QueryWrapper<PO> queryWrapper = this.generateWrapper(vo, keyword);
-        return findList(queryWrapper);
-    }
-
-    @Override
-    public List<VO> findListByKey(String key, Object value) {
-        QueryWrapper<PO> wrapper = new QueryWrapper<>();
-        wrapper.eq(key, value);
-        return findList(wrapper);
+        initClz();
+        Query query = this.generateQuery(vo, null);
+        List<PO> list = mongoTemplate.find(query, entityClz);
+        return getPoConverter().poList2VoList(list);
     }
 
     @Override
@@ -164,7 +137,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         try {
             PO data = getPoConverter().vo2Po(vo);
             data.initialize(createBy);
-            getMapper().insert(data);
+            data = getRepository().insert(data);
             return getPoConverter().po2Vo(data);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -177,8 +150,8 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
             List<PO> dataList = getPoConverter().voList2PoList(list);
             for (PO data : dataList) {
                 data.initialize(createBy);
-                getMapper().insert(data);
             }
+            dataList = getRepository().saveAll(dataList);
             return getPoConverter().poList2VoList(dataList);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -188,11 +161,12 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     @Override
     public VO update(VO vo, String updateBy) {
         try {
-            PO data = getMapper().selectById(vo.getId());
+            PO data = getRepository().findById(vo.getId()).orElse(null);
+            assert data != null;
             getPoConverter().vo2PoUpdate(vo, data);
             data.setUpdateBy(updateBy);
             data.setUpdateTime(new Date());
-            getMapper().updateById(data);
+            data = getRepository().save(data);
             return getPoConverter().po2Vo(data);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -202,11 +176,12 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     @Override
     public VO updateIgnoreNull(VO vo, String updateBy) {
         try {
-            PO data = getMapper().selectById(vo.getId());
+            PO data = getRepository().findById(vo.getId()).orElse(null);
+            assert data != null;
             getPoConverter().vo2PoUpdateIgnoreNull(vo, data);
             data.setUpdateBy(updateBy);
             data.setUpdateTime(new Date());
-            getMapper().updateById(data);
+            data = getRepository().save(data);
             return getPoConverter().po2Vo(data);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -217,11 +192,12 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     public void updateList(List<VO> list, String updateBy) {
         try {
             for (VO vo : list) {
-                PO data = getMapper().selectById(vo.getId());
+                PO data = getRepository().findById(vo.getId()).orElse(null);
+                assert data != null;
                 getPoConverter().vo2PoUpdate(vo, data);
                 data.setUpdateBy(updateBy);
                 data.setUpdateTime(new Date());
-                getMapper().updateById(data);
+                getRepository().save(data);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -232,11 +208,12 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     public void updateListIgnoreNull(List<VO> list, String updateBy) {
         try {
             for (VO vo : list) {
-                PO data = getMapper().selectById(vo.getId());
+                PO data = getRepository().findById(vo.getId()).orElse(null);
+                assert data != null;
                 getPoConverter().vo2PoUpdateIgnoreNull(vo, data);
                 data.setUpdateBy(updateBy);
                 data.setUpdateTime(new Date());
-                getMapper().updateById(data);
+                getRepository().save(data);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -262,23 +239,23 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public void updateStatus(String id, String status, String updateBy) {
-        PO data = getMapper().selectById(id);
+        PO data = getRepository().findById(id).orElse(null);
         if (data != null) {
             data.setStatus(status);
             data.setUpdateTime(new Date());
             data.setUpdateBy(updateBy);
-            getMapper().updateById(data);
+            getRepository().save(data);
         }
     }
 
     @Override
     public void updateStatus(List<String> ids, String status, String updateBy) {
-        List<PO> list = getMapper().selectBatchIds(ids);
+        List<PO> list = getRepository().findAllById(ids);
         for (PO data : list) {
             data.setStatus(status);
             data.setUpdateTime(new Date());
             data.setUpdateBy(updateBy);
-            getMapper().updateById(data);
+            getRepository().save(data);
         }
     }
 
@@ -289,32 +266,30 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public PagerResp<VO> findByPage(PagerParam pager) {
-        QueryWrapper<PO> queryWrapper = this.generateWrapper(null, pager.getKeyword());
-        return findByPage(pager, queryWrapper);
+        return findByPage(pager, null);
     }
 
     @Override
     public PagerResp<VO> findByPage(PagerParam pager, VO vo) {
-        QueryWrapper<PO> queryWrapper = this.generateWrapper(vo, pager.getKeyword());
-        return findByPage(pager, queryWrapper);
-    }
-
-    @Override
-    public PagerResp<VO> findByPage(PagerParam pager, QueryWrapper<PO> queryWrapper) {
+        initClz();
         PagerResp<VO> response = new PagerResp<>();
-        queryWrapper.orderBy(StringUtils.isNotBlank(pager.getOrderBy()),
-                !StringUtils.equalsIgnoreCase(DESC, pager.getOrderType()), pager.getOrderBy());
         List<PO> dataList;
+        Query query = this.generateQuery(vo, null);
         if (pager.getPageable() != null && pager.getPageable()) {
-            Page<PO> page = Page.of(pager.getPageNumber(), pager.getPageSize());
-            page = getMapper().selectPage(page, queryWrapper);
-            dataList = page.getRecords();
-            response.setTotal(page.getTotal());
-            response.setPageNumber(page.getCurrent());
-            response.setPageSize(page.getSize());
-            response.setTotalPage(page.getPages());
+            // 分页
+            PageRequest page = PageRequest.of(pager.getPageNumber() - 1, pager.getPageSize());
+            page.withSort(Sort.by(Sort.Direction.DESC, BaseMongoPO.Fields.createTime));
+            mongoTemplate.find(query, entityClz);
+            long count = mongoTemplate.count(query, entityClz);
+            List<PO> list = mongoTemplate.find(query, entityClz);
+            Page<PO> pageResult = new PageImpl<>(list, page, count);
+            dataList = pageResult.getContent();
+            response.setTotal(pageResult.getTotalElements());
+            response.setPageNumber(pager.getPageNumber().longValue());
+            response.setPageSize(pager.getPageSize().longValue());
+            response.setTotalPage((long) pageResult.getTotalPages());
         } else {
-            dataList = getMapper().selectList(queryWrapper);
+            dataList = mongoTemplate.find(query, entityClz);
         }
         response.setDataList(getPoConverter().poList2VoList(dataList));
         return response;

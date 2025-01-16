@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.senzhikong.basic.enums.CommonStatus;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.Date;
  * @author shu
  */
 @Data
+@FieldNameConstants
 public abstract class BaseEntityPO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

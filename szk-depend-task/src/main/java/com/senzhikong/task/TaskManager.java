@@ -108,31 +108,34 @@ public class TaskManager implements ApplicationListener<ApplicationStartedEvent>
         JobDataMap dataMap = new JobDataMap();
         dataMap.put("data", task.getTaskParam());
         dataMap.put("autoRun", false);
-        JobKey jobKey = new JobKey(task.getTaskCode(), task.getGroupCode());
-        JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-        if (jobDetail == null) {
-            Class<? extends Job> taskClass = getTaskClass(task);
-            jobDetail = JobBuilder.newJob(taskClass)
-                    .withIdentity(task.getTaskCode(), task.getGroupCode())
-                    .storeDurably()
-                    .usingJobData(dataMap)
-                    .build();
-            scheduler.addJob(jobDetail, true);
-        }
-        TriggerKey triggerKey = new TriggerKey(task.getTaskCode(), "run-one-time");
+        String taskCode = task.getTaskCode();
+        String groupCode = "run-one-time";
+        JobKey jobKey = new JobKey(taskCode, groupCode);
+//        JobDetail jobDetail = scheduler.getJobDetail(jobKey);
+//        if (jobDetail == null) {
+        Class<? extends Job> taskClass = getTaskClass(task);
+        JobDetail jobDetail = JobBuilder.newJob(taskClass)
+                .withIdentity(taskCode, groupCode)
+                .storeDurably()
+                .usingJobData(dataMap)
+                .build();
+        scheduler.addJob(jobDetail, true);
+//        }
+
+        TriggerKey triggerKey = new TriggerKey(taskCode, groupCode);
         Trigger trigger = scheduler.getTrigger(triggerKey);
         if (trigger == null) {
             trigger = TriggerBuilder.newTrigger()
-                    .withIdentity(TriggerKey.triggerKey(task.getTaskCode(),
-                            "run-one-time" + System.currentTimeMillis()))
+                    .withIdentity(triggerKey)
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule())
                     .forJob(jobDetail)
+                    .usingJobData(dataMap)
                     .startAt(new Date())
                     .build();
             // 启动
             scheduler.scheduleJob(trigger);
         } else {
-            scheduler.triggerJob(jobKey);
+            scheduler.triggerJob(jobKey, dataMap);
         }
     }
 

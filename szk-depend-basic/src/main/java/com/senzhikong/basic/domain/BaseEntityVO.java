@@ -2,6 +2,7 @@ package com.senzhikong.basic.domain;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
  * @author shu
  */
 @Data
+@FieldNameConstants
 public class BaseEntityVO implements Serializable {
     protected String id;
     protected String status;

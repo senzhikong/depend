@@ -28,6 +28,7 @@
         <module>szk-depend-core</module>
         <module>szk-depend-auth</module>
         <module>szk-depend-module</module>
+        <module>szk-depend-mongo</module>
     </modules>
     <properties>
         <java.version>17</java.version>

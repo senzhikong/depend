@@ -59,6 +59,11 @@
             </dependency>
             <dependency>
                 <groupId>com.senzhikong</groupId>
+                <artifactId>szk-depend-mongo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
                 <artifactId>szk-depend-email</artifactId>
                 <version>${project.version}</version>
             </dependency>

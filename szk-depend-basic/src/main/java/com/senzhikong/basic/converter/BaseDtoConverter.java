@@ -1,4 +1,4 @@
-package com.senzhikong.core.converter;
+package com.senzhikong.basic.converter;
 
 
 import com.senzhikong.basic.domain.BaseEntityVO;
