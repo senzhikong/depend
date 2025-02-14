@@ -64,11 +64,11 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     /**
      * 通过字段查询
      *
-     * @param key      查询参数
+     * @param key   查询参数
      * @param value 关键字
      * @return 查询结果
      */
-    VO findOneByKey(String key,Object value);
+    VO findOneByKey(String key, Object value);
 
     /**
      * 根据条件查询列表
@@ -114,11 +114,11 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
     /**
      * 通过字段查询
      *
-     * @param key      查询参数
+     * @param key   查询参数
      * @param value 关键字
      * @return 查询结果
      */
-    List<VO> findListByKey(String key,Object value);
+    List<VO> findListByKey(String key, Object value);
 
     /**
      * 新增

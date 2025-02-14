@@ -28,7 +28,7 @@ public class BaseTaskInfo {
      */
     private String cronExpression;
     /**
-     * 任务餐宿
+     * 任务参数
      */
     private String taskParam;
     /**
@@ -37,4 +37,6 @@ public class BaseTaskInfo {
     private String javaFile;
 
     private boolean isAutoRun;
+
+    private String runBy;
 }

@@ -15,8 +15,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.text.DateFormat;
-
 /**
  * @author shu.zhou
  */
@@ -25,6 +23,7 @@ public class FeignConfig {
 
     @Resource
     private Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder;
+
     @Bean
     public Decoder decoder() {
         return new ResponseEntityDecoder(new SpringDecoder(feignHttpMessageConverter()));

@@ -77,6 +77,10 @@ public class NacosConfig {
             try {
                 String configValue = configService.getConfig(key, group, 1000L);
                 log.info("获取配置：{}={}", key, configValue);
+                if (StringUtils.isBlank(configValue) && StringUtils.isNotBlank(defaultValue)) {
+                    publishConfig(key, defaultValue);
+                    configValue = configService.getConfig(key, group, 1000L);
+                }
                 listenConfig(key);
                 CONFIG_MAP.put(key, configValue);
             } catch (NacosException e) {

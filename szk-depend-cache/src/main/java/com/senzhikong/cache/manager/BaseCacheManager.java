@@ -4,7 +4,6 @@ import com.senzhikong.cache.cache.IBaseCache;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractCacheManager;
 

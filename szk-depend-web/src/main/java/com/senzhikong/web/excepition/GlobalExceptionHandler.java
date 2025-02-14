@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataException.class)
     public ApiResp<Object> dataError(DataException error) {
         ApiResp<Object> res = ApiResp.error(error.getMessage());
-        if (error.getCode() != null){
+        if (error.getCode() != null) {
             res.setCode(error.getCode());
         }
         return res;
@@ -47,9 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResp<Object> argError(MethodArgumentNotValidException error) {
         List<String> errs = new ArrayList<>();
-        error.getFieldErrors().forEach((err) -> {
-            errs.add("参数【".concat(err.getField()).concat("】").concat(Objects.requireNonNull(err.getDefaultMessage())));
-        });
+        error.getFieldErrors().forEach((err) -> errs.add("参数【".concat(err.getField()).concat("】").concat(Objects.requireNonNull(err.getDefaultMessage()))));
         return ApiResp.error(StringUtils.join(errs, ","));
     }
 

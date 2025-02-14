@@ -30,4 +30,6 @@ public class LoginUserModel implements Serializable {
     private String userAesIv;
     private String tokenAesKey;
     private String tokenAesIv;
+    private String source;
+    private String type;
 }

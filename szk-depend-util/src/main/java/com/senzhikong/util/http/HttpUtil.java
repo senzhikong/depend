@@ -285,7 +285,7 @@ public class HttpUtil {
             }
             return body;
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
             return null;
         } finally {
             // 释放资源

@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.quartz.Trigger.TriggerState;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,6 @@ import java.util.*;
 @Getter
 @Setter
 @Component
-@ConditionalOnProperty(prefix = "szk.task", name = "enabled", havingValue = "true")
 public class TaskManager implements ApplicationListener<ApplicationStartedEvent> {
     private Map<String, JobDetail> taskMap = new HashMap<>(16);
 
@@ -35,6 +33,8 @@ public class TaskManager implements ApplicationListener<ApplicationStartedEvent>
     private String initClz;
     @Value("${szk.task.group}")
     private String group;
+    @Value("${szk.task.enabled}")
+    private boolean enabled;
     @Resource
     private Scheduler scheduler;
     private static final String NON_GROUP = "0";
@@ -108,11 +108,10 @@ public class TaskManager implements ApplicationListener<ApplicationStartedEvent>
         JobDataMap dataMap = new JobDataMap();
         dataMap.put("data", task.getTaskParam());
         dataMap.put("autoRun", false);
+        dataMap.put("runBy", task.getRunBy());
         String taskCode = task.getTaskCode();
         String groupCode = "run-one-time";
         JobKey jobKey = new JobKey(taskCode, groupCode);
-//        JobDetail jobDetail = scheduler.getJobDetail(jobKey);
-//        if (jobDetail == null) {
         Class<? extends Job> taskClass = getTaskClass(task);
         JobDetail jobDetail = JobBuilder.newJob(taskClass)
                 .withIdentity(taskCode, groupCode)
@@ -120,7 +119,6 @@ public class TaskManager implements ApplicationListener<ApplicationStartedEvent>
                 .usingJobData(dataMap)
                 .build();
         scheduler.addJob(jobDetail, true);
-//        }
 
         TriggerKey triggerKey = new TriggerKey(taskCode, groupCode);
         Trigger trigger = scheduler.getTrigger(triggerKey);
@@ -196,12 +194,14 @@ public class TaskManager implements ApplicationListener<ApplicationStartedEvent>
             case PAUSED -> TaskRunStatus.PAUSED;
             case NORMAL -> TaskRunStatus.NORMAL;
             case NONE -> TaskRunStatus.NONE;
-            default -> null;
         };
     }
 
     @Override
     public void onApplicationEvent(@NonNull ApplicationStartedEvent event) {
+        if (!enabled) {
+            return;
+        }
         log.debug("-------------------初始化定时任务-------------------");
         if (StringUtils.isBlank(initClz)) {
             return;

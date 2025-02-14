@@ -4,7 +4,6 @@ import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
 import com.senzhikong.mongo.entity.BaseMongoPO;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public interface IBaseMongoService<PO extends BaseMongoPO, VO extends BaseEntity
     /**
      * 生成基础查询Criteria
      *
-     * @param vo      查询参数
+     * @param vo         查询参数
      * @param searchWord 搜索关键字
      * @return wrapper
      */
@@ -86,6 +85,7 @@ public interface IBaseMongoService<PO extends BaseMongoPO, VO extends BaseEntity
      * @return 查询结果数组
      */
     List<VO> findList(VO vo, String keyword);
+
     /**
      * 新增
      *

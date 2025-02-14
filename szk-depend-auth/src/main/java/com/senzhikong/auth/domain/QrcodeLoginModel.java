@@ -12,4 +12,6 @@ public class QrcodeLoginModel {
     private String userId;
     private String status;
     private Long expireTime;
+    private String source;
+    private String type;
 }
