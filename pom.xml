@@ -102,7 +102,8 @@
         <xstream.version>1.4.11.1</xstream.version>
         <okio.version>3.1.0</okio.version>
         <!--支付宝支付-->
-        <alipay.sdk.version>3.1.0.ALL</alipay.sdk.version>
+        <alipay.sdk.version>4.40.54.ALL</alipay.sdk.version>
+        <alipay.sdk.v3.version>3.1.0.ALL</alipay.sdk.v3.version>
         <!--微信第三方sdk-->
         <weixin.sdk.version>4.6.0</weixin.sdk.version>
         <!--微信支付-->
