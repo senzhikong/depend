@@ -104,6 +104,16 @@
             </dependency>
             <dependency>
                 <groupId>com.senzhikong</groupId>
+                <artifactId>szk-depend-excel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
+                <artifactId>szk-depend-locale</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.senzhikong</groupId>
                 <artifactId>szk-depend-web</artifactId>
                 <version>${project.version}</version>
             </dependency>

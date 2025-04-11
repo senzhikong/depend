@@ -30,6 +30,7 @@
         <module>szk-depend-module</module>
         <module>szk-depend-mongo</module>
         <module>szk-depend-excel</module>
+        <module>szk-depend-locale</module>
     </modules>
     <properties>
         <java.version>17</java.version>

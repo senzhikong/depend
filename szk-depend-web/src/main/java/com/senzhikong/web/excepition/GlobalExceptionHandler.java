@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResp<Object> argError(MethodArgumentNotValidException error) {
         List<String> errs = new ArrayList<>();
-        error.getFieldErrors().forEach((err) -> errs.add("参数【".concat(err.getField()).concat("】").concat(Objects.requireNonNull(err.getDefaultMessage()))));
+        error.getFieldErrors().forEach((err) -> errs.add("【".concat(err.getField()).concat("】").concat(Objects.requireNonNull(err.getDefaultMessage()))));
         return ApiResp.error(StringUtils.join(errs, ","));
     }
 
@@ -55,6 +55,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ApiResp<Object> sysError(Exception error) {
         log.error("系统异常", error);
-        return ApiResp.error("系统异常");
+        return ApiResp.error(error.getMessage());
     }
 }

@@ -29,11 +29,11 @@ import java.util.*;
 public class TaskManager implements ApplicationListener<ApplicationStartedEvent> {
     private Map<String, JobDetail> taskMap = new HashMap<>(16);
 
-    @Value("${szk.task.init-clz}")
+    @Value("${szk.task.init-clz:}")
     private String initClz;
-    @Value("${szk.task.group}")
+    @Value("${szk.task.group:}")
     private String group;
-    @Value("${szk.task.enabled}")
+    @Value("${szk.task.enabled:false}")
     private boolean enabled;
     @Resource
     private Scheduler scheduler;

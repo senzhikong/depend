@@ -25,6 +25,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -84,6 +85,10 @@
         <dependency>
             <groupId>com.senzhikong</groupId>
             <artifactId>szk-depend-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.senzhikong</groupId>
+            <artifactId>szk-depend-locale</artifactId>
         </dependency>
     </dependencies>
 </project>
