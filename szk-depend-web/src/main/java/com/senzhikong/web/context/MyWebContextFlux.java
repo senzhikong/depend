@@ -1,9 +1,6 @@
 package com.senzhikong.web.context;
 
-import com.senzhikong.auth.AuthConstant;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
@@ -25,16 +22,7 @@ public class MyWebContextFlux implements MyWebContext {
     }
 
     @Override
-    public String getUserId() {
-        String str = getRequest().getHeaders().getFirst(AuthConstant.X_HEADER_USER_ID);
-        if (StringUtils.isNotBlank(str)) {
-            return str;
-        }
-        return null;
-    }
-
-    @Override
-    public String getToken() {
-        return getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+    public String getHeader(String header) {
+        return getRequest().getHeaders().getFirst(header);
     }
 }

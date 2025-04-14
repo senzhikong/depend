@@ -2,8 +2,10 @@ package com.senzhikong.basic.converter;
 
 
 import com.senzhikong.basic.domain.BaseEntityVO;
+import com.senzhikong.basic.dto.BaseDTO;
 import com.senzhikong.basic.dto.BaseEntityDTO;
 import org.mapstruct.MapperConfig;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @author shu
  */
 @MapperConfig
-public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntityDTO> {
+public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO> {
 
     /**
      * 传输对象转业务对象
@@ -46,4 +48,25 @@ public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntit
      */
     List<DTO> voList2DtoList(List<VO> voList);
 
+    /**
+     * 将添加请求对象转换为业务对象
+     *
+     * @param request 添加请求对象
+     * @return 业务对象
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
+    @Mapping(target = "createBy", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "updateBy", ignore = true)
+    VO addRequest2Vo(AddRequest request);
+
+    /**
+     * 将更新请求对象转换为业务对象
+     *
+     * @param request 更新请求对象
+     * @return 业务对象
+     */
+    @Mapping(target = "id", ignore = true)
+    VO updateRequest2Vo(UpdateRequest request);
 }

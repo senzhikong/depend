@@ -1,7 +1,6 @@
 package com.senzhikong.locale.webmvc;
 
 import com.senzhikong.locale.AbstractMyMessageSource;
-import jakarta.validation.ValidatorFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
