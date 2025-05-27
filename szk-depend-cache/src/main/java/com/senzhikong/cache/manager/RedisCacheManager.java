@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Shu.Zhou
@@ -15,9 +18,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Slf4j
 @Getter
 @Setter
+@Component
+@ConditionalOnExpression("${szk.cache.enable:false} && '${szk.cache.type}' == 'redis'")
 public class RedisCacheManager extends BaseCacheManager {
     @Resource
     RedisTemplate<String, Object> redisTemplate;
+    @Value("${szk.cache.prefix:}")
+    protected String prefix = "";
 
     @Override
     public IBaseCache createCache(String cacheName) {

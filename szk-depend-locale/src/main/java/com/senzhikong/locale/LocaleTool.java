@@ -15,15 +15,14 @@ import java.util.Locale;
 @ConditionalOnProperty(prefix = "szk.locale", name = "enable", havingValue = "true")
 public class LocaleTool implements InitializingBean {
     @Resource
-    private AbstractMyMessageSource messageSource;
-
+    private AbstractMyMessageSource myMessageSource;
     private static LocaleTool INSTANCE;
     @Resource
     private MyWebContext webContext;
 
     public static String getMessage(String code) {
         Locale locale = INSTANCE.webContext.getLocale();
-        return INSTANCE.messageSource.getMessage(code, null, locale);
+        return INSTANCE.myMessageSource.getMessage(code, null, locale);
     }
 
     @Override

@@ -1,17 +1,19 @@
 package com.senzhikong.core.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
 import com.senzhikong.core.entity.BaseEntityPO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author shu.zhou
  */
-public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> {
+public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> extends IService<PO> {
     /**
      * 生成基础查询queryWrapper
      *
@@ -250,4 +252,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      * @return 查询结果
      */
     PagerResp<VO> findByPage(PagerParam pager, QueryWrapper<PO> wrapper);
+
+    void saveOrUpdateList(Collection<PO> entityList);
 }

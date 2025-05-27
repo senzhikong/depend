@@ -4,8 +4,12 @@ import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
@@ -20,19 +24,23 @@ import java.util.Map;
 /**
  * @author shu
  */
-public class TransactionConfig {
+@Component
+@ConditionalOnProperty(prefix = "szk.db.transaction", name = "enable", havingValue = "true")
+public class TransactionConfig implements InitializingBean {
     @Resource
     private DataSource dataSource;
     /**
      *
      */
-    private String expression = "execution(* com.demo..*.service.impl..*.*(..))";
+    @Value("${szk.db.transaction.expression:}")
+    private String expression;
 
-    public TransactionConfig(String expression) {
+
+    @Override
+    public void afterPropertiesSet() {
         if (StringUtils.isBlank(expression)) {
-            throw new RuntimeException("数据库事务表达式不能为空：例：" + this.expression);
+            throw new RuntimeException("数据库事务表达式为空(szk.db.transaction.expression),例：execution(* com.demo..*.service.impl..*.*(..))");
         }
-        this.expression = expression;
     }
 
     @Bean("transactionManager")
@@ -58,6 +66,7 @@ public class TransactionConfig {
         map.put("delete*", requiredTx);
         map.put("create*", requiredTx);
         map.put("remove*", requiredTx);
+        map.put("init*", requiredTx);
 
         map.put("select*", readOnlyTx);
         map.put("get*", readOnlyTx);

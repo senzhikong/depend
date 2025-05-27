@@ -22,8 +22,6 @@ public abstract class BaseCacheManager extends AbstractCacheManager {
     protected ConcurrentMap<String, IBaseCache> cacheMap = new ConcurrentHashMap<>(16);
 
     protected Set<String> cacheNames;
-    protected String prefix = "";
-    protected int hitCount;
 
     @Override
     public void afterPropertiesSet() {

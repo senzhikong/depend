@@ -3,6 +3,8 @@ package com.senzhikong.basic.util;
 import com.senzhikong.basic.exception.DataException;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -127,5 +129,17 @@ public class CommonUtil {
             }
         }
         return sb.toString();
+    }
+
+    public static <T> List<List<T>> split(List<T> resList, int subListLength) {
+        if (resList == null || subListLength <= 0) {
+            return new ArrayList<>();
+        }
+        List<List<T>> ret = new ArrayList<>();
+        int size = resList.size();
+        for (int i = 0; i < size; i += subListLength) {
+            ret.add(resList.subList(i, Math.min(size, i + subListLength)));
+        }
+        return ret;
     }
 }

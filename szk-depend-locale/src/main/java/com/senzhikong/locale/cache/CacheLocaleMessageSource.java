@@ -12,7 +12,7 @@ import java.util.Locale;
 /**
  * @author shu.zhou
  */
-@Component("messageSource")
+@Component
 @ConditionalOnProperty(prefix = "szk.locale", name = "type", havingValue = "cache")
 public class CacheLocaleMessageSource extends AbstractMyMessageSource {
     @Resource

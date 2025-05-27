@@ -13,8 +13,8 @@ import java.util.Objects;
 /**
  * @author Shu.Zhou
  */
-@Component
 @Slf4j
+@Component
 public class CacheUtil {
     @Resource
     private BaseCacheManager cacheManager;

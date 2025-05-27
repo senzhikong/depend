@@ -3,6 +3,8 @@ package com.senzhikong.db.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.senzhikong.basic.util.CommonUtil;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  * @author shu.zhou
  */
 public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
+
+
     /**
      * 通过单个字段值查询
      *
@@ -64,14 +68,19 @@ public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.Base
     }
 
     /**
-     * 批量插入
+     * 批量插入数据（仅插入非空字段）
      *
-     * @param list 插入数据列表
+     * @param list 要插入的数据列表
+     */
+    void insertBatchSomeColumn(@Param("list") List<T> list);
+
+    /**
+     * 批量保存数据（自动分批处理，每批50条）
+     *
+     * @param list 要保存的数据列表
      */
     default void insertBatch(List<T> list) {
-        for (T t : list) {
-            this.insert(t);
-        }
+        CommonUtil.split(list, 50).forEach(this::insertBatchSomeColumn);
     }
 
     /**

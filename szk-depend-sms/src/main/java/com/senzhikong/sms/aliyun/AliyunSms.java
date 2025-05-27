@@ -17,7 +17,7 @@ public class AliyunSms {
                 .setAccessKeySecret(accessKeySecret);
         // 访问的域名
         config.endpoint = "dysmsapi.aliyuncs.com";
-        return new com.aliyun.dysmsapi20170525.Client(config);
+        return new Client(config);
     }
 
     public static AliyunSmsResponse sendSms(AliyunSmsRequest request) throws Exception {

@@ -67,6 +67,9 @@ public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntit
      * @param request 更新请求对象
      * @return 业务对象
      */
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
+    @Mapping(target = "createBy", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "updateBy", ignore = true)
     VO updateRequest2Vo(UpdateRequest request);
 }

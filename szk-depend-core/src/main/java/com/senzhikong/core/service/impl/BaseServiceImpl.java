@@ -1,8 +1,16 @@
 package com.senzhikong.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.senzhikong.basic.domain.BaseEntityVO;
 import com.senzhikong.basic.dto.PagerParam;
 import com.senzhikong.basic.dto.PagerResp;
@@ -13,11 +21,13 @@ import com.senzhikong.core.entity.BaseEntityPO;
 import com.senzhikong.core.service.IBaseService;
 import com.senzhikong.spring.SpringContextHolder;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.mapstruct.factory.Mappers;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +36,7 @@ import static com.baomidou.mybatisplus.core.toolkit.Constants.DESC;
 /**
  * @author shu.zhou
  */
-public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEntityVO> implements IBaseService<PO, VO> {
+public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEntityVO, M extends BaseMapper<PO>> extends ServiceImpl<M, PO> implements IBaseService<PO, VO> {
     protected BaseMapper<PO> baseMapper;
     protected Class<VO> outClz;
     protected Class<PO> entityClz;
@@ -50,8 +60,10 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         initClz();
         String clzName = outClz.getSimpleName();
         String mapperName = clzName.substring(0, 1).toLowerCase() + clzName.substring(1, clzName.length() - 2) + "Mapper";
+
         mapperName = mapperName.substring(0, 1).toLowerCase() + mapperName.substring(1);
-        return SpringContextHolder.getBean(mapperName);
+        this.baseMapper = SpringContextHolder.getBean(mapperName);
+        return baseMapper;
     }
 
     @SuppressWarnings("unchecked")
@@ -318,5 +330,22 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         }
         response.setDataList(getPoConverter().poList2VoList(dataList));
         return response;
+    }
+
+    @Override
+    public void saveOrUpdateList(Collection<PO> entityList) {
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+        Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+        String keyProperty = tableInfo.getKeyProperty();
+        Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+          SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.mapperClass, this.log, entityList, entityList.size(), (sqlSession, entity) -> {
+            Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
+            return com.baomidou.mybatisplus.core.toolkit.StringUtils.checkValNull(idVal)
+                    || CollectionUtils.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
+        }, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<PO> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param);
+        });
     }
 }
