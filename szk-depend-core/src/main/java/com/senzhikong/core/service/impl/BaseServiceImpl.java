@@ -1,13 +1,14 @@
 package com.senzhikong.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -23,6 +24,7 @@ import com.senzhikong.spring.SpringContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.mapstruct.factory.Mappers;
+import com.senzhikong.db.mapper.BaseMapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -189,8 +191,8 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
             List<PO> dataList = getPoConverter().voList2PoList(list);
             for (PO data : dataList) {
                 data.initialize(createBy);
-                getMapper().insert(data);
             }
+            getMapper().insertBatch(dataList);
             return getPoConverter().poList2VoList(dataList);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -285,13 +287,13 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public void updateStatus(List<String> ids, String status, String updateBy) {
-        List<PO> list = getMapper().selectBatchIds(ids);
-        for (PO data : list) {
-            data.setStatus(status);
-            data.setUpdateTime(new Date());
-            data.setUpdateBy(updateBy);
-            getMapper().updateById(data);
-        }
+        getMapper();
+        LambdaUpdateWrapper<PO> wrapperDict = Wrappers.lambdaUpdate(entityClass);
+        wrapperDict.in(PO::getId, ids);
+        wrapperDict.set(PO::getStatus, status);
+        wrapperDict.set(PO::getUpdateBy, updateBy);
+        wrapperDict.set(PO::getUpdateTime, new Date());
+        getMapper().update(wrapperDict);
     }
 
     @Override
@@ -338,7 +340,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-          SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.mapperClass, this.log, entityList, entityList.size(), (sqlSession, entity) -> {
+        SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.mapperClass, this.log, entityList, entityList.size(), (sqlSession, entity) -> {
             Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
             return com.baomidou.mybatisplus.core.toolkit.StringUtils.checkValNull(idVal)
                     || CollectionUtils.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));

@@ -207,7 +207,6 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      */
     void updateStatus(String id, String status, String updateBy);
 
-
     /**
      * 通过ID修改状态
      *
@@ -253,5 +252,12 @@ public interface IBaseService<PO extends BaseEntityPO, VO extends BaseEntityVO> 
      */
     PagerResp<VO> findByPage(PagerParam pager, QueryWrapper<PO> wrapper);
 
+    /**
+     * 批量保存或更新实体列表
+
+     * <p>根据实体ID判断是新增还是更新操作</p>
+     *
+     * @param entityList 实体集合
+     */
     void saveOrUpdateList(Collection<PO> entityList);
 }
