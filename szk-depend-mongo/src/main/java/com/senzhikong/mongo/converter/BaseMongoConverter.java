@@ -9,6 +9,6 @@ import com.senzhikong.mongo.entity.BaseMongoPO;
 /**
  * @author shu
  */
-public interface BaseMongoConverter<PO extends BaseMongoPO, VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO> extends BaseMongoPoConverter<PO, VO>, BaseDtoConverter<VO, DTO, AddRequest, UpdateRequest> {
+public interface BaseMongoConverter<PO extends BaseMongoPO, VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO, QueryRequest extends BaseDTO> extends BaseMongoPoConverter<PO, VO>, BaseDtoConverter<VO, DTO, AddRequest, UpdateRequest,QueryRequest> {
 
 }

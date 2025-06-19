@@ -13,7 +13,7 @@ import java.util.List;
  * @author shu
  */
 @MapperConfig
-public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO> {
+public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO, QueryRequest extends BaseDTO> {
 
     /**
      * 传输对象转业务对象
@@ -62,6 +62,15 @@ public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntit
     VO addRequest2Vo(AddRequest request);
 
     /**
+     * 将添加请求对象列表转换为业务对象列表
+     * 批量转换AddRequest为VO对象，适用于批量添加场景
+     *
+     * @param request 添加请求对象列表
+     * @return 转换后的业务对象列表
+     */
+    List<VO> addRequestList2VoList(List<AddRequest> request);
+
+    /**
      * 将更新请求对象转换为业务对象
      *
      * @param request 更新请求对象
@@ -72,4 +81,23 @@ public interface BaseDtoConverter<VO extends BaseEntityVO, DTO extends BaseEntit
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "updateBy", ignore = true)
     VO updateRequest2Vo(UpdateRequest request);
+
+    /**
+     * 将更新请求对象列表转换为业务对象列表
+     * 批量转换UpdateRequest为VO对象，适用于批量更新场景
+     * 会自动忽略createTime、createBy、updateTime、updateBy字段
+     *
+     * @param request 更新请求对象列表
+     * @return 转换后的业务对象列表
+     */
+    List<VO> updateRequestList2VoList(List<UpdateRequest> request);
+
+
+    /**
+     * 将查询请求对象转换为业务对象
+     *
+     * @param request 更新请求对象
+     * @return 业务对象
+     */
+    VO queryRequest2Vo(QueryRequest request);
 }

@@ -13,6 +13,6 @@ public class SheetExport {
     private String sheetName;
     private List<?> pojoList;
     private LinkedHashMap<String, String> alias;
-    private UtilExcel utilExcel;
+    private SheetHeadData sheetHeadData;
     private List<MergeData> mergeDataList;
 }

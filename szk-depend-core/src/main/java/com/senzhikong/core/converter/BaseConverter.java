@@ -9,6 +9,6 @@ import com.senzhikong.core.entity.BaseEntityPO;
 /**
  * @author shu
  */
-public interface BaseConverter<PO extends BaseEntityPO, VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO> extends BasePoConverter<PO, VO>, BaseDtoConverter<VO, DTO, AddRequest, UpdateRequest> {
+public interface BaseConverter<PO extends BaseEntityPO, VO extends BaseEntityVO, DTO extends BaseEntityDTO, AddRequest extends BaseDTO, UpdateRequest extends BaseDTO, QueryRequest extends BaseDTO> extends BasePoConverter<PO, VO>, BaseDtoConverter<VO, DTO, AddRequest, UpdateRequest, QueryRequest> {
 
 }

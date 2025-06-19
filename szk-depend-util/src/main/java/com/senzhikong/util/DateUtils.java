@@ -430,7 +430,7 @@ public class DateUtils {
             calendar.setTime(new SimpleDateFormat(YYYY_MM_DD).parse(date));
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
             return new SimpleDateFormat(YYYY_MM_DD).format(calendar.getTime());
-        } catch (ParseException e) {
+        } catch (java.text.ParseException e) {
             log.error(e.getMessage(), e);
         }
         return null;
@@ -449,7 +449,7 @@ public class DateUtils {
             calendar.setTime(dateFormat.parse(date));
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             return dateFormat.format(calendar.getTime());
-        } catch (ParseException e) {
+        } catch (java.text.ParseException e) {
             log.error(e.getMessage(), e);
         }
         return null;

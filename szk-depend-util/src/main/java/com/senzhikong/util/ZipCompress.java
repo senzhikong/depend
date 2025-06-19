@@ -18,9 +18,7 @@ public class ZipCompress {
      * @param out   输出zip文件路径
      */
     public static void zipBuild(Map<String, String> files, OutputStream out) {
-        ZipOutputStream zos = null;
-        try {
-            zos = new ZipOutputStream(out);
+        try (ZipOutputStream zos = new ZipOutputStream(out)) {
             for (String fileName : files.keySet()) {
                 String filePath = files.get(fileName);
                 File file = new File(filePath);
@@ -28,18 +26,8 @@ public class ZipCompress {
                     addZipFile(zos, file, fileName);
                 }
             }
-            zos.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                if (zos != null) {
-                    zos.close();
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-            }
-
         }
     }
 
@@ -49,24 +37,12 @@ public class ZipCompress {
      * @param out   输出zip文件路径
      */
     public static void zipBuildFromStream(Map<String, InputStream> files, OutputStream out) {
-        ZipOutputStream zos = null;
-        try {
-            zos = new ZipOutputStream(out);
+        try (ZipOutputStream zos = new ZipOutputStream(out)) {
             for (String fileName : files.keySet()) {
                 addZipFile(zos, files.get(fileName), fileName);
             }
-            zos.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                if (zos != null) {
-                    zos.close();
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-            }
-
         }
     }
 

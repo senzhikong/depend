@@ -20,11 +20,11 @@ import com.senzhikong.basic.util.CommonUtil;
 import com.senzhikong.core.converter.BasePoConverter;
 import com.senzhikong.core.entity.BaseEntityPO;
 import com.senzhikong.core.service.IBaseService;
+import com.senzhikong.db.mapper.BaseMapper;
 import com.senzhikong.spring.SpringContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.binding.MapperMethod;
 import org.mapstruct.factory.Mappers;
-import com.senzhikong.db.mapper.BaseMapper;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -42,6 +42,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     protected BaseMapper<PO> baseMapper;
     protected Class<VO> outClz;
     protected Class<PO> entityClz;
+    protected Class<M> mapperClz;
     protected BasePoConverter<PO, VO> poConverter;
 
     @SuppressWarnings("unchecked")
@@ -52,6 +53,8 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
             entityClz = (Class<PO>) trueType;
             Type trueTypeK = ((ParameterizedType) type).getActualTypeArguments()[1];
             outClz = (Class<VO>) trueTypeK;
+            Type trueTypeM = ((ParameterizedType) type).getActualTypeArguments()[2];
+            mapperClz = (Class<M>) trueTypeM;
         }
     }
 
@@ -288,7 +291,7 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
     @Override
     public void updateStatus(List<String> ids, String status, String updateBy) {
         getMapper();
-        LambdaUpdateWrapper<PO> wrapperDict = Wrappers.lambdaUpdate(entityClass);
+        LambdaUpdateWrapper<PO> wrapperDict = Wrappers.lambdaUpdate(entityClz);
         wrapperDict.in(PO::getId, ids);
         wrapperDict.set(PO::getStatus, status);
         wrapperDict.set(PO::getUpdateBy, updateBy);
@@ -336,11 +339,11 @@ public abstract class BaseServiceImpl<PO extends BaseEntityPO, VO extends BaseEn
 
     @Override
     public void saveOrUpdateList(Collection<PO> entityList) {
-        TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClz);
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-        SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.mapperClass, this.log, entityList, entityList.size(), (sqlSession, entity) -> {
+        SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.mapperClz, this.log, entityList, entityList.size(), (sqlSession, entity) -> {
             Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
             return com.baomidou.mybatisplus.core.toolkit.StringUtils.checkValNull(idVal)
                     || CollectionUtils.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
